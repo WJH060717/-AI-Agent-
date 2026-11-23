@@ -1,0 +1,22 @@
+{
+  "provenance_type": "synthetic",
+  "split": "development",
+  "scope": "local data generation only; no network scanning performed",
+  "objects": [
+    {
+      "path": "port_scan.jsonl",
+      "sha256": "aa72d02c7f903cbfb937930b061e6b8347f47b6af21ce23cb7e5777435aaf83e",
+      "records": 24
+    },
+    {
+      "path": "below_threshold.jsonl",
+      "sha256": "7dd72964563c39348ebaac0d0ca0046d49b83ae84023938818cf8a2fe5e4722d",
+      "records": 19
+    },
+    {
+      "path": "normal_repeated_service.jsonl",
+      "sha256": "fb4d742ad2577dc990a34399dde84674e2084c77b4c98815cdb1edf8e9122536",
+      "records": 24
+    }
+  ]
+}

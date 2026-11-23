@@ -1,0 +1,15 @@
+{
+  "version":"d10-defects@1.0.0",
+  "priority_policy":"P0: integrity/security blocker; P1: required acceptance or release prerequisite; P2: post-freeze enhancement. All open P0/P1 block full release readiness.",
+  "defects":[
+    {"id":"D10-001","priority":"P1","state":"open","cases":["TC-021"],"title":"真实LLM及费用配置未验收","next":"C在获准模型与脱敏数据上验证两工具、引用和失败预算；禁止以协议桩结果代替"},
+    {"id":"D10-002","priority":"P1","state":"open","cases":["TC-037"],"title":"33次独立资料与双人标签及正式评估缺失","next":"B/D补采与复核，新版本冻结后再执行正式评估；现有planned不得计已运行"},
+    {"id":"D10-003","priority":"P1","state":"open","cases":["TC-036"],"title":"整库与原始对象备份恢复未验收","next":"A实现暂停写入后的完整备份，在空隔离环境恢复并核验旧报告及新调查"},
+    {"id":"D10-004","priority":"P1","state":"open","cases":["TC-038"],"title":"吞吐/延迟/资源基准未执行","next":"A/B按固定协议区分新摄取与回放，归档全部计数和失败"},
+    {"id":"D10-005","priority":"P1","state":"open","cases":["TC-039"],"title":"干净环境、Compose与非作者启动未验收","next":"A/D恢复可用容器环境或独立主机后按同版手册执行；本机候选启动只覆盖子集"},
+    {"id":"D10-006","priority":"P1","state":"open","cases":["TC-040"],"title":"断网现场与8分钟计时彩排未执行","next":"D用冻结演示稿记录实际时长；历史/预录内容必须标注"},
+    {"id":"D10-007","priority":"P1","state":"open","cases":["TC-018"],"title":"500节点/1000边规模边界缺专项证据","next":"C/D增加边界夹具并核查有界输出与裁剪说明，不能拿小图测试代替"},
+    {"id":"D10-008","priority":"P1","state":"open","cases":["TC-029"],"title":"空数据与无告警缺专项浏览器验收","next":"D增加真实API空态和无命中场景，确认不创建假告警"},
+    {"id":"D10-009","priority":"P1","state":"open","cases":["TC-021"],"title":"精选知识条目未加载","next":"按既有T-17版本/来源契约整理并复核，当前工具继续明确not_loaded"}
+  ]
+}

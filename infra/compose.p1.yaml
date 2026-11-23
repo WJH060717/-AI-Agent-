@@ -1,0 +1,88 @@
+name: telemetry-p1
+x-app: &app
+  restart: unless-stopped
+  build:
+    context: ..
+    dockerfile: infra/Dockerfile.app
+  image: telemetry-trace:0.1.0.dev41
+  init: true
+  read_only: true
+  tmpfs: [/tmp]
+  security_opt: [no-new-privileges:true]
+  cap_drop: [ALL]
+  environment: &environment
+    APP_ENV: demo
+    APP_BIND: 0.0.0.0
+    APP_PORT: "8000"
+    DATABASE_URL: ${TRACE_DATABASE_URL:?Set the trace_app connection URL locally}
+    RAW_STORE: /data/raw
+    STAGING_STORE: /data/staging
+    MODEL_PROVIDER: disabled
+    KNOWLEDGE_ENABLED: "true"
+    REPLAY_EVENT_LIMIT: "100000"
+    REPLAY_BATCH_SIZE: "500"
+  depends_on:
+    db: {condition: service_healthy}
+  networks: [backend]
+  logging:
+    driver: json-file
+    options: {max-size: 10m, max-file: "3"}
+services:
+  db:
+    restart: unless-stopped
+    image: postgres:16.16
+    environment:
+      POSTGRES_USER: trace_owner
+      POSTGRES_DB: trace
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_owner_password
+    secrets: [db_owner_password]
+    volumes: [pg_data:/var/lib/postgresql/data]
+    networks: [backend]
+    healthcheck:
+      test: [CMD-SHELL, pg_isready -U trace_owner -d trace]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+  api:
+    <<: *app
+    command: [python, -m, apps.api.main]
+    volumes: [raw_data:/data/raw:ro, staging_data:/data/staging]
+    healthcheck:
+      test: [CMD, python, -m, scripts.container_health]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+  worker:
+    <<: *app
+    command: [python, -m, apps.worker]
+    volumes: [raw_data:/data/raw, staging_data:/data/staging]
+  web:
+    restart: unless-stopped
+    build:
+      context: ..
+      dockerfile: infra/Dockerfile.web
+    image: telemetry-trace-web:0.1.0.dev41
+    user: "101:101"
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    ports: ["127.0.0.1:8080:8080"]
+    depends_on:
+      api: {condition: service_healthy}
+    networks: [backend, frontend]
+    healthcheck:
+      test: [CMD, wget, -q, --spider, http://127.0.0.1:8080/]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+networks:
+  backend: {internal: true}
+  frontend: {}
+volumes:
+  pg_data: {}
+  raw_data: {}
+  staging_data: {}
+secrets:
+  db_owner_password:
+    file: ${TRACE_OWNER_PASSWORD_FILE:?Set the private owner password file path locally}

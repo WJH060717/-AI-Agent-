@@ -1,0 +1,21 @@
+{
+  "version": "1.0.0",
+  "basis": "Fourth development round: raw packet evidence shows mixed malformed percent and non-ASCII escapes. Independent PCAP source; minimum two connections; seen data, not blind evaluation. R01-R10 freezes unchanged.",
+  "configs": {
+    "R11": {
+      "id": "R11",
+      "version": "1.0.0",
+      "shape_version": "http-query-encoding@1",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "min_query_bytes": 32,
+      "min_requests": 2,
+      "min_connections": 2,
+      "window_seconds": 600,
+      "association_seconds": 3600
+    }
+  },
+  "config_hash": "2304a08089e6d2b8d09493ce87969d5471d908ea3cbfb54f75a986d09fa25256"
+}

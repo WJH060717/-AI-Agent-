@@ -1,0 +1,33 @@
+{
+  "version": "1.0.0",
+  "basis": "Generic executable HTTP request policy, frozen before detector evaluation on CTU-13 development samples; not a malware classifier",
+  "configs": {
+    "R07": {
+      "id": "R07",
+      "version": "1.0.0",
+      "method": "GET",
+      "statuses": [
+        200,
+        206
+      ],
+      "suffixes": [
+        ".exe",
+        ".dll",
+        ".msi",
+        ".scr",
+        ".com",
+        ".elf"
+      ],
+      "mime_types": [
+        "application/x-dosexec",
+        "application/x-msdownload",
+        "application/vnd.microsoft.portable-executable",
+        "application/x-executable"
+      ],
+      "association_seconds": 3600,
+      "dns_lookback_seconds": 300,
+      "dns_limit": 32
+    }
+  },
+  "config_hash": "e5c4cbd536487ab2a03efb5a23b0a1e8b29084d8f0fae72f3b2c29aaf93a7a95"
+}

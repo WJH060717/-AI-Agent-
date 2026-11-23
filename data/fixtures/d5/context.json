@@ -1,0 +1,56 @@
+{
+  "assets": [
+    {
+      "asset_id": "33333333-3333-4333-8333-333333333333",
+      "hostnames": [
+        "host-a"
+      ],
+      "addresses": [
+        {
+          "ip": "10.10.0.20",
+          "observation_domain": "lab-a",
+          "valid_from": "2026-11-14T00:00:00Z",
+          "valid_to": "2026-11-15T00:00:00Z"
+        }
+      ]
+    }
+  ],
+  "sensors": [
+    {
+      "sensor_id": "auth-a",
+      "source_type": "linux_auth",
+      "asset_id": "33333333-3333-4333-8333-333333333333",
+      "instance_id": "synthetic-collector-a",
+      "observation_domain": "lab-a",
+      "realm_type": "local",
+      "realm": "local",
+      "offset_ms": 0,
+      "uncertainty_ms": 0,
+      "clock_basis": "synthetic_clock"
+    },
+    {
+      "sensor_id": "audit-a",
+      "source_type": "linux_audit",
+      "asset_id": "33333333-3333-4333-8333-333333333333",
+      "instance_id": "synthetic-collector-a",
+      "observation_domain": "lab-a",
+      "realm_type": "local",
+      "realm": "local",
+      "offset_ms": 0,
+      "uncertainty_ms": 0,
+      "clock_basis": "synthetic_clock"
+    },
+    {
+      "sensor_id": "net-a",
+      "source_type": "zeek",
+      "asset_id": null,
+      "instance_id": "synthetic-collector-a",
+      "observation_domain": "lab-a",
+      "realm_type": "local",
+      "realm": "local",
+      "offset_ms": 0,
+      "uncertainty_ms": 0,
+      "clock_basis": "synthetic_clock"
+    }
+  ]
+}

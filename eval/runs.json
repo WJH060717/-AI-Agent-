@@ -1,0 +1,504 @@
+{
+  "version": "1.0.0",
+  "runs": [
+    {
+      "run_id": "dev-s1-01",
+      "split": "dev",
+      "scenario_id": "S1",
+      "seed": 1000,
+      "activity_group": "dev-s1-01",
+      "parent_run_id": null,
+      "status": "planned",
+      "provenance_type": "synthetic",
+      "authorized_scope": "授权本地合成/安全回放，待采集与人工复核；不执行攻击",
+      "objects": []
+    },
+    {
+      "run_id": "dev-s1-02",
+      "split": "dev",
+      "scenario_id": "S1",
+      "seed": 1001,
+      "activity_group": "dev-s1-02",
+      "parent_run_id": null,
+      "status": "planned",
+      "provenance_type": "synthetic",
+      "authorized_scope": "授权本地合成/安全回放，待采集与人工复核；不执行攻击",
+      "objects": []
+    },
+    {
+      "run_id": "dev-s1-03",
+      "split": "dev",
+      "scenario_id": "S1",
+      "seed": 1002,
+      "activity_group": "dev-s1-03",
+      "parent_run_id": null,
+      "status": "planned",
+      "provenance_type": "synthetic",
+      "authorized_scope": "授权本地合成/安全回放，待采集与人工复核；不执行攻击",
+      "objects": []
+    },
+    {
+      "run_id": "dev-s1-04",
+      "split": "dev",
+      "scenario_id": "S1",
+      "seed": 1003,
+      "activity_group": "dev-s1-04",
+      "parent_run_id": null,
+      "status": "planned",
+      "provenance_type": "synthetic",
+      "authorized_scope": "授权本地合成/安全回放，待采集与人工复核；不执行攻击",
+      "objects": []
+    },
+    {
+      "run_id": "dev-s2-01",
+      "split": "dev",
+      "scenario_id": "S2",
+      "seed": 1004,
+      "activity_group": "dev-s2-01",
+      "parent_run_id": null,
+      "status": "planned",
+      "provenance_type": "synthetic",
+      "authorized_scope": "授权本地合成/安全回放，待采集与人工复核；不执行攻击",
+      "objects": []
+    },
+    {
+      "run_id": "dev-s2-02",
+      "split": "dev",
+      "scenario_id": "S2",
+      "seed": 1005,
+      "activity_group": "dev-s2-02",
+      "parent_run_id": null,
+      "status": "planned",
+      "provenance_type": "synthetic",
+      "authorized_scope": "授权本地合成/安全回放，待采集与人工复核；不执行攻击",
+      "objects": []
+    },
+    {
+      "run_id": "dev-s2-03",
+      "split": "dev",
+      "scenario_id": "S2",
+      "seed": 1006,
+      "activity_group": "dev-s2-03",
+      "parent_run_id": null,
+      "status": "planned",
+      "provenance_type": "synthetic",
+      "authorized_scope": "授权本地合成/安全回放，待采集与人工复核；不执行攻击",
+      "objects": []
+    },
+    {
+      "run_id": "dev-s2-04",
+      "split": "dev",
+      "scenario_id": "S2",
+      "seed": 1007,
+      "activity_group": "dev-s2-04",
+      "parent_run_id": null,
+      "status": "planned",
+      "provenance_type": "synthetic",
+      "authorized_scope": "授权本地合成/安全回放，待采集与人工复核；不执行攻击",
+      "objects": []
+    },
+    {
+      "run_id": "dev-s3-01",
+      "split": "dev",
+      "scenario_id": "S3",
+      "seed": 1008,
+      "activity_group": "dev-s3-01",
+      "parent_run_id": null,
+      "status": "planned",
+      "provenance_type": "synthetic",
+      "authorized_scope": "授权本地合成/安全回放，待采集与人工复核；不执行攻击",
+      "objects": []
+    },
+    {
+      "run_id": "dev-s3-02",
+      "split": "dev",
+      "scenario_id": "S3",
+      "seed": 1009,
+      "activity_group": "dev-s3-02",
+      "parent_run_id": null,
+      "status": "planned",
+      "provenance_type": "synthetic",
+      "authorized_scope": "授权本地合成/安全回放，待采集与人工复核；不执行攻击",
+      "objects": []
+    },
+    {
+      "run_id": "dev-s3-03",
+      "split": "dev",
+      "scenario_id": "S3",
+      "seed": 1010,
+      "activity_group": "dev-s3-03",
+      "parent_run_id": null,
+      "status": "planned",
+      "provenance_type": "synthetic",
+      "authorized_scope": "授权本地合成/安全回放，待采集与人工复核；不执行攻击",
+      "objects": []
+    },
+    {
+      "run_id": "dev-s3-04",
+      "split": "dev",
+      "scenario_id": "S3",
+      "seed": 1011,
+      "activity_group": "dev-s3-04",
+      "parent_run_id": null,
+      "status": "planned",
+      "provenance_type": "synthetic",
+      "authorized_scope": "授权本地合成/安全回放，待采集与人工复核；不执行攻击",
+      "objects": []
+    },
+    {
+      "run_id": "val-s1-01",
+      "split": "val",
+      "scenario_id": "S1",
+      "seed": 1012,
+      "activity_group": "val-s1-01",
+      "parent_run_id": null,
+      "status": "planned",
+      "provenance_type": "synthetic",
+      "authorized_scope": "授权本地合成/安全回放，待采集与人工复核；不执行攻击",
+      "objects": []
+    },
+    {
+      "run_id": "val-s1-02",
+      "split": "val",
+      "scenario_id": "S1",
+      "seed": 1013,
+      "activity_group": "val-s1-02",
+      "parent_run_id": null,
+      "status": "planned",
+      "provenance_type": "synthetic",
+      "authorized_scope": "授权本地合成/安全回放，待采集与人工复核；不执行攻击",
+      "objects": []
+    },
+    {
+      "run_id": "val-s2-01",
+      "split": "val",
+      "scenario_id": "S2",
+      "seed": 1014,
+      "activity_group": "val-s2-01",
+      "parent_run_id": null,
+      "status": "planned",
+      "provenance_type": "synthetic",
+      "authorized_scope": "授权本地合成/安全回放，待采集与人工复核；不执行攻击",
+      "objects": []
+    },
+    {
+      "run_id": "val-s2-02",
+      "split": "val",
+      "scenario_id": "S2",
+      "seed": 1015,
+      "activity_group": "val-s2-02",
+      "parent_run_id": null,
+      "status": "planned",
+      "provenance_type": "synthetic",
+      "authorized_scope": "授权本地合成/安全回放，待采集与人工复核；不执行攻击",
+      "objects": []
+    },
+    {
+      "run_id": "val-s3-01",
+      "split": "val",
+      "scenario_id": "S3",
+      "seed": 1016,
+      "activity_group": "val-s3-01",
+      "parent_run_id": null,
+      "status": "planned",
+      "provenance_type": "synthetic",
+      "authorized_scope": "授权本地合成/安全回放，待采集与人工复核；不执行攻击",
+      "objects": []
+    },
+    {
+      "run_id": "val-s3-02",
+      "split": "val",
+      "scenario_id": "S3",
+      "seed": 1017,
+      "activity_group": "val-s3-02",
+      "parent_run_id": null,
+      "status": "planned",
+      "provenance_type": "synthetic",
+      "authorized_scope": "授权本地合成/安全回放，待采集与人工复核；不执行攻击",
+      "objects": []
+    },
+    {
+      "run_id": "test-s1-01",
+      "split": "test",
+      "scenario_id": "S1",
+      "seed": 1018,
+      "activity_group": "test-s1-01",
+      "parent_run_id": null,
+      "status": "planned",
+      "provenance_type": "synthetic",
+      "authorized_scope": "授权本地合成/安全回放，待采集与人工复核；不执行攻击",
+      "objects": []
+    },
+    {
+      "run_id": "test-s1-02",
+      "split": "test",
+      "scenario_id": "S1",
+      "seed": 1019,
+      "activity_group": "test-s1-02",
+      "parent_run_id": null,
+      "status": "planned",
+      "provenance_type": "synthetic",
+      "authorized_scope": "授权本地合成/安全回放，待采集与人工复核；不执行攻击",
+      "objects": []
+    },
+    {
+      "run_id": "test-s1-03",
+      "split": "test",
+      "scenario_id": "S1",
+      "seed": 1020,
+      "activity_group": "test-s1-03",
+      "parent_run_id": null,
+      "status": "planned",
+      "provenance_type": "synthetic",
+      "authorized_scope": "授权本地合成/安全回放，待采集与人工复核；不执行攻击",
+      "objects": []
+    },
+    {
+      "run_id": "test-s1-04",
+      "split": "test",
+      "scenario_id": "S1",
+      "seed": 1021,
+      "activity_group": "test-s1-04",
+      "parent_run_id": null,
+      "status": "planned",
+      "provenance_type": "synthetic",
+      "authorized_scope": "授权本地合成/安全回放，待采集与人工复核；不执行攻击",
+      "objects": []
+    },
+    {
+      "run_id": "test-s2-01",
+      "split": "test",
+      "scenario_id": "S2",
+      "seed": 1022,
+      "activity_group": "test-s2-01",
+      "parent_run_id": null,
+      "status": "planned",
+      "provenance_type": "synthetic",
+      "authorized_scope": "授权本地合成/安全回放，待采集与人工复核；不执行攻击",
+      "objects": []
+    },
+    {
+      "run_id": "test-s2-02",
+      "split": "test",
+      "scenario_id": "S2",
+      "seed": 1023,
+      "activity_group": "test-s2-02",
+      "parent_run_id": null,
+      "status": "planned",
+      "provenance_type": "synthetic",
+      "authorized_scope": "授权本地合成/安全回放，待采集与人工复核；不执行攻击",
+      "objects": []
+    },
+    {
+      "run_id": "test-s2-03",
+      "split": "test",
+      "scenario_id": "S2",
+      "seed": 1024,
+      "activity_group": "test-s2-03",
+      "parent_run_id": null,
+      "status": "planned",
+      "provenance_type": "synthetic",
+      "authorized_scope": "授权本地合成/安全回放，待采集与人工复核；不执行攻击",
+      "objects": []
+    },
+    {
+      "run_id": "test-s2-04",
+      "split": "test",
+      "scenario_id": "S2",
+      "seed": 1025,
+      "activity_group": "test-s2-04",
+      "parent_run_id": null,
+      "status": "planned",
+      "provenance_type": "synthetic",
+      "authorized_scope": "授权本地合成/安全回放，待采集与人工复核；不执行攻击",
+      "objects": []
+    },
+    {
+      "run_id": "test-s3-01",
+      "split": "test",
+      "scenario_id": "S3",
+      "seed": 1026,
+      "activity_group": "test-s3-01",
+      "parent_run_id": null,
+      "status": "planned",
+      "provenance_type": "synthetic",
+      "authorized_scope": "授权本地合成/安全回放，待采集与人工复核；不执行攻击",
+      "objects": []
+    },
+    {
+      "run_id": "test-s3-02",
+      "split": "test",
+      "scenario_id": "S3",
+      "seed": 1027,
+      "activity_group": "test-s3-02",
+      "parent_run_id": null,
+      "status": "planned",
+      "provenance_type": "synthetic",
+      "authorized_scope": "授权本地合成/安全回放，待采集与人工复核；不执行攻击",
+      "objects": []
+    },
+    {
+      "run_id": "test-s3-03",
+      "split": "test",
+      "scenario_id": "S3",
+      "seed": 1028,
+      "activity_group": "test-s3-03",
+      "parent_run_id": null,
+      "status": "planned",
+      "provenance_type": "synthetic",
+      "authorized_scope": "授权本地合成/安全回放，待采集与人工复核；不执行攻击",
+      "objects": []
+    },
+    {
+      "run_id": "test-s3-04",
+      "split": "test",
+      "scenario_id": "S3",
+      "seed": 1029,
+      "activity_group": "test-s3-04",
+      "parent_run_id": null,
+      "status": "planned",
+      "provenance_type": "synthetic",
+      "authorized_scope": "授权本地合成/安全回放，待采集与人工复核；不执行攻击",
+      "objects": []
+    },
+    {
+      "run_id": "demo-s1-01",
+      "split": "demo",
+      "scenario_id": "S1",
+      "seed": 1030,
+      "activity_group": "demo-s1-01",
+      "parent_run_id": null,
+      "status": "planned",
+      "provenance_type": "synthetic",
+      "authorized_scope": "授权本地合成/安全回放，待采集与人工复核；不执行攻击",
+      "objects": []
+    },
+    {
+      "run_id": "demo-s2-01",
+      "split": "demo",
+      "scenario_id": "S2",
+      "seed": 1031,
+      "activity_group": "demo-s2-01",
+      "parent_run_id": null,
+      "status": "planned",
+      "provenance_type": "synthetic",
+      "authorized_scope": "授权本地合成/安全回放，待采集与人工复核；不执行攻击",
+      "objects": []
+    },
+    {
+      "run_id": "demo-s3-01",
+      "split": "demo",
+      "scenario_id": "S3",
+      "seed": 1032,
+      "activity_group": "demo-s3-01",
+      "parent_run_id": null,
+      "status": "planned",
+      "provenance_type": "synthetic",
+      "authorized_scope": "授权本地合成/安全回放，待采集与人工复核；不执行攻击",
+      "objects": []
+    },
+    {
+      "run_id": "legacy-d3",
+      "split": "dev",
+      "scenario_id": "S1",
+      "seed": 0,
+      "activity_group": "legacy-development-regression",
+      "parent_run_id": null,
+      "status": "prepared",
+      "provenance_type": "synthetic",
+      "authorized_scope": "既有D3-D7本地开发夹具；相关构造统一作一个回归组，不计独立实验",
+      "objects": [
+        {
+          "path": "data/fixtures/d3/port_scan.jsonl",
+          "sha256": "aa72d02c7f903cbfb937930b061e6b8347f47b6af21ce23cb7e5777435aaf83e"
+        },
+        {
+          "path": "data/fixtures/d3/normal_repeated_service.jsonl",
+          "sha256": "fb4d742ad2577dc990a34399dde84674e2084c77b4c98815cdb1edf8e9122536"
+        },
+        {
+          "path": "data/fixtures/d3/below_threshold.jsonl",
+          "sha256": "7dd72964563c39348ebaac0d0ca0046d49b83ae84023938818cf8a2fe5e4722d"
+        }
+      ]
+    },
+    {
+      "run_id": "legacy-d6",
+      "split": "dev",
+      "scenario_id": "S1",
+      "seed": 0,
+      "activity_group": "legacy-development-regression",
+      "parent_run_id": null,
+      "status": "prepared",
+      "provenance_type": "synthetic",
+      "authorized_scope": "既有D3-D7本地开发夹具；相关构造统一作一个回归组，不计独立实验",
+      "objects": [
+        {
+          "path": "data/fixtures/d6/context.json",
+          "sha256": "e7fb18f763787e6a8e7090fc2fe9292b289c03dbba3879e1e20179eefb86b051"
+        },
+        {
+          "path": "data/fixtures/d6/network.jsonl",
+          "sha256": "42416dca6eee07ebee25d41a5cf8dd1c022b686cbf3896462598c44d0611a500"
+        },
+        {
+          "path": "data/fixtures/d6/auth_a.jsonl",
+          "sha256": "8ac09bb00e03d14d916911220643a641ad360f7e9d6ded6f9c558d8619f9ee9c"
+        },
+        {
+          "path": "data/fixtures/d6/audit.jsonl",
+          "sha256": "03eaf88b7b733b87ed7bd18de0a2e30b885b9613b37d8037eda21d5feddd8dc8"
+        },
+        {
+          "path": "data/fixtures/d6/auth_b.jsonl",
+          "sha256": "5b07e5ae554175f0868e62e2391384789c27bdc92a844e1017ca9ccc21cae1b2"
+        },
+        {
+          "path": "data/fixtures/d6/normal_network.jsonl",
+          "sha256": "f7653554ee39d3fdd0d2740346ec913eba8eb8c0c8296df943ceb573252ccf9f"
+        },
+        {
+          "path": "data/fixtures/d6/normal_auth_a.jsonl",
+          "sha256": "7e261138cfdde93fd9f9689b6013edeaf58b50490234d18eec981d34fffa3409"
+        },
+        {
+          "path": "data/fixtures/d6/normal_audit.jsonl",
+          "sha256": "a90f336afad98855d6c4143de90b42a481d385559f2133084aeab283bbb3d712"
+        }
+      ]
+    },
+    {
+      "run_id": "legacy-d7",
+      "split": "dev",
+      "scenario_id": "S2",
+      "seed": 0,
+      "activity_group": "legacy-development-regression",
+      "parent_run_id": null,
+      "status": "prepared",
+      "provenance_type": "synthetic",
+      "authorized_scope": "既有D3-D7本地开发夹具；相关构造统一作一个回归组，不计独立实验",
+      "objects": [
+        {
+          "path": "data/fixtures/d7/context.json",
+          "sha256": "c4a54c25ffb229854bf6256dc8e00da18e0fdfdfce9dd5f9bd16427a37edb3f1"
+        },
+        {
+          "path": "data/fixtures/d7/normal_context.json",
+          "sha256": "6c9338f12de733c81fd5fced6e09cf848f4b7d362f46713eefc6269a080dec75"
+        },
+        {
+          "path": "data/fixtures/d7/network.jsonl",
+          "sha256": "9ab2d3f5e2781d75142b87685cd229d74fbdd3ed92895e165d110fecae6cb067"
+        },
+        {
+          "path": "data/fixtures/d7/audit.jsonl",
+          "sha256": "33ef44c14dffbd18f2c175d269024aa41ce23c1ab1d1ee9bbd5b6885af0ac9bf"
+        },
+        {
+          "path": "data/fixtures/d7/irregular_network.jsonl",
+          "sha256": "fc71734c41d52157b0ea31b5202fe3710173b29c1a3d9824e0d202c8d714ae80"
+        }
+      ]
+    }
+  ]
+}

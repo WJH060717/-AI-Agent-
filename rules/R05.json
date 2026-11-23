@@ -1,0 +1,4 @@
+{
+  "id": "R05", "version": "1.0.0", "window_seconds": 1200,
+  "min_connections": 8, "min_span_seconds": 300, "max_cv": 0.15
+}

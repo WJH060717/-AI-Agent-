@@ -1,0 +1,7 @@
+{
+  "version": "1.0.0",
+  "context_window_seconds": 300,
+  "monitoring_executables": ["/usr/bin/node_exporter", "/usr/bin/prometheus"],
+  "backup_executables": ["/usr/bin/rsync", "/usr/bin/restic", "/usr/bin/borg"],
+  "max_hypotheses": 20
+}

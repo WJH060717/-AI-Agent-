@@ -1,0 +1,18 @@
+services:
+  db:
+    image: postgres:16.16
+    environment:
+      POSTGRES_USER: trace_owner
+      POSTGRES_DB: trace
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set a local secret before starting}
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U trace_owner -d trace"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+volumes:
+  pg_data:

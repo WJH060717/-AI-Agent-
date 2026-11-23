@@ -1,0 +1,71 @@
+{
+  "version": "1.4.0",
+  "basis": "Require same-service SYN contributions to distinguish observed destination-service bursts from port-spread confounders; preserve previous threshold and all other rule versions.",
+  "configs": {
+    "R15": {
+      "id": "R15",
+      "version": "1.3.0",
+      "window_records": 64,
+      "minimum_matches": 48,
+      "minimum_span_us": 1000,
+      "maximum_span_us": 250000,
+      "minimum_sockets": 0
+    },
+    "R16": {
+      "id": "R16",
+      "version": "1.3.0",
+      "window_records": 64,
+      "minimum_matches": 48,
+      "minimum_span_us": 1000,
+      "maximum_span_us": 250000,
+      "minimum_sockets": 0
+    },
+    "R17": {
+      "id": "R17",
+      "version": "1.3.0",
+      "window_records": 64,
+      "minimum_matches": 48,
+      "minimum_span_us": 1000,
+      "maximum_span_us": 250000,
+      "minimum_sockets": 0
+    },
+    "R18": {
+      "id": "R18",
+      "version": "1.4.0",
+      "window_records": 64,
+      "minimum_matches": 48,
+      "minimum_span_us": 1000,
+      "maximum_span_us": 250000,
+      "minimum_sockets": 16
+    },
+    "R19": {
+      "id": "R19",
+      "version": "1.3.0",
+      "window_records": 64,
+      "minimum_matches": 48,
+      "minimum_span_us": 1000,
+      "maximum_span_us": 250000,
+      "minimum_sockets": 0
+    },
+    "R20": {
+      "id": "R20",
+      "version": "1.3.0",
+      "window_records": 64,
+      "minimum_matches": 48,
+      "minimum_span_us": 1000,
+      "maximum_span_us": 250000,
+      "minimum_sockets": 16,
+      "uniform_udp_span_us": 25000
+    },
+    "R21": {
+      "id": "R21",
+      "version": "1.3.0",
+      "window_records": 64,
+      "minimum_matches": 48,
+      "minimum_span_us": 1000,
+      "maximum_span_us": 250000,
+      "minimum_sockets": 0
+    }
+  },
+  "config_hash": "6a77d4461833c10d86e2921385227b14236eb0851d46ef09218df1930ed5e664"
+}

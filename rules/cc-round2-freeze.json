@@ -1,0 +1,21 @@
+{
+  "version": "1.0.0",
+  "basis": "Composite HTTP callback triage; engineering defaults, not calibrated C2 classifier. No capture addresses/query names/labels. Seen CTU development data; never blind accuracy.",
+  "configs": {
+    "R08": {
+      "id": "R08",
+      "version": "1.0.0",
+      "shape_version": "http-client-shape@1",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "min_requests": 3,
+      "min_connections": 3,
+      "min_span_seconds": 30,
+      "window_seconds": 600,
+      "association_seconds": 3600
+    }
+  },
+  "config_hash": "ff32f96e137c7acad446d2c2b6461bba2fff7976905fe7051e796119f0adebdb"
+}

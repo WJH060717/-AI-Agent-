@@ -1,0 +1,87 @@
+x-app: &app
+  image: ${HANDOFF_APP_IMAGE:?required}
+  pull_policy: never
+  init: true
+  restart: unless-stopped
+  read_only: true
+  tmpfs: [/tmp]
+  cap_drop: [ALL]
+  security_opt: [no-new-privileges:true]
+  networks: [backend]
+  environment: &appenv
+    APP_ENV: demo
+    APP_BIND: 0.0.0.0
+    APP_PORT: "8000"
+    DATABASE_URL: postgresql+psycopg://trace_app:${HANDOFF_APP_PASSWORD}@db:5432/trace
+    RAW_STORE: /data/raw
+    STAGING_STORE: /data/staging
+    MODEL_PROVIDER: disabled
+    WORKER_POLL_SECONDS: "0.1"
+    API_READ_REQUESTS_PER_MINUTE: "6000"
+    API_WRITE_REQUESTS_PER_MINUTE: "1000"
+  depends_on:
+    db: {condition: service_healthy}
+services:
+  db:
+    image: ${HANDOFF_DB_IMAGE:?required}
+    pull_policy: never
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: trace_owner
+      POSTGRES_DB: trace
+      POSTGRES_PASSWORD: ${HANDOFF_OWNER_PASSWORD:?required}
+    volumes: [pg_data:/var/lib/postgresql/data]
+    networks: [backend]
+    healthcheck:
+      test: [CMD-SHELL, pg_isready -U trace_owner -d trace]
+      interval: 2s
+      timeout: 3s
+      retries: 45
+  initialize:
+    <<: *app
+    restart: "no"
+    profiles: [setup]
+    command: [python, -m, scripts.handoff_bootstrap]
+    environment:
+      <<: *appenv
+      DATABASE_URL: postgresql+psycopg://trace_owner:${HANDOFF_OWNER_PASSWORD}@db:5432/trace
+      HANDOFF_APP_DATABASE_URL: postgresql+psycopg://trace_app:${HANDOFF_APP_PASSWORD}@db:5432/trace
+      HANDOFF_APP_PASSWORD: ${HANDOFF_APP_PASSWORD}
+    volumes: [raw_data:/data/raw, staging_data:/data/staging, "./_local:/handoff"]
+  api:
+    <<: *app
+    command: [python, -m, apps.api.main]
+    volumes: [raw_data:/data/raw:ro, staging_data:/data/staging]
+    healthcheck:
+      test: [CMD, python, -m, scripts.container_health]
+      interval: 3s
+      timeout: 5s
+      retries: 40
+  worker:
+    <<: *app
+    command: [python, -m, apps.worker]
+    volumes: [raw_data:/data/raw, staging_data:/data/staging]
+  web:
+    image: ${HANDOFF_WEB_IMAGE:?required}
+    pull_policy: never
+    restart: unless-stopped
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    ports: ["127.0.0.1:${HANDOFF_PORT}:8080"]
+    networks: [backend, frontend]
+    depends_on:
+      api: {condition: service_healthy}
+    healthcheck:
+      test: [CMD, wget, -q, --spider, http://127.0.0.1:8080/]
+      interval: 3s
+      timeout: 3s
+      retries: 40
+networks:
+  backend: {internal: true}
+  frontend: {}
+volumes:
+  pg_data: {}
+  raw_data: {}
+  staging_data: {}

@@ -1,0 +1,390 @@
+{
+  "version": "d11-acceptance@1.0.0",
+  "cases": [
+    {
+      "id": "TC-001",
+      "requirement": "REQ-001",
+      "scope": "implemented",
+      "tests": [
+        "tests/integration/test_d9_demo.py::test_s1_demo_includes_three_evidence_classes_and_keeps_socket_gaps"
+      ],
+      "limitation": "合成工程材料，非实际采集验收"
+    },
+    {
+      "id": "TC-002",
+      "requirement": "REQ-001",
+      "scope": "implemented",
+      "tests": [
+        "tests/integration/test_d2.py::test_malformed_eve_payload_does_not_rollback_good_records"
+      ],
+      "limitation": "固定解析反例"
+    },
+    {
+      "id": "TC-003",
+      "requirement": "REQ-001",
+      "scope": "implemented",
+      "tests": [
+        "tests/integration/test_d2.py::test_archive_tampering_fails_closed"
+      ],
+      "limitation": "完整性不证明采集真实性"
+    },
+    {
+      "id": "TC-004",
+      "requirement": "REQ-001",
+      "scope": "implemented",
+      "tests": [
+        "tests/integration/test_d4_pipeline.py::test_audit_pending_locations_survive_lease_reclaim",
+        "tests/integration/test_d4_pipeline.py::test_audit_evidence_pages_and_partial_eof"
+      ],
+      "limitation": "物理记录与聚合事件分别核算"
+    },
+    {
+      "id": "TC-005",
+      "requirement": "REQ-002",
+      "scope": "implemented",
+      "tests": [
+        "tests/integration/test_d2.py::test_upload_worker_query_evidence_and_repeat"
+      ],
+      "limitation": "同对象同sensor"
+    },
+    {
+      "id": "TC-006",
+      "requirement": "REQ-002",
+      "scope": "implemented",
+      "tests": [
+        "tests/integration/test_d4_pipeline.py::test_native_audit_identity_collision_is_quarantined_not_counted_duplicate"
+      ],
+      "limitation": "固定身份碰撞反例"
+    },
+    {
+      "id": "TC-007",
+      "requirement": "REQ-002",
+      "scope": "implemented",
+      "tests": [
+        "tests/contract/test_contracts.py::test_event_normalizes_aware_time_to_utc",
+        "tests/contract/test_d4_identity_graph.py::test_network_auth_match_requires_domain_tuple_asset_and_bounded_time"
+      ],
+      "limitation": "固定时间边界，非生产时钟标定"
+    },
+    {
+      "id": "TC-008",
+      "requirement": "REQ-002",
+      "scope": "implemented",
+      "tests": [
+        "tests/contract/test_d4_identity_graph.py::test_pid_reuse_and_boot_reuse_do_not_create_parent_edges",
+        "tests/contract/test_d4_identity_graph.py::test_ip_validity_is_half_open_and_time_uncertainty_prevents_false_asset_resolution"
+      ],
+      "limitation": "不可豁免身份边界"
+    },
+    {
+      "id": "TC-009",
+      "requirement": "REQ-002",
+      "scope": "implemented",
+      "tests": [
+        "tests/contract/test_d5_paths.py::test_missing_or_uncertain_jumps_are_not_fabricated",
+        "tests/contract/test_d4_identity_graph.py::test_ip_validity_is_half_open_and_time_uncertainty_prevents_false_asset_resolution"
+      ],
+      "limitation": "不可豁免未知保留"
+    },
+    {
+      "id": "TC-010",
+      "requirement": "REQ-003",
+      "scope": "implemented",
+      "tests": [
+        "tests/integration/test_d3_analysis.py::test_r01_threshold_and_normal_counterexamples"
+      ],
+      "limitation": "候选不等于恶意"
+    },
+    {
+      "id": "TC-011",
+      "requirement": "REQ-003",
+      "scope": "implemented",
+      "tests": [
+        "tests/contract/test_d4_r02.py::test_r02_does_not_join_unrelated_or_unordered_auth"
+      ],
+      "limitation": "冻结规则"
+    },
+    {
+      "id": "TC-012",
+      "requirement": "REQ-003",
+      "scope": "implemented",
+      "tests": [
+        "tests/contract/test_d6_rules.py::test_r03_normal_or_weak_identity_does_not_trigger"
+      ],
+      "limitation": "缺可靠出生标记不强连"
+    },
+    {
+      "id": "TC-013",
+      "requirement": "REQ-003",
+      "scope": "implemented",
+      "tests": [
+        "tests/contract/test_d6_rules.py::test_r04_missing_or_unrelated_context_does_not_claim_success"
+      ],
+      "limitation": "资产级访问候选，不证明成功横移"
+    },
+    {
+      "id": "TC-014",
+      "requirement": "REQ-003",
+      "scope": "implemented",
+      "tests": [
+        "tests/contract/test_d7_assessment.py::test_normal_monitoring_is_cited_context_only_counterevidence_not_proof_of_benign_flow",
+        "tests/contract/test_d7_rules.py::test_r05_must_not_remove_internal_irregular_events_to_manufacture_periodicity"
+      ],
+      "limitation": "周期不证明C2"
+    },
+    {
+      "id": "TC-015",
+      "requirement": "REQ-003",
+      "scope": "implemented",
+      "tests": [
+        "tests/contract/test_d7_assessment.py::test_r06_backup_weakens_only_purpose_and_missing_baseline_stays_unavailable"
+      ],
+      "limitation": "冻结正常基线，context_only"
+    },
+    {
+      "id": "TC-016",
+      "requirement": "REQ-004",
+      "scope": "implemented",
+      "tests": [
+        "tests/contract/test_contracts.py::test_observed_graph_edge_requires_evidence",
+        "tests/integration/test_d2_graph_tools.py::test_graph_edges_have_exact_evidence_and_tools_do_not_escape_scope"
+      ],
+      "limitation": "图关系不等于完整因果"
+    },
+    {
+      "id": "TC-017",
+      "requirement": "REQ-004",
+      "scope": "implemented",
+      "tests": [
+        "tests/contract/test_d5_paths.py::test_missing_or_uncertain_jumps_are_not_fabricated"
+      ],
+      "limitation": "不确定次序保留断点"
+    },
+    {
+      "id": "TC-018",
+      "requirement": "REQ-004",
+      "scope": "implemented",
+      "tests": [
+        "tests/integration/test_d5_analysis.py::test_snapshot_timeline_graph_focus_pages_and_paths_are_scoped",
+        "tests/contract/test_d11_graph.py::test_node_boundary_clips_deterministically_without_dangling_edges",
+        "tests/contract/test_d11_graph.py::test_many_legal_parent_observations_clip_edges_at_1000_not_hide_pairs",
+        "tests/contract/test_d11_graph.py::test_clipped_tail_is_still_validated_for_scope"
+      ],
+      "limitation": "500节点/1000边边界、确定性裁剪和范围校验；truncated不代表完整图。"
+    },
+    {
+      "id": "TC-019",
+      "requirement": "REQ-004",
+      "scope": "implemented",
+      "tests": [
+        "tests/contract/test_d5_paths.py::test_top3_six_hop_beam_and_scores_are_deterministic"
+      ],
+      "limitation": "同冻结输入"
+    },
+    {
+      "id": "TC-020",
+      "requirement": "REQ-004",
+      "scope": "implemented",
+      "tests": [
+        "tests/contract/test_d5_paths.py::test_missing_or_uncertain_jumps_are_not_fabricated"
+      ],
+      "limitation": "所选链内覆盖，不是完整攻击链覆盖率"
+    },
+    {
+      "id": "TC-021",
+      "requirement": "REQ-005",
+      "scope": "partial",
+      "tests": [
+        "tests/integration/test_d7_agent.py::test_tools_change_analysis_with_cited_normal_countercontext_and_explicit_loop_stop"
+      ],
+      "limitation": "真实只读工具与HTTP协议桩已测，真实LLM未验收"
+    },
+    {
+      "id": "TC-022",
+      "requirement": "REQ-005",
+      "scope": "implemented",
+      "tests": [
+        "tests/contract/test_d8_validation.py::test_unknown_free_prose_cannot_smuggle_facts_or_instructions",
+        "tests/integration/test_d6_review.py::test_invalid_arguments_are_redacted_before_any_checkpoint_or_action"
+      ],
+      "limitation": "不可豁免注入边界；不宣称真实模型不会被诱导"
+    },
+    {
+      "id": "TC-023",
+      "requirement": "REQ-005",
+      "scope": "implemented",
+      "tests": [
+        "tests/contract/test_d6_validation.py::test_real_ids_do_not_validate_unsupported_facts_or_paths",
+        "tests/contract/test_d8_validation.py::test_all_six_finite_predicates_accept_supported_values_and_reject_changed_value"
+      ],
+      "limitation": "有限谓词，不验证任意自然语言"
+    },
+    {
+      "id": "TC-024",
+      "requirement": "REQ-005",
+      "scope": "implemented",
+      "tests": [
+        "tests/integration/test_d6_tools.py::test_tool_policy_rejects_unknown_scope_filters_and_limits",
+        "tests/integration/test_d6_tools.py::test_tool_scope_is_loaded_by_server_not_caller_and_cursor_is_bound"
+      ],
+      "limitation": "不可豁免工具范围"
+    },
+    {
+      "id": "TC-025",
+      "requirement": "REQ-005",
+      "scope": "implemented",
+      "tests": [
+        "tests/integration/test_d6_agent.py::test_model_or_policy_failure_is_partial_fallback_not_fake_live",
+        "tests/integration/test_d9_agent.py::test_cost_budget_refuses_call_before_transport"
+      ],
+      "limitation": "协议桩超时/失败及预算"
+    },
+    {
+      "id": "TC-026",
+      "requirement": "REQ-005",
+      "scope": "implemented",
+      "tests": [
+        "tests/integration/test_d7_agent.py::test_loop_terminates_without_inventing_queries_or_evidence",
+        "tests/integration/test_d8_agent.py::test_rejections_and_repair_are_visible_without_relaxing_budget"
+      ],
+      "limitation": "有界修复"
+    },
+    {
+      "id": "TC-027",
+      "requirement": "REQ-005",
+      "scope": "implemented",
+      "tests": [
+        "tests/integration/test_d6_agent.py::test_cancelled_model_late_response_cannot_publish_report"
+      ],
+      "limitation": "保留已预留费用"
+    },
+    {
+      "id": "TC-028",
+      "requirement": "REQ-006",
+      "scope": "implemented",
+      "tests": [
+        "apps/web/tests/d9.spec.ts"
+      ],
+      "limitation": "三线合成材料，真实API/worker与协议桩"
+    },
+    {
+      "id": "TC-029",
+      "requirement": "REQ-006",
+      "scope": "implemented",
+      "tests": [
+        "apps/web/tests/d8.spec.ts",
+        "apps/web/tests/d9.spec.ts",
+        "apps/web/tests/d11.spec.ts",
+        "tests/integration/test_d11_ingest.py::test_detection_limit_preserves_ingest_and_exposes_incomplete_coverage"
+      ],
+      "limitation": "空数据、无告警、部分检测与文本安全经过真实API浏览器场景；不创建假告警。"
+    },
+    {
+      "id": "TC-030",
+      "requirement": "REQ-006",
+      "scope": "implemented",
+      "tests": [
+        "tests/integration/test_d9_reports.py::test_review_is_append_only_idempotent_scoped_and_exported_safely",
+        "apps/web/tests/d9.spec.ts"
+      ],
+      "limitation": "不可豁免纯文本与离线HTML"
+    },
+    {
+      "id": "TC-031",
+      "requirement": "REQ-007",
+      "scope": "implemented",
+      "tests": [
+        "tests/integration/test_d9_reports.py::test_raw_download_checks_role_workspace_path_and_integrity"
+      ],
+      "limitation": "角色令牌不是实名身份"
+    },
+    {
+      "id": "TC-032",
+      "requirement": "REQ-007",
+      "scope": "implemented",
+      "tests": [
+        "tests/integration/test_d6_tools.py::test_tool_scope_is_loaded_by_server_not_caller_and_cursor_is_bound",
+        "tests/integration/test_d9_reports.py::test_review_is_append_only_idempotent_scoped_and_exported_safely"
+      ],
+      "limitation": "不可豁免工作区与快照范围"
+    },
+    {
+      "id": "TC-033",
+      "requirement": "REQ-007",
+      "scope": "implemented",
+      "tests": [
+        "tests/integration/test_d9_reports.py::test_review_is_append_only_idempotent_scoped_and_exported_safely",
+        "tests/integration/test_d9_reports.py::test_concurrent_review_retries_publish_once"
+      ],
+      "limitation": "同键内容冲突409"
+    },
+    {
+      "id": "TC-034",
+      "requirement": "REQ-007",
+      "scope": "implemented",
+      "tests": [
+        "tests/integration/test_d3_crash.py::test_real_process_exit_then_real_lease_expiry_resumes_checkpoint",
+        "tests/integration/test_d6_agent.py::test_real_worker_exit_after_model_reservation_preserves_budget",
+        "tests/integration/test_d11_recovery.py::test_real_agent_process_exit_preserves_before_reservation_and_single_report"
+      ],
+      "limitation": "真实进程退出与持久检查点"
+    },
+    {
+      "id": "TC-035",
+      "requirement": "REQ-007",
+      "scope": "implemented",
+      "tests": [
+        "tests/integration/test_d5_paging.py::test_aggregation_replaces_current_catalog_but_keeps_old_incident_and_cursor",
+        "tests/integration/test_d9_reports.py::test_history_existing_frozen_cursor_survives_new_report_above_initial_limit"
+      ],
+      "limitation": "旧目录/快照/报告不回写"
+    },
+    {
+      "id": "TC-036",
+      "requirement": "REQ-007",
+      "scope": "blocked",
+      "tests": [],
+      "limitation": "整库+raw备份恢复与恢复后新调查未实现/验收"
+    },
+    {
+      "id": "TC-037",
+      "requirement": "REQ-008",
+      "scope": "partial",
+      "tests": [
+        "tests/contract/test_d9_inventory.py::test_freeze_is_reproducible_and_does_not_promote_plans_to_reviewed_runs",
+        "tests/integration/test_d11_evaluation.py::test_four_engineering_groups_execute_actual_pipeline_and_recompute",
+        "tests/contract/test_d11_evaluation.py::test_formal_execution_refuses_planned_unreviewed_runs_before_creating_output"
+      ],
+      "limitation": "离线四组执行与指标复算已实现；33项仍planned、0双人复核，不产出正式F1或真实LLM收益。"
+    },
+    {
+      "id": "TC-038",
+      "requirement": "REQ-008",
+      "scope": "partial",
+      "tests": [
+        "tests/contract/test_d11_benchmark.py::test_benchmark_does_not_label_smoke_or_missing_records_as_full_acceptance",
+        "tests/contract/test_d11_query_work.py::test_event_page_does_not_scan_and_sort_the_whole_session"
+      ],
+      "limitation": "新摄取30分钟、10万事件查询和180资源点绑定benchmark检查；回放吞吐未测，超过10000事件仅部分检测；本机SQLite不能外推生产。"
+    },
+    {
+      "id": "TC-039",
+      "requirement": "REQ-008",
+      "scope": "partial",
+      "tests": [
+        "tests/integration/test_d10_deployment.py::test_preflight_is_read_only_and_redacts_configuration"
+      ],
+      "limitation": "独立候选本机验证不等于全新机器/非作者/Compose验收"
+    },
+    {
+      "id": "TC-040",
+      "requirement": "REQ-008",
+      "scope": "partial",
+      "tests": [
+        "tests/integration/test_d9_agent.py::test_cached_view_requires_version_match_preserves_source_and_never_calls_model",
+        "apps/web/tests/d9.spec.ts"
+      ],
+      "limitation": "离线附件/历史缓存已测，物理断网与8分钟彩排未验收"
+    }
+  ]
+}

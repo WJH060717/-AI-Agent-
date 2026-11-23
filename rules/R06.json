@@ -1,0 +1,4 @@
+{
+  "id": "R06", "version": "1.0.0", "window_seconds": 300,
+  "min_bytes": 10000000, "baseline_min_windows": 30, "p95_multiplier": 3
+}

@@ -1,0 +1,6 @@
+{
+  "id": "R03", "version": "1.0.0", "window_seconds": 600,
+  "service_parents": ["/usr/sbin/nginx", "/usr/sbin/apache2"],
+  "suspicious_children": ["/bin/sh", "/bin/bash", "/usr/bin/bash", "/usr/bin/python3"],
+  "allowed_pairs": [["/usr/sbin/nginx", "/usr/sbin/nginx"]]
+}

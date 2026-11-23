@@ -1,0 +1,23 @@
+{
+  "version":"d15-acceptance@1.0.0",
+  "application_version":"0.1.0.dev12",
+  "database_head":"0006_d9",
+  "release_status":"engineering_candidate",
+  "milestones":[
+    {"id":"D15-A","status":"implemented","scope":"本地不可覆盖候选/版本清单/独立校验器；实际结果由D15外部检查记录给出","pending":"完整P0批准、独立部署签署"},
+    {"id":"D15-B","status":"partial","scope":"历史工程实验及开发合成数据归档，失败与输入hash保留","pending":"正式33次采集与双人标签、正式指标"},
+    {"id":"D15-C","status":"implemented","scope":"技术附件、REQ/TC定位与已知限制","pending":"真实LLM与精选知识验收"},
+    {"id":"D15-D","status":"partial","scope":"本地提交素材、角色职责与待签清单","pending":"成员姓名/人工复核、比赛入口及真实提交回执"},
+    {"id":"D15-INTEGRATION","status":"partial","scope":"候选文件可打开/摘要可追溯，具体以实际检查输出为准","pending":"完整P0及人类最终签署"}
+  ],
+  "inherited_open_p1":["D10-001","D10-002","D10-003","D10-004","D10-005","D10-006","D10-009"],
+  "incomplete_cases":["TC-021","TC-036","TC-037","TC-038","TC-039","TC-040"],
+  "p0_release_ready":false,
+  "non_author_accepted":false,
+  "independent_machine_accepted":false,
+  "physical_disconnect_accepted":false,
+  "human_rehearsal_accepted":false,
+  "real_llm_accepted":false,
+  "external_submission_completed":false,
+  "human_signatures":[]
+}

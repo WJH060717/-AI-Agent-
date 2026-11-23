@@ -1,0 +1,10 @@
+{
+  "basis": "Development baseline set before sample evaluation: eight distinct IPv4 targets within ten seconds separate short multi-target observations from repeated one-target requests. Offline positive and confounder controls are required. This is not a claim about intent or production performance.",
+  "config_hash": "501ad8e667064917d19235fde6b185e10ca4fad3f6bd5acb1e07f8c904b5d514",
+  "config": {
+    "id": "R25",
+    "version": "1.0.0",
+    "window_seconds": 10,
+    "minimum_destinations": 8
+  }
+}

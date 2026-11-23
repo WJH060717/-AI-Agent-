@@ -1,0 +1,10 @@
+{
+  "basis": "Passive four-record correspondence reviewed in the local OS signature criterion and original-byte-offset evidence. Requires two unique request/response pairs within one original capture. Retains competing independently witnessed subtypes.",
+  "config_hash": "29fc09979432df0ee4d546526109a4ffa8cb7efedca50e3c668e9582e3f07d55",
+  "config": {
+    "id": "R30",
+    "version": "1.0.0",
+    "window_us": 5000000,
+    "basis_sha256": "46bc5a79d3c996399967ed1173d11395715cfaaa87a155e4af5d85ab827a699c"
+  }
+}

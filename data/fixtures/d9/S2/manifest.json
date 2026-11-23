@@ -1,0 +1,35 @@
+{
+  "version": "d9-demo@1.0.0",
+  "scenario_id": "S2",
+  "provenance_type": "synthetic",
+  "independent_evaluation_run": false,
+  "activity_group": "legacy-development-regression",
+  "authorized_scope": "local synthetic fixtures; no network activity",
+  "limitations": [
+    "Derived from D6/D7 development templates; not 33 independent runs.",
+    "Transfer byte counters do not establish file contents, process sockets or attack causation.",
+    "S3 uses S2 without audit; S2 includes monitoring/backup alternative context."
+  ],
+  "objects": [
+    {
+      "path": "audit.jsonl",
+      "sha256": "33ef44c14dffbd18f2c175d269024aa41ce23c1ab1d1ee9bbd5b6885af0ac9bf"
+    },
+    {
+      "path": "context.json",
+      "sha256": "c4a54c25ffb229854bf6256dc8e00da18e0fdfdfce9dd5f9bd16427a37edb3f1"
+    },
+    {
+      "path": "irregular_network.jsonl",
+      "sha256": "fc71734c41d52157b0ea31b5202fe3710173b29c1a3d9824e0d202c8d714ae80"
+    },
+    {
+      "path": "network.jsonl",
+      "sha256": "9ab2d3f5e2781d75142b87685cd229d74fbdd3ed92895e165d110fecae6cb067"
+    },
+    {
+      "path": "normal_context.json",
+      "sha256": "6c9338f12de733c81fd5fced6e09cf848f4b7d362f46713eefc6269a080dec75"
+    }
+  ]
+}

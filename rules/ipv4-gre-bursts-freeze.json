@@ -1,0 +1,12 @@
+{
+  "basis": "Inherit existing packet-burst engineering bounds prior to real-sample evaluation. Require inspected GRE envelope and inner header. No Mirai family attribution.",
+  "config_hash": "530357c82422caf8b836dd21c287ea4323bef1480cfcc7038776aba24214ae4a",
+  "config": {
+    "id": "R27",
+    "version": "1.0.0",
+    "window_records": 64,
+    "minimum_matches": 48,
+    "minimum_span_us": 1000,
+    "maximum_span_us": 250000
+  }
+}

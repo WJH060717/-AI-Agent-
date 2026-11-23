@@ -1,0 +1,96 @@
+{
+  "version": "d12-analysis-inputs@1.0.0",
+  "files": {
+    "artifacts/d11-eval-01/config.json": "e858495866c8a99589899dcc7642d9ec3e4ce1c00a46eb2c6824837e83d74b5c",
+    "artifacts/d11-eval-01/preflight.json": "383a89d68c8cb99736cca020c21809660297e4def7a574cb445738262d5658c0",
+    "artifacts/d11-eval-01/manifest.json": "56443fd228ce46ef4eb1ea0a98c19722031b6edd8e52b73cca5dd3e1445ab38b",
+    "artifacts/d11-eval-01/metrics.json": "8ca0aaaa5053de51d1d69896a6637578e3f084c0765e74fb0ca2b88cc16ab0e7",
+    "artifacts/d11-eval-01/predictions.jsonl": "c25c87970e8e8705dd82e7dc74c3a7d7135a49d3040c4f8c6be998682a6d03f3",
+    "artifacts/d11-eval-02/config.json": "e858495866c8a99589899dcc7642d9ec3e4ce1c00a46eb2c6824837e83d74b5c",
+    "artifacts/d11-eval-02/preflight.json": "383a89d68c8cb99736cca020c21809660297e4def7a574cb445738262d5658c0",
+    "artifacts/d11-eval-02/manifest.json": "ecfceb9f13cb238540ebed4cf4fedf3797e51eb2393b6836c0cefb180bcb052e",
+    "artifacts/d11-eval-02/metrics.json": "a55759e5578edb78ef217658e2283df6721d5261781ffab8d53c2d35047e0436",
+    "artifacts/d11-eval-02/predictions.jsonl": "2f7650a1380070d7f22694fb27ff97ed607997bce5fee9cc154248d1454f1d05",
+    "artifacts/d11-check-03/evaluation/config.json": "e858495866c8a99589899dcc7642d9ec3e4ce1c00a46eb2c6824837e83d74b5c",
+    "artifacts/d11-check-03/evaluation/preflight.json": "0c6ccda84562c06e467fcba833563382a6f1fd548ee414b61ae2a335a2bcf8ce",
+    "artifacts/d11-check-03/evaluation/manifest.json": "1c62fcc4df78069d7e35966905672d14f733261266a6b78396023e6f9cd417ba",
+    "artifacts/d11-check-03/evaluation/metrics.json": "ee1be8df9bf3b034d720826424be3ac8ed8da4dff8ec5f3e39f70caaaf2f6ba4",
+    "artifacts/d11-check-03/evaluation/predictions.jsonl": "3f94fbc8c9b6e8ebe939f1c555f42d419b709c6ded09ddd4c9917d2c6df50aad",
+    "artifacts/d12-evaluation-01/config.json": "e858495866c8a99589899dcc7642d9ec3e4ce1c00a46eb2c6824837e83d74b5c",
+    "artifacts/d12-evaluation-01/preflight.json": "0c6ccda84562c06e467fcba833563382a6f1fd548ee414b61ae2a335a2bcf8ce",
+    "artifacts/d12-evaluation-01/manifest.json": "c1a1bbc401e0c013901f8c6e572c723c5847c01bd2c33c050ad0d3495c97bbc4",
+    "artifacts/d12-evaluation-01/metrics.json": "af64d5e29c2cf160385c15ad6d3f3e2c5b5872ffb879c8c3ee44fb0ba5b467da",
+    "artifacts/d12-evaluation-01/predictions.jsonl": "53b2ab3ec26ae88df6df219638341cb321f7e598dcefb4abd93a10ecfadd38c1",
+    "artifacts/d11-benchmark-full-01/protocol.json": "e77b50627ddc811495eb0e46c3f3cca38ba1a881011b291e5135d72241b84091",
+    "artifacts/d11-benchmark-full-01/summary.json": "6ca591244fd2ea344ea90f74b2dd5ebb349fc4f4441b2c4ddc33b7e291a04364",
+    "artifacts/d11-benchmark-full-01/samples.jsonl": "0d277fdc05bee02141f763fade007d67b130e443838cc83ed780e7c0bd00c76b",
+    "artifacts/d11-benchmark-full-02/protocol.json": "675ecc9eedd4e73d7dd493a5a4bb5e4ee233461308492eddc4c24a6f426f0ef4",
+    "artifacts/d11-benchmark-full-02/summary.json": "6142e2345acfd014889667d2b2c4c9bec0f486ecbfec06cb04ee0ad00bd66a6d",
+    "artifacts/d11-benchmark-full-02/samples.jsonl": "9f9407929e76611786fc8cca9f87864ccb762c7ffa42f5f40c4a744526d838bd",
+    "artifacts/d11-benchmark-full-03/protocol.json": "6974512e7dae1c54ac6757691560c86befd42bb3239284952a1ae67645ab342e",
+    "artifacts/d11-benchmark-full-03/summary.json": "7bf48e47066850a9e416baccedaf6bd35cf160a0382272fd11868f7fa9451751",
+    "artifacts/d11-benchmark-full-03/samples.jsonl": "c0e369217f1d19f78237f553e548d658afa3de8f29c6513e35513c5b1350ff94",
+    "artifacts/d11-check-03/browser-d11/empty.png": "82f19f773b8c1857a05bfbfbf5b2417447ca548bb75a6323cf6247deb1f934ea",
+    "artifacts/d11-check-03/browser-d11/no-hit.png": "c3f797245be4d6278f8d339c49d5bf075f6a05867fcb8925c29cac6dddd08a31",
+    "artifacts/d11-check-03/browser-d11/partial.png": "56cb1ffd1510e57c2ca2cd7d752cfb39713bbcccf1dd6734c71fb70742d4d732",
+    "docs/03-detection-graph.md": "87ccdae3a059bf8aea5d3fbdb4d25dbf2927b039490a86416bfc13ecc90be212",
+    "docs/d11-limitations.md": "ff0b39bd09d6e2f814906fbd63267b1efe6bf29da4eb53cbe50936abaa03236d",
+    "artifacts/d11-build-manifest.json": "8ca751ab3a60e52540285ca9e308998472fa7fcaed5d66f7b03ceb810c652124",
+    "release/d11-freeze-03.json": "3628ea878d528c6edebf85316719c9f5e60b20ebc8ef6b7c5c9c0afbe7ac7455",
+    "artifacts/d11-hardware.json": "dc714e09987f33a51e540c1469328342f28d666f9af7ce9292a7740e038eeb83",
+    "artifacts/d12-evaluation-02/config.json": "e858495866c8a99589899dcc7642d9ec3e4ce1c00a46eb2c6824837e83d74b5c",
+    "artifacts/d12-evaluation-02/preflight.json": "0c6ccda84562c06e467fcba833563382a6f1fd548ee414b61ae2a335a2bcf8ce",
+    "artifacts/d12-evaluation-02/manifest.json": "5259e1d1652a4abf91b377a47af85a10cc517366b2983f188d6f8cdd045a154f",
+    "artifacts/d12-evaluation-02/metrics.json": "0f713e5e252d2dddf61207f1bbc318bd85841e72e73f5dabb4434514900bbf6a",
+    "artifacts/d12-evaluation-02/predictions.jsonl": "489e8718bb672ee3ed66a001ed992dd2c180795664b490a9c945398d1ffbf9f4"
+  },
+  "evaluations": [
+    {
+      "id": "d11-initial-failed",
+      "folder": "artifacts/d11-eval-01",
+      "note": "Historical 4 completed / 8 failed; workspace import idempotency bug, retained."
+    },
+    {
+      "id": "d11-corrected",
+      "folder": "artifacts/d11-eval-02",
+      "note": "Historical intermediate correction; same-lineage engineering inputs."
+    },
+    {
+      "id": "d11-final",
+      "folder": "artifacts/d11-check-03/evaluation",
+      "note": "D11 final version, protocol stub, not real LLM."
+    },
+    {
+      "id": "d12-engineering",
+      "folder": "artifacts/d12-evaluation-01",
+      "note": "D12 pre-review engineering; successful cases timed, error accounting subsequently fixed."
+    },
+    {
+      "id": "d12-final",
+      "folder": "artifacts/d12-evaluation-02",
+      "note": "D12 after review fixes: persistent failed usage, retries and terminal/censored timing recorded."
+    }
+  ],
+  "benchmarks": [
+    {
+      "id": "d11-full-01",
+      "folder": "artifacts/d11-benchmark-full-01",
+      "note": "Historical pre-hardening configuration; superseded."
+    },
+    {
+      "id": "d11-full-02",
+      "folder": "artifacts/d11-benchmark-full-02",
+      "note": "Historical fixed protocol: query p95 failed 2s target."
+    },
+    {
+      "id": "d11-full-03",
+      "folder": "artifacts/d11-benchmark-full-03",
+      "note": "Historical final D11 ingestion/query target passed; detection partial, replay unmeasured."
+    }
+  ],
+  "screenshots": [
+    "artifacts/d11-check-03/browser-d11/empty.png",
+    "artifacts/d11-check-03/browser-d11/no-hit.png",
+    "artifacts/d11-check-03/browser-d11/partial.png"
+  ]
+}

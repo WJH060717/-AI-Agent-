@@ -1,0 +1,20 @@
+{
+  "version": "d13-acceptance@1.0.0",
+  "scope": "D13 deployment and presentation kit on unchanged D12 candidate-04",
+  "application_version": "0.1.0.dev12",
+  "base_freeze_sha256": "9110dae9674ddedb75f08e538466df68ec9ff6e4b38eac5720f64fcd8ca11673",
+  "milestones": [
+    {"id":"D13-A","status":"partial","implemented":"新目录安装器、固定底座、环境隔离、Windows新venv/SQLite实际安装及手册","pending":"独立干净机器、四服务Compose、非部署作者独立启动"},
+    {"id":"D13-B","status":"implemented","implemented":"S1/S2/S3说明、同源合成来源与对象hash、依赖许可元数据/可取得原文、限制","pending":"权利人最终分发授权与许可充分性复核；正式资料仍未采集/双复核"},
+    {"id":"D13-C","status":"implemented","implemented":"实际架构、信任边界、工程机制、证据约束答辩","pending":"研究新颖性和真实LLM效果不作验收结论"},
+    {"id":"D13-D","status":"partial","implemented":"八分钟自动预录、中文字幕、截图、静态展示材料；以media验证记录为准","pending":"真人配合演示、两次计时彩排与物理断网现场验证"},
+    {"id":"D13-INTEGRATION","status":"pending","implemented":"独立操作手册和空白验收清单","pending":"非部署作者亲自按手册启动并记录，不可自动签署"}
+  ],
+  "inherited_open_p1": ["D10-001","D10-002","D10-003","D10-004","D10-005","D10-006","D10-009"],
+  "incomplete_cases": ["TC-021","TC-036","TC-037","TC-038","TC-039","TC-040"],
+  "p0_release_ready": false,
+  "non_author_accepted": false,
+  "clean_machine_accepted": false,
+  "compose_accepted": false,
+  "real_llm_accepted": false
+}

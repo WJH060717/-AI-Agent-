@@ -1,0 +1,8 @@
+{"ts": 1794618010.0, "uid": "synthetic-C0", "id.orig_h": "192.0.2.10", "id.orig_p": 42000, "id.resp_h": "10.10.0.20", "id.resp_p": 22, "proto": "tcp", "orig_bytes": 120, "resp_bytes": 240, "synthetic": true}
+{"ts": 1794618011.0, "uid": "synthetic-C1", "id.orig_h": "192.0.2.10", "id.orig_p": 42001, "id.resp_h": "10.10.0.20", "id.resp_p": 22, "proto": "tcp", "orig_bytes": 120, "resp_bytes": 240, "synthetic": true}
+{"ts": 1794618012.0, "uid": "synthetic-C2", "id.orig_h": "192.0.2.10", "id.orig_p": 42002, "id.resp_h": "10.10.0.20", "id.resp_p": 22, "proto": "tcp", "orig_bytes": 120, "resp_bytes": 240, "synthetic": true}
+{"ts": 1794618013.0, "uid": "synthetic-C3", "id.orig_h": "192.0.2.10", "id.orig_p": 42003, "id.resp_h": "10.10.0.20", "id.resp_p": 22, "proto": "tcp", "orig_bytes": 120, "resp_bytes": 240, "synthetic": true}
+{"ts": 1794618014.0, "uid": "synthetic-C4", "id.orig_h": "192.0.2.10", "id.orig_p": 42004, "id.resp_h": "10.10.0.20", "id.resp_p": 22, "proto": "tcp", "orig_bytes": 120, "resp_bytes": 240, "synthetic": true}
+{"ts": 1794618015.0, "uid": "synthetic-C5", "id.orig_h": "192.0.2.10", "id.orig_p": 42005, "id.resp_h": "10.10.0.20", "id.resp_p": 22, "proto": "tcp", "orig_bytes": 120, "resp_bytes": 240, "synthetic": true}
+{"ts": 1794618016.0, "uid": "synthetic-C6", "id.orig_h": "192.0.2.10", "id.orig_p": 42006, "id.resp_h": "10.10.0.20", "id.resp_p": 22, "proto": "tcp", "orig_bytes": 120, "resp_bytes": 240, "synthetic": true}
+{"ts": 1794618017.0, "uid": "synthetic-C7", "id.orig_h": "192.0.2.10", "id.orig_p": 42007, "id.resp_h": "10.10.0.20", "id.resp_p": 22, "proto": "tcp", "orig_bytes": 120, "resp_bytes": 240, "synthetic": true}

@@ -1,0 +1,9 @@
+{
+  "id": "R14",
+  "version": "1.2.0",
+  "window_records": 64,
+  "minimum_pairs": 20,
+  "minimum_span_us": 1000,
+  "maximum_span_us": 250000,
+  "maximum_pair_gap_us": 100000
+}

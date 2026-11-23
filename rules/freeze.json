@@ -1,0 +1,78 @@
+{
+  "version": "1.0.0",
+  "frozen_on": "2026-11-15",
+  "basis": "development regression only; no held-out evaluation claimed",
+  "config_hash": "b87ec82958653f65e745deb82107ae9ee0ef08377838c8e2aa7e8d97a6bdb6ab",
+  "configs": {
+    "R01": {
+      "id": "R01",
+      "version": "1.0.0",
+      "window_seconds": 60,
+      "slide_seconds": 10,
+      "port_threshold": 20,
+      "host_threshold": 10,
+      "internal_cidrs": [
+        "10.0.0.0/8",
+        "172.16.0.0/12",
+        "192.168.0.0/16"
+      ]
+    },
+    "R02": {
+      "id": "R02",
+      "version": "1.0.0",
+      "failure_count": 5,
+      "failure_window_seconds": 300,
+      "success_after_seconds": 120
+    },
+    "R03": {
+      "id": "R03",
+      "version": "1.0.0",
+      "window_seconds": 600,
+      "service_parents": [
+        "/usr/sbin/nginx",
+        "/usr/sbin/apache2"
+      ],
+      "suspicious_children": [
+        "/bin/sh",
+        "/bin/bash",
+        "/usr/bin/bash",
+        "/usr/bin/python3"
+      ],
+      "allowed_pairs": [
+        [
+          "/usr/sbin/nginx",
+          "/usr/sbin/nginx"
+        ]
+      ]
+    },
+    "R04": {
+      "id": "R04",
+      "version": "1.0.0",
+      "window_seconds": 600,
+      "management_ports": [
+        22,
+        3389,
+        445,
+        5985,
+        5986
+      ]
+    },
+    "R05": {
+      "id": "R05",
+      "version": "1.0.0",
+      "window_seconds": 1200,
+      "min_connections": 8,
+      "min_span_seconds": 300,
+      "max_cv": 0.15,
+      "max_episode_seconds": 1800
+    },
+    "R06": {
+      "id": "R06",
+      "version": "1.0.0",
+      "window_seconds": 300,
+      "min_bytes": 10000000,
+      "baseline_min_windows": 30,
+      "p95_multiplier": 3
+    }
+  }
+}

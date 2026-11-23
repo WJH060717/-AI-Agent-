@@ -1,0 +1,3 @@
+{"timestamp": "2026-11-14T01:00:20+00:00", "host": "host-a", "boot_id": "boot-a", "audit_serial": "1", "record_type": "SYSCALL", "synthetic": true, "process": {"pid": 42, "ppid": 10, "action": "exec", "start_ticks": 100, "parent_start_ticks": 50, "identity_basis": "lifecycle_record", "executable": "/lab/client"}, "user": {"name": "demo-user", "uid": "1001", "realm": "local"}, "session_id": "ses-1"}
+{"timestamp": "2026-11-14T01:00:20+00:00", "host": "host-a", "boot_id": "boot-a", "audit_serial": "1", "record_type": "EXECVE", "synthetic": true}
+{"timestamp": "2026-11-14T01:00:20+00:00", "host": "host-a", "boot_id": "boot-a", "audit_serial": "1", "record_type": "EOE", "synthetic": true}

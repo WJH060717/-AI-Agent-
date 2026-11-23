@@ -1,0 +1,24 @@
+{
+  "version": "1.0.0",
+  "basis": "Independent synthetic request header, sequence progression and concurrency controls",
+  "config_hash": "5dd27a166f6141990c29e3ce5eb1cf57f61cd29faa2a1d40788ff0d1e9dfd055",
+  "configs": {
+    "R22": {
+      "id": "R22",
+      "version": "1.0.0",
+      "connections": 8,
+      "minimum_span_us": 1000,
+      "maximum_span_us": 250000
+    },
+    "R23": {
+      "id": "R23",
+      "version": "1.0.0",
+      "connections": 8,
+      "minimum_progress_us": 1000000,
+      "minimum_overlap_us": 500000,
+      "maximum_span_us": 20000000,
+      "maximum_segments": 4,
+      "maximum_progress_bytes": 128
+    }
+  }
+}

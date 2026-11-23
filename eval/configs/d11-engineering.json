@@ -1,0 +1,105 @@
+{
+  "version": "d11-evaluation@1.0.0",
+  "profile": "engineering",
+  "model_mode": "protocol_stub",
+  "repeats": 1,
+  "runs": [
+    {
+      "run_id": "engineering-s1",
+      "scenario_id": "S1",
+      "provenance_type": "derived",
+      "context": {
+        "path": "data/fixtures/d9/S1/context.json",
+        "sha256": "3d26a13f4f27f7e5d5865cf364174345ff5b34ff52c34528940b9eb369e74c2d"
+      },
+      "sources": [
+        {
+          "source_type": "zeek",
+          "sensor_id": "net-a",
+          "object": {
+            "path": "data/fixtures/d9/S1/network.jsonl",
+            "sha256": "a7018629cb74e71d4642eae15989e4cbe8569e01c45bfef3fe97f8482685d6bd"
+          }
+        },
+        {
+          "source_type": "linux_auth",
+          "sensor_id": "auth-a",
+          "object": {
+            "path": "data/fixtures/d9/S1/auth_a.jsonl",
+            "sha256": "8ac09bb00e03d14d916911220643a641ad360f7e9d6ded6f9c558d8619f9ee9c"
+          }
+        },
+        {
+          "source_type": "linux_audit",
+          "sensor_id": "audit-a",
+          "object": {
+            "path": "data/fixtures/d9/S1/audit.jsonl",
+            "sha256": "03eaf88b7b733b87ed7bd18de0a2e30b885b9613b37d8037eda21d5feddd8dc8"
+          }
+        },
+        {
+          "source_type": "linux_auth",
+          "sensor_id": "auth-b",
+          "object": {
+            "path": "data/fixtures/d9/S1/auth_b.jsonl",
+            "sha256": "5b07e5ae554175f0868e62e2391384789c27bdc92a844e1017ca9ccc21cae1b2"
+          }
+        },
+        {
+          "source_type": "suricata",
+          "sensor_id": "alert-a",
+          "object": {
+            "path": "data/fixtures/d9/S1/alerts.jsonl",
+            "sha256": "73088c92d4881aeb58ce7ef42458d59bb5e9973f640ee945c332e0abcb6f0709"
+          }
+        }
+      ]
+    },
+    {
+      "run_id": "engineering-s2",
+      "scenario_id": "S2",
+      "provenance_type": "derived",
+      "context": {
+        "path": "data/fixtures/d9/S2/context.json",
+        "sha256": "c4a54c25ffb229854bf6256dc8e00da18e0fdfdfce9dd5f9bd16427a37edb3f1"
+      },
+      "sources": [
+        {
+          "source_type": "zeek",
+          "sensor_id": "net-a",
+          "object": {
+            "path": "data/fixtures/d9/S2/network.jsonl",
+            "sha256": "9ab2d3f5e2781d75142b87685cd229d74fbdd3ed92895e165d110fecae6cb067"
+          }
+        },
+        {
+          "source_type": "linux_audit",
+          "sensor_id": "audit-a",
+          "object": {
+            "path": "data/fixtures/d9/S2/audit.jsonl",
+            "sha256": "33ef44c14dffbd18f2c175d269024aa41ce23c1ab1d1ee9bbd5b6885af0ac9bf"
+          }
+        }
+      ]
+    },
+    {
+      "run_id": "engineering-s3",
+      "scenario_id": "S3",
+      "provenance_type": "derived",
+      "context": {
+        "path": "data/fixtures/d9/S2/context.json",
+        "sha256": "c4a54c25ffb229854bf6256dc8e00da18e0fdfdfce9dd5f9bd16427a37edb3f1"
+      },
+      "sources": [
+        {
+          "source_type": "zeek",
+          "sensor_id": "net-a",
+          "object": {
+            "path": "data/fixtures/d9/S2/network.jsonl",
+            "sha256": "9ab2d3f5e2781d75142b87685cd229d74fbdd3ed92895e165d110fecae6cb067"
+          }
+        }
+      ]
+    }
+  ]
+}

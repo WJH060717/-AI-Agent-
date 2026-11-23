@@ -1,0 +1,34 @@
+{
+  "version": "1.0.0",
+  "basis": "Independent synthetic development observations; fixed PCAP labels excluded from configuration decisions",
+  "config_hash": "0efeb06f8f80d85fe746a71725188803b09323b5bd5b4f0610f85ead4bc4cf88",
+  "configs": {
+    "R12": {
+      "id": "R12",
+      "version": "1.0.0",
+      "window_records": 64,
+      "minimum_pairs": 20,
+      "minimum_span_us": 1000,
+      "maximum_span_us": 250000,
+      "maximum_pair_gap_us": 100000
+    },
+    "R13": {
+      "id": "R13",
+      "version": "1.0.0",
+      "window_records": 64,
+      "minimum_pairs": 20,
+      "minimum_span_us": 1000,
+      "maximum_span_us": 250000,
+      "maximum_pair_gap_us": 100000
+    },
+    "R14": {
+      "id": "R14",
+      "version": "1.0.0",
+      "window_records": 64,
+      "minimum_pairs": 20,
+      "minimum_span_us": 1000,
+      "maximum_span_us": 250000,
+      "maximum_pair_gap_us": 100000
+    }
+  }
+}

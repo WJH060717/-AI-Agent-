@@ -1,0 +1,21 @@
+{
+  "version": "1.0.1",
+  "basis": "Fix complete-window uncertainty after review counterexamples; preserve candidate01 rule 1.0.0 for historical replay. Thresholds unchanged; seen development data, not blind evaluation.",
+  "configs": {
+    "R10": {
+      "id": "R10",
+      "version": "1.0.1",
+      "shape_version": "http-query-shape@1",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "min_query_bytes": 32,
+      "min_requests": 2,
+      "min_connections": 2,
+      "window_seconds": 600,
+      "association_seconds": 3600
+    }
+  },
+  "config_hash": "e2d0667776cfe1f713ac21ba159b35dd57a5ad00287e4ac14831c170bf4f7b18"
+}

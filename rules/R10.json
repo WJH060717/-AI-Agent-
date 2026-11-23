@@ -1,0 +1,14 @@
+{
+  "id": "R10",
+  "version": "1.0.1",
+  "shape_version": "http-query-shape@1",
+  "methods": [
+    "GET",
+    "POST"
+  ],
+  "min_query_bytes": 32,
+  "min_requests": 2,
+  "min_connections": 2,
+  "window_seconds": 600,
+  "association_seconds": 3600
+}

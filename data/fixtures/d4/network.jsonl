@@ -1,0 +1,6 @@
+{"ts": 1794617999.0, "uid": "synthetic-auth-0", "id.orig_h": "192.0.2.10", "id.orig_p": 42000, "id.resp_h": "10.10.0.20", "id.resp_p": 22, "proto": "tcp", "synthetic": true}
+{"ts": 1794618000.0, "uid": "synthetic-auth-1", "id.orig_h": "192.0.2.10", "id.orig_p": 42001, "id.resp_h": "10.10.0.20", "id.resp_p": 22, "proto": "tcp", "synthetic": true}
+{"ts": 1794618001.0, "uid": "synthetic-auth-2", "id.orig_h": "192.0.2.10", "id.orig_p": 42002, "id.resp_h": "10.10.0.20", "id.resp_p": 22, "proto": "tcp", "synthetic": true}
+{"ts": 1794618002.0, "uid": "synthetic-auth-3", "id.orig_h": "192.0.2.10", "id.orig_p": 42003, "id.resp_h": "10.10.0.20", "id.resp_p": 22, "proto": "tcp", "synthetic": true}
+{"ts": 1794618003.0, "uid": "synthetic-auth-4", "id.orig_h": "192.0.2.10", "id.orig_p": 42004, "id.resp_h": "10.10.0.20", "id.resp_p": 22, "proto": "tcp", "synthetic": true}
+{"ts": 1794618009.0, "uid": "synthetic-auth-10", "id.orig_h": "192.0.2.10", "id.orig_p": 42010, "id.resp_h": "10.10.0.20", "id.resp_p": 22, "proto": "tcp", "synthetic": true}

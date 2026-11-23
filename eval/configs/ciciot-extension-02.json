@@ -1,0 +1,203 @@
+{
+  "version": "ciciot-extension@1.1.0",
+  "scenarios": [
+    {
+      "subtype": "Recon-PortScan",
+      "missing_evidence": "固定前缀缺少同一源和目标在规则时间窗内的足量有效目的端口。",
+      "fixed": {
+        "path": "artifacts/ciciot2023-next21-01/capture-01.pcap",
+        "sha256": "4864d5c3ec413b7faace4f1d4109a5473dc804d63679ac6a766df56f55812604",
+        "records": 2048,
+        "provenance": {
+          "path": "artifacts/ciciot2023-next21-01/source.json",
+          "sha256": "59817db03a84e52f48723b1ebe64cd3feee36aaf64354cf3deac5ab6430446b2"
+        }
+      },
+      "supplements": [
+        {
+          "path": "artifacts/ciciot2023-next21-01/capture-02.pcap",
+          "sha256": "2a8eea7e2acc0749edf1d8bc6c081b1912a781751b7f88b1e5a0267fce324975",
+          "records": 221,
+          "provenance": {
+            "path": "artifacts/ciciot2023-next21-01/source-survey.json",
+            "sha256": "b2d6d5ae8867d54c329c3903715f83438098099fd1dbcbe9157d15539da48f7c"
+          }
+        }
+      ]
+    },
+    {
+      "subtype": "Recon-PingSweep",
+      "missing_evidence": "目标在线状态和探测授权仍须独立证据。",
+      "fixed": {
+        "path": "artifacts/ciciot2023-recon-ping-sweep-real-01/Recon-PingSweep.pcap",
+        "sha256": "1aaf410fcc6dbfefa48b680b401344f0fa7b6e04c2acc9af427b5b7728b0ee89",
+        "records": 22943,
+        "provenance_type": "real_capture",
+        "provenance": {
+          "path": "artifacts/ciciot2023-recon-ping-sweep-real-01/source.json",
+          "sha256": "ce3f3b93e74e19777157bcfd924f39117f028ba541f878f42ce6e43466481059"
+        }
+      }
+    },
+    {
+      "subtype": "Recon-HostDiscovery",
+      "missing_evidence": "缺少可将该批 ARP 请求绑定至同一来源、目标范围和时间窗的可信探测审计。",
+      "fixed": {
+        "path": "artifacts/ciciot2023-recon-host-discovery-real-01/capture-01.pcap",
+        "sha256": "5176b6f5cb356dbcd44b3e885bc6d336e0ecf775e737ccab213dbc37e0811ded",
+        "records": 2048,
+        "provenance": {
+          "path": "artifacts/ciciot2023-recon-host-discovery-real-01/survey.json",
+          "sha256": "01aa819af06e628dfd78800ede13cf22eda0fe4fb16d7b394463cfca93b83dc0"
+        }
+      }
+    },
+    {
+      "subtype": "Recon-OSScan",
+      "missing_evidence": "缺少足以区分一般握手和操作系统指纹探测的核验判据或具体探针审计。",
+      "fixed": {
+        "path": "artifacts/ciciot2023-recon-os-scan-real-01/capture-01.pcap",
+        "sha256": "3569206b67781ce7e2316733b3fa56e8f3ea09d11a0eacc6f682fb9d3112bfa4",
+        "records": 2048,
+        "provenance": {
+          "path": "artifacts/ciciot2023-recon-os-scan-real-01/survey.json",
+          "sha256": "8cf029b91a825f162c2837cf5da1964a9641e2e2bdaa6a8e1a3ad3bf52ad2039"
+        }
+      },
+      "supplements": [
+        {
+          "path": "artifacts/p2-os-fingerprint-dev40-01/capture-01.pcap",
+          "sha256": "f29dbeac896939b1b70ff1dc7b20c377dbf1b6ce5dd459f4c087dec230db2b8f",
+          "records": 3051,
+          "provenance": {
+            "path": "artifacts/p2-os-fingerprint-dev40-01/supplement.json",
+            "sha256": "5215f6bebded6bb312a3d5d9ba6be6fc29e29a218980832c058669af4c588270"
+          }
+        },
+        {
+          "path": "artifacts/p2-os-fingerprint-dev40-01/capture-02.pcap",
+          "sha256": "36b7d122ba7d4aebff1e9298bd0148dbf634d5b9e9365ca2a071ccd032d312ab",
+          "records": 3050,
+          "provenance": {
+            "path": "artifacts/p2-os-fingerprint-dev40-01/supplement.json",
+            "sha256": "5215f6bebded6bb312a3d5d9ba6be6fc29e29a218980832c058669af4c588270"
+          }
+        }
+      ]
+    },
+    {
+      "subtype": "VulnerabilityScan",
+      "missing_evidence": "缺少可以回查到具体检查标识、服务及相应请求或响应的可信审计。",
+      "fixed": {
+        "path": "artifacts/ciciot2023-recon-vulnerability-scan-real-01/capture-01.pcap",
+        "sha256": "2b4193905c95c1e0c265fae943afa923b72a2a915811b33e708b2a9462d7ee48",
+        "records": 2048,
+        "provenance": {
+          "path": "artifacts/ciciot2023-recon-vulnerability-scan-real-01/survey.json",
+          "sha256": "c09d2960b06af288c5e198db402b8fe22a50429e3b33d30d8c57106870da1103"
+        }
+      }
+    },
+    {
+      "subtype": "Mirai-greip_flood",
+      "missing_evidence": "固定前缀收集失败。补充抓包仍缺可关联到同段流量的独立家族证据。",
+      "collection_failure": {
+        "path": "artifacts/ciciot2023-mirai-protocol-01/source.json",
+        "sha256": "1733df14121b49e5cca3ed61a29dc8ba57523c5a98dd49aad7a87c3cf7d56962"
+      },
+      "supplements": [
+        {
+          "path": "artifacts/ciciot2023-mirai-protocol-01/capture-04.pcap",
+          "sha256": "7fd155251015542f22fb63eae2171548b986ecaf2331dd718531ac4265fe0509",
+          "records": 267,
+          "provenance": {
+            "path": "artifacts/ciciot2023-mirai-protocol-01/gre-ip-addenda.json",
+            "sha256": "0d1447c8cfb1140931f30cfb8a5ef7f7907af0ad35624f1b368eebad57007949"
+          }
+        },
+        {
+          "path": "artifacts/ciciot2023-mirai-protocol-01/capture-05.pcap",
+          "sha256": "032c0e65cb1c080aa72e9bddd6926753829b8020e107ea3c2cfff96521ad3074",
+          "records": 2048,
+          "provenance": {
+            "path": "artifacts/ciciot2023-mirai-protocol-01/gre-ip-addenda.json",
+            "sha256": "0d1447c8cfb1140931f30cfb8a5ef7f7907af0ad35624f1b368eebad57007949"
+          }
+        }
+      ]
+    },
+    {
+      "subtype": "Mirai-greeth_flood",
+      "missing_evidence": "固定前缀未观测到 GRE。补充抓包仍缺可关联到同段流量的独立家族证据。",
+      "fixed": {
+        "path": "artifacts/ciciot2023-mirai-protocol-01/capture-02.pcap",
+        "sha256": "f49b2b6f0767f97434b4d67ed25d55a5089725f17bd9b4db1f89f7ab8b1f4432",
+        "records": 2048,
+        "provenance": {
+          "path": "artifacts/ciciot2023-mirai-protocol-01/source.json",
+          "sha256": "1733df14121b49e5cca3ed61a29dc8ba57523c5a98dd49aad7a87c3cf7d56962"
+        }
+      },
+      "supplements": [
+        {
+          "path": "artifacts/ciciot2023-mirai-protocol-01/capture-06.pcap",
+          "sha256": "6199e3be017023dbf4e29d1b22b65437f891f45464a7b8bbfd311dcda3ddcb61",
+          "records": 2048,
+          "provenance": {
+            "path": "artifacts/ciciot2023-mirai-protocol-01/gre-eth-addenda.json",
+            "sha256": "8ae930943f91d54b0f26ad65394a86ca860fdc7727fa259a2629654afcf5362a"
+          }
+        }
+      ]
+    },
+    {
+      "subtype": "Mirai-udpplain",
+      "missing_evidence": "缺少可绑定同一 UDP 流量、进程和连接的独立家族证据。",
+      "fixed": {
+        "path": "artifacts/ciciot2023-mirai-protocol-01/capture-03.pcap",
+        "sha256": "c221f802aec98508ea15270c07fe2af2a9b9e2fd69344eb319dd0ae25499a2a1",
+        "records": 2048,
+        "provenance": {
+          "path": "artifacts/ciciot2023-mirai-protocol-01/source.json",
+          "sha256": "1733df14121b49e5cca3ed61a29dc8ba57523c5a98dd49aad7a87c3cf7d56962"
+        }
+      }
+    },
+    {
+      "subtype": "DNS_Spoofing",
+      "missing_evidence": "缺少可回查的 DNS 请求与响应及同一视图、同一时点的可信解析对照。"
+    },
+    {
+      "subtype": "MITM-ArpSpoofing",
+      "missing_evidence": "缺少同一二层域的原始声明、有效 IP/MAC 绑定及未经授权替换的独立证据。"
+    },
+    {
+      "subtype": "DictionaryBruteForce",
+      "missing_evidence": "缺少按认证事务关联的脱敏失败记录及独立字典式猜测判据。"
+    },
+    {
+      "subtype": "Backdoor_Malware",
+      "missing_evidence": "缺少与具体资产、文件或进程绑定的可信终端安全事件。"
+    },
+    {
+      "subtype": "BrowserHijacking",
+      "missing_evidence": "缺少可回查变更源、授权状态的浏览器设置、扩展或导航控制审计。"
+    },
+    {
+      "subtype": "CommandInjection",
+      "missing_evidence": "缺少可定位请求与对应命令处理位置的专属防护或解释器审计。"
+    },
+    {
+      "subtype": "SqlInjection",
+      "missing_evidence": "缺少可定位请求与指向数据库查询上下文的专属防护或数据库审计。"
+    },
+    {
+      "subtype": "Uploading_Attack",
+      "missing_evidence": "缺少关联的上传事务、文件对象及恶意内容或策略违规证据。"
+    },
+    {
+      "subtype": "XSS",
+      "missing_evidence": "缺少可定位请求或存储对象与对应输出位置的安全记录或专属判据。"
+    }
+  ]
+}

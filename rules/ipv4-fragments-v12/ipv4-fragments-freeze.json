@@ -1,0 +1,34 @@
+{
+  "version": "1.2.0",
+  "basis": "Group supported DoS/DDoS behaviors without assigning origin scope; preserve observation thresholds.",
+  "config_hash": "a6656660c5e155435774775785a1f854469e89ce851c8562d64b135583d5cacf",
+  "configs": {
+    "R12": {
+      "id": "R12",
+      "version": "1.2.0",
+      "window_records": 64,
+      "minimum_pairs": 20,
+      "minimum_span_us": 1000,
+      "maximum_span_us": 250000,
+      "maximum_pair_gap_us": 100000
+    },
+    "R13": {
+      "id": "R13",
+      "version": "1.2.0",
+      "window_records": 64,
+      "minimum_pairs": 20,
+      "minimum_span_us": 1000,
+      "maximum_span_us": 250000,
+      "maximum_pair_gap_us": 100000
+    },
+    "R14": {
+      "id": "R14",
+      "version": "1.2.0",
+      "window_records": 64,
+      "minimum_pairs": 20,
+      "minimum_span_us": 1000,
+      "maximum_span_us": 250000,
+      "maximum_pair_gap_us": 100000
+    }
+  }
+}

@@ -1,0 +1,1 @@
+{"timestamp": "2026-11-14T01:00:22+00:00", "host": "host-a", "boot_id": "boot-a", "src_ip": "192.0.2.10", "src_port": 42021, "dest_ip": "10.10.0.20", "dest_port": 22, "user": {"name": "demo-user", "uid": "1001", "realm": "local"}, "auth": {"outcome": "success", "method": "password", "service": "ssh"}, "session_id": "ses-1", "synthetic": true}

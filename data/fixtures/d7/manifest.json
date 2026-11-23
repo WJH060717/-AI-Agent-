@@ -1,0 +1,24 @@
+{
+  "provenance_type": "synthetic",
+  "split": "development",
+  "scope": "Local files only; no traffic, attacks or ground-truth inputs to runtime",
+  "context_sha256": "c4a54c25ffb229854bf6256dc8e00da18e0fdfdfce9dd5f9bd16427a37edb3f1",
+  "normal_context_sha256": "6c9338f12de733c81fd5fced6e09cf848f4b7d362f46713eefc6269a080dec75",
+  "objects": [
+    {
+      "path": "network.jsonl",
+      "records": 9,
+      "sha256": "9ab2d3f5e2781d75142b87685cd229d74fbdd3ed92895e165d110fecae6cb067"
+    },
+    {
+      "path": "audit.jsonl",
+      "records": 4,
+      "sha256": "33ef44c14dffbd18f2c175d269024aa41ce23c1ab1d1ee9bbd5b6885af0ac9bf"
+    },
+    {
+      "path": "irregular_network.jsonl",
+      "records": 9,
+      "sha256": "fc71734c41d52157b0ea31b5202fe3710173b29c1a3d9824e0d202c8d714ae80"
+    }
+  ]
+}

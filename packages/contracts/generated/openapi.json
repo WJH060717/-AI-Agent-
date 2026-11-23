@@ -1,0 +1,7366 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Telemetry Trace",
+    "version": "0.1.0.dev41"
+  },
+  "paths": {
+    "/api/v1/health/live": {
+      "get": {
+        "summary": "Live",
+        "operationId": "live_api_v1_health_live_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "type": "object",
+                  "title": "Response Live Api V1 Health Live Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/runtime-config": {
+      "get": {
+        "summary": "Runtime Config",
+        "operationId": "runtime_config_api_v1_runtime_config_get",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RuntimeConfiguration"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/datasets": {
+      "post": {
+        "summary": "Create Dataset",
+        "operationId": "create_dataset_api_v1_datasets_post",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Idempotency-Key"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DatasetCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DatasetResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "List Datasets",
+        "operationId": "list_datasets_api_v1_datasets_get",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 50,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Cursor"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DatasetPage"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/datasets/{dataset_id}/replays": {
+      "post": {
+        "summary": "Create Replay",
+        "operationId": "create_replay_api_v1_datasets__dataset_id__replays_post",
+        "parameters": [
+          {
+            "name": "dataset_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Dataset Id"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Idempotency-Key"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReplayCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReplayStatus"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/replays/{job_id}": {
+      "get": {
+        "summary": "Replay Status",
+        "operationId": "replay_status_api_v1_replays__job_id__get",
+        "parameters": [
+          {
+            "name": "job_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Job Id"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReplayStatus"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/datasets/{dataset_id}/context": {
+      "post": {
+        "summary": "Configure Context",
+        "operationId": "configure_context_api_v1_datasets__dataset_id__context_post",
+        "parameters": [
+          {
+            "name": "dataset_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Dataset Id"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Idempotency-Key"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DatasetContext"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContextResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/imports": {
+      "post": {
+        "summary": "Upload",
+        "operationId": "upload_api_v1_imports_post",
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Idempotency-Key"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_upload_api_v1_imports_post"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImportResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/imports/{batch_id}": {
+      "get": {
+        "summary": "Import Status",
+        "operationId": "import_status_api_v1_imports__batch_id__get",
+        "parameters": [
+          {
+            "name": "batch_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Batch Id"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ImportStatus"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/events": {
+      "get": {
+        "summary": "Events",
+        "operationId": "events_api_v1_events_get",
+        "parameters": [
+          {
+            "name": "dataset_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Dataset Id"
+            }
+          },
+          {
+            "name": "session_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Session Id"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Cursor"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventPage"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/events/{event_id}": {
+      "get": {
+        "summary": "Event",
+        "operationId": "event_api_v1_events__event_id__get",
+        "parameters": [
+          {
+            "name": "event_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Event Id"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NormalizedEvent"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/overview": {
+      "get": {
+        "summary": "Overview",
+        "operationId": "overview_api_v1_overview_get",
+        "parameters": [
+          {
+            "name": "dataset_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Dataset Id"
+            }
+          },
+          {
+            "name": "session_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Session Id"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/jobs/{job_id}": {
+      "get": {
+        "summary": "Job Status",
+        "operationId": "job_status_api_v1_jobs__job_id__get",
+        "parameters": [
+          {
+            "name": "job_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Job Id"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/jobs/{job_id}/cancel": {
+      "post": {
+        "summary": "Cancel Job",
+        "operationId": "cancel_job_api_v1_jobs__job_id__cancel_post",
+        "parameters": [
+          {
+            "name": "job_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Job Id"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/incidents": {
+      "get": {
+        "summary": "Incidents",
+        "operationId": "incidents_api_v1_incidents_get",
+        "parameters": [
+          {
+            "name": "dataset_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Dataset Id"
+            }
+          },
+          {
+            "name": "session_id",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Session Id"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 50,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Cursor"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IncidentPage"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/incidents/{incident_id}": {
+      "get": {
+        "summary": "Incident Detail",
+        "operationId": "incident_detail_api_v1_incidents__incident_id__get",
+        "parameters": [
+          {
+            "name": "incident_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Incident Id"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/incidents/{incident_id}/investigations": {
+      "post": {
+        "summary": "Investigate",
+        "operationId": "investigate_api_v1_incidents__incident_id__investigations_post",
+        "parameters": [
+          {
+            "name": "incident_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Incident Id"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Idempotency-Key"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InvestigationCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/investigations/{run_id}": {
+      "get": {
+        "summary": "Run Status",
+        "operationId": "run_status_api_v1_investigations__run_id__get",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Run Id"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunStatus"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/investigations/{run_id}/tool-calls": {
+      "get": {
+        "summary": "Agent Actions",
+        "operationId": "agent_actions_api_v1_investigations__run_id__tool_calls_get",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Run Id"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 50,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Cursor"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentActionPage"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/investigations/{run_id}/transitions": {
+      "get": {
+        "summary": "Agent Transitions",
+        "operationId": "agent_transitions_api_v1_investigations__run_id__transitions_get",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Run Id"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 50,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Cursor"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AgentTransitionPage"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/investigations/{run_id}/cancel": {
+      "post": {
+        "summary": "Cancel Run",
+        "operationId": "cancel_run_api_v1_investigations__run_id__cancel_post",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Run Id"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/investigations/{run_id}/graph": {
+      "get": {
+        "summary": "Graph",
+        "operationId": "graph_api_v1_investigations__run_id__graph_get",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Run Id"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 50,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Cursor"
+            }
+          },
+          {
+            "name": "focus_entity",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Focus Entity"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GraphResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/investigations/{run_id}/timeline": {
+      "get": {
+        "summary": "Timeline",
+        "operationId": "timeline_api_v1_investigations__run_id__timeline_get",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Run Id"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 50,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Cursor"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventPage"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/investigations/{run_id}/paths": {
+      "get": {
+        "summary": "Paths",
+        "operationId": "paths_api_v1_investigations__run_id__paths_get",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Run Id"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PathAnalysis"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/reports/{report_id}": {
+      "get": {
+        "summary": "Report",
+        "operationId": "report_api_v1_reports__report_id__get",
+        "parameters": [
+          {
+            "name": "report_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Report Id"
+            }
+          },
+          {
+            "name": "mode",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "original",
+                "cached"
+              ],
+              "type": "string",
+              "default": "original",
+              "title": "Mode"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Report"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/incidents/{incident_id}/reports": {
+      "get": {
+        "summary": "Report History",
+        "operationId": "report_history_api_v1_incidents__incident_id__reports_get",
+        "parameters": [
+          {
+            "name": "incident_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Incident Id"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 50,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Cursor"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportPage"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/reports/{report_id}/reviews": {
+      "post": {
+        "summary": "Review Report",
+        "operationId": "review_report_api_v1_reports__report_id__reviews_post",
+        "parameters": [
+          {
+            "name": "report_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Report Id"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Idempotency-Key"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReviewCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReviewRecord"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Report Reviews",
+        "operationId": "report_reviews_api_v1_reports__report_id__reviews_get",
+        "parameters": [
+          {
+            "name": "report_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Report Id"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 50,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Cursor"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReviewPage"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/reports/{report_id}/export": {
+      "get": {
+        "summary": "Export Report",
+        "operationId": "export_report_api_v1_reports__report_id__export_get",
+        "parameters": [
+          {
+            "name": "report_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Report Id"
+            }
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "json",
+                "html"
+              ],
+              "type": "string",
+              "default": "html",
+              "title": "Format"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/raw-objects/{object_id}/download": {
+      "get": {
+        "summary": "Download Object",
+        "operationId": "download_object_api_v1_raw_objects__object_id__download_get",
+        "parameters": [
+          {
+            "name": "object_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Object Id"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/evidence/{event_id}": {
+      "get": {
+        "summary": "Evidence",
+        "operationId": "evidence_api_v1_evidence__event_id__get",
+        "parameters": [
+          {
+            "name": "event_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Event Id"
+            }
+          },
+          {
+            "name": "snapshot_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Snapshot Id"
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Cursor"
+            }
+          },
+          {
+            "name": "packet_scope",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 512
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Packet Scope"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EvidenceResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AddressBinding": {
+        "properties": {
+          "ip": {
+            "type": "string",
+            "title": "Ip"
+          },
+          "observation_domain": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Observation Domain"
+          },
+          "valid_from": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Valid From"
+          },
+          "valid_to": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Valid To"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "ip",
+          "observation_domain",
+          "valid_from",
+          "valid_to"
+        ],
+        "title": "AddressBinding"
+      },
+      "AgentActionPage": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/AgentActionSummary"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "next_cursor": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next Cursor"
+          },
+          "request_id": {
+            "type": "string",
+            "title": "Request Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "items",
+          "next_cursor",
+          "request_id"
+        ],
+        "title": "AgentActionPage"
+      },
+      "AgentActionSummary": {
+        "properties": {
+          "seq": {
+            "type": "integer",
+            "title": "Seq"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "model",
+              "tool"
+            ],
+            "title": "Kind"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "args_hash": {
+            "type": "string",
+            "title": "Args Hash"
+          },
+          "args_payload": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Args Payload"
+          },
+          "result_digest": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Result Digest"
+          },
+          "request_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Request Id"
+          },
+          "usage": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Usage"
+          },
+          "error_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error Code"
+          },
+          "new_evidence_count": {
+            "type": "integer",
+            "title": "New Evidence Count"
+          },
+          "evidence_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Evidence Ids"
+          },
+          "cache_hit": {
+            "type": "integer",
+            "title": "Cache Hit",
+            "default": 0
+          },
+          "reason_summary": {
+            "type": "string",
+            "title": "Reason Summary",
+            "default": ""
+          },
+          "started_at": {
+            "type": "string",
+            "title": "Started At"
+          },
+          "ended_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ended At"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "seq",
+          "kind",
+          "name",
+          "status",
+          "args_hash",
+          "args_payload",
+          "result_digest",
+          "request_id",
+          "usage",
+          "error_code",
+          "new_evidence_count",
+          "started_at",
+          "ended_at"
+        ],
+        "title": "AgentActionSummary"
+      },
+      "AgentBudget": {
+        "properties": {
+          "max_cost_microusd": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 100000000.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Cost Microusd"
+          },
+          "max_tool_calls": {
+            "type": "integer",
+            "maximum": 6.0,
+            "minimum": 0.0,
+            "title": "Max Tool Calls",
+            "default": 6
+          },
+          "max_model_calls": {
+            "type": "integer",
+            "maximum": 4.0,
+            "minimum": 0.0,
+            "title": "Max Model Calls",
+            "default": 4
+          },
+          "max_input_tokens": {
+            "type": "integer",
+            "maximum": 12000.0,
+            "minimum": 0.0,
+            "title": "Max Input Tokens",
+            "default": 12000
+          },
+          "max_output_tokens": {
+            "type": "integer",
+            "maximum": 3000.0,
+            "minimum": 0.0,
+            "title": "Max Output Tokens",
+            "default": 3000
+          },
+          "model_wait_seconds": {
+            "type": "integer",
+            "maximum": 60.0,
+            "minimum": 0.0,
+            "title": "Model Wait Seconds",
+            "default": 60
+          },
+          "timeout_seconds": {
+            "type": "integer",
+            "maximum": 90.0,
+            "minimum": 1.0,
+            "title": "Timeout Seconds",
+            "default": 90
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "AgentBudget"
+      },
+      "AgentTransition": {
+        "properties": {
+          "version": {
+            "type": "integer",
+            "title": "Version"
+          },
+          "phase": {
+            "type": "string",
+            "title": "Phase"
+          },
+          "reason": {
+            "type": "string",
+            "title": "Reason"
+          },
+          "occurred_at": {
+            "type": "string",
+            "title": "Occurred At"
+          },
+          "budget_used": {
+            "$ref": "#/components/schemas/BudgetUsed"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "version",
+          "phase",
+          "reason",
+          "occurred_at",
+          "budget_used"
+        ],
+        "title": "AgentTransition"
+      },
+      "AgentTransitionPage": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/AgentTransition"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "next_cursor": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next Cursor"
+          },
+          "request_id": {
+            "type": "string",
+            "title": "Request Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "items",
+          "next_cursor",
+          "request_id"
+        ],
+        "title": "AgentTransitionPage"
+      },
+      "AggregationReason": {
+        "properties": {
+          "finding_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Finding Ids"
+          },
+          "shared_entities": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Shared Entities"
+          },
+          "method": {
+            "type": "string",
+            "const": "strong_entity_and_overlap",
+            "title": "Method"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "finding_ids",
+          "shared_entities",
+          "method"
+        ],
+        "title": "AggregationReason"
+      },
+      "Alert": {
+        "properties": {
+          "rule_id": {
+            "type": "string",
+            "maxLength": 4096,
+            "minLength": 1,
+            "title": "Rule Id"
+          },
+          "signature": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 4096,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Signature"
+          },
+          "native_severity": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Native Severity"
+          },
+          "category": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 4096,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Category"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "rule_id"
+        ],
+        "title": "Alert"
+      },
+      "ArpReplyObservation": {
+        "properties": {
+          "sender_mac": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{12}$",
+            "title": "Sender Mac"
+          },
+          "captured_length": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Captured Length"
+          },
+          "wire_length": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Wire Length"
+          },
+          "arp_operation": {
+            "type": "integer",
+            "const": 2,
+            "title": "Arp Operation"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "sender_mac",
+          "captured_length",
+          "wire_length",
+          "arp_operation"
+        ],
+        "title": "ArpReplyObservation"
+      },
+      "ArpRequestObservation": {
+        "properties": {
+          "sender_mac": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{12}$",
+            "title": "Sender Mac"
+          },
+          "captured_length": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Captured Length"
+          },
+          "wire_length": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Wire Length"
+          },
+          "arp_operation": {
+            "type": "integer",
+            "const": 1,
+            "title": "Arp Operation"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "sender_mac",
+          "captured_length",
+          "wire_length",
+          "arp_operation"
+        ],
+        "title": "ArpRequestObservation"
+      },
+      "Asset": {
+        "properties": {
+          "asset_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Asset Id"
+          },
+          "hostnames": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "maxItems": 20,
+            "minItems": 1,
+            "title": "Hostnames"
+          },
+          "addresses": {
+            "items": {
+              "$ref": "#/components/schemas/AddressBinding"
+            },
+            "type": "array",
+            "maxItems": 100,
+            "title": "Addresses"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "asset_id",
+          "hostnames"
+        ],
+        "title": "Asset"
+      },
+      "Auth": {
+        "properties": {
+          "outcome": {
+            "type": "string",
+            "enum": [
+              "success",
+              "failure",
+              "unknown"
+            ],
+            "title": "Outcome"
+          },
+          "method": {
+            "type": "string",
+            "maxLength": 4096,
+            "minLength": 1,
+            "title": "Method"
+          },
+          "service": {
+            "type": "string",
+            "maxLength": 4096,
+            "minLength": 1,
+            "title": "Service"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "outcome",
+          "method",
+          "service"
+        ],
+        "title": "Auth"
+      },
+      "BaselineWindow": {
+        "properties": {
+          "start": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Start"
+          },
+          "end": {
+            "type": "string",
+            "format": "date-time",
+            "title": "End"
+          },
+          "bytes_out": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Bytes Out"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "start",
+          "end",
+          "bytes_out"
+        ],
+        "title": "BaselineWindow"
+      },
+      "BehaviorAssessment": {
+        "properties": {
+          "finding_id": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$",
+            "title": "Finding Id"
+          },
+          "behavior": {
+            "type": "string",
+            "maxLength": 4096,
+            "minLength": 1,
+            "title": "Behavior"
+          },
+          "label": {
+            "type": "string",
+            "maxLength": 4096,
+            "minLength": 1,
+            "title": "Label"
+          },
+          "rule_id": {
+            "type": "string",
+            "maxLength": 4096,
+            "minLength": 1,
+            "title": "Rule Id"
+          },
+          "rule_version": {
+            "type": "string",
+            "maxLength": 4096,
+            "minLength": 1,
+            "title": "Rule Version"
+          },
+          "start_time": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Start Time"
+          },
+          "end_time": {
+            "type": "string",
+            "format": "date-time",
+            "title": "End Time"
+          },
+          "observation_domains": {
+            "items": {
+              "type": "string",
+              "maxLength": 4096,
+              "minLength": 1
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Observation Domains"
+          },
+          "sensor_instances": {
+            "items": {
+              "type": "string",
+              "maxLength": 4096,
+              "minLength": 1
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Sensor Instances"
+          },
+          "evidence_refs": {
+            "items": {
+              "$ref": "#/components/schemas/EvidenceRef"
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Evidence Refs"
+          },
+          "limitations": {
+            "items": {
+              "type": "string",
+              "maxLength": 4096,
+              "minLength": 1
+            },
+            "type": "array",
+            "title": "Limitations"
+          },
+          "trace_status": {
+            "type": "string",
+            "enum": [
+              "successful",
+              "unsuccessful"
+            ],
+            "title": "Trace Status"
+          },
+          "trace_scope": {
+            "type": "string",
+            "maxLength": 4096,
+            "minLength": 1,
+            "title": "Trace Scope"
+          },
+          "trace_clue": {
+            "type": "string",
+            "maxLength": 4096,
+            "minLength": 1,
+            "title": "Trace Clue"
+          },
+          "trace_reason": {
+            "type": "string",
+            "maxLength": 4096,
+            "minLength": 1,
+            "title": "Trace Reason"
+          },
+          "trace_evidence_refs": {
+            "items": {
+              "$ref": "#/components/schemas/EvidenceRef"
+            },
+            "type": "array",
+            "title": "Trace Evidence Refs"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "finding_id",
+          "behavior",
+          "label",
+          "rule_id",
+          "rule_version",
+          "start_time",
+          "end_time",
+          "observation_domains",
+          "sensor_instances",
+          "evidence_refs",
+          "trace_status",
+          "trace_scope",
+          "trace_clue",
+          "trace_reason"
+        ],
+        "title": "BehaviorAssessment"
+      },
+      "Body_upload_api_v1_imports_post": {
+        "properties": {
+          "file": {
+            "type": "string",
+            "contentMediaType": "application/octet-stream",
+            "title": "File"
+          },
+          "dataset_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Dataset Id"
+          },
+          "source_type": {
+            "type": "string",
+            "title": "Source Type"
+          },
+          "sensor_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sensor Id"
+          },
+          "timezone": {
+            "type": "string",
+            "title": "Timezone",
+            "default": "UTC"
+          }
+        },
+        "type": "object",
+        "required": [
+          "file",
+          "dataset_id",
+          "source_type"
+        ],
+        "title": "Body_upload_api_v1_imports_post"
+      },
+      "BudgetUsed": {
+        "properties": {
+          "cost_microusd": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Cost Microusd",
+            "default": 0
+          },
+          "actual_cost_microusd": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Actual Cost Microusd",
+            "default": 0
+          },
+          "tool_calls": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Tool Calls",
+            "default": 0
+          },
+          "model_calls": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Model Calls",
+            "default": 0
+          },
+          "input_tokens": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Input Tokens",
+            "default": 0
+          },
+          "output_tokens": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Output Tokens",
+            "default": 0
+          },
+          "model_wait_ms": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Model Wait Ms",
+            "default": 0
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "BudgetUsed"
+      },
+      "CandidateOrigin": {
+        "properties": {
+          "origin_id": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$",
+            "title": "Origin Id"
+          },
+          "event_id": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$",
+            "title": "Event Id"
+          },
+          "asset_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Asset Id"
+          },
+          "classification": {
+            "type": "string",
+            "enum": [
+              "external_entry_candidate",
+              "internal_start_candidate",
+              "earliest_observed"
+            ],
+            "title": "Classification"
+          },
+          "left_censored": {
+            "type": "boolean",
+            "title": "Left Censored"
+          },
+          "evidence_refs": {
+            "items": {
+              "$ref": "#/components/schemas/EvidenceRef"
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Evidence Refs"
+          },
+          "explanation": {
+            "type": "string",
+            "maxLength": 4096,
+            "minLength": 1,
+            "title": "Explanation"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "origin_id",
+          "event_id",
+          "classification",
+          "left_censored",
+          "evidence_refs",
+          "explanation"
+        ],
+        "title": "CandidateOrigin"
+      },
+      "CaptureFailure": {
+        "properties": {
+          "byte_offset": {
+            "type": "integer",
+            "title": "Byte Offset"
+          },
+          "record": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Record"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "byte_offset",
+          "record"
+        ],
+        "title": "CaptureFailure"
+      },
+      "Claim": {
+        "properties": {
+          "claim_id": {
+            "type": "string",
+            "maxLength": 4096,
+            "minLength": 1,
+            "title": "Claim Id"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "observed",
+              "inferred",
+              "unknown"
+            ],
+            "title": "Kind"
+          },
+          "statement": {
+            "type": "string",
+            "maxLength": 4096,
+            "minLength": 1,
+            "title": "Statement"
+          },
+          "fact_predicate": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/FactPredicate"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "evidence_refs": {
+            "items": {
+              "$ref": "#/components/schemas/EvidenceRef"
+            },
+            "type": "array",
+            "title": "Evidence Refs"
+          },
+          "knowledge_refs": {
+            "items": {
+              "type": "string",
+              "maxLength": 4096,
+              "minLength": 1
+            },
+            "type": "array",
+            "title": "Knowledge Refs"
+          },
+          "support_level": {
+            "type": "string",
+            "enum": [
+              "high",
+              "medium",
+              "low",
+              "unknown"
+            ],
+            "title": "Support Level",
+            "default": "unknown"
+          },
+          "limitations": {
+            "items": {
+              "type": "string",
+              "maxLength": 4096,
+              "minLength": 1
+            },
+            "type": "array",
+            "title": "Limitations"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "claim_id",
+          "kind",
+          "statement"
+        ],
+        "title": "Claim"
+      },
+      "ClaimValidation": {
+        "properties": {
+          "method_version": {
+            "type": "string",
+            "const": "finite_predicates@2.0.0",
+            "title": "Method Version",
+            "default": "finite_predicates@2.0.0"
+          },
+          "integrity": {
+            "type": "string",
+            "const": "verified",
+            "title": "Integrity",
+            "default": "verified"
+          },
+          "validated_observed": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Validated Observed"
+          },
+          "unknown_claims": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Unknown Claims"
+          },
+          "rejected_codes": {
+            "items": {
+              "type": "string",
+              "maxLength": 100,
+              "pattern": "^DRAFT_[A-Z_]+$"
+            },
+            "type": "array",
+            "maxItems": 2,
+            "title": "Rejected Codes"
+          },
+          "repair_attempts": {
+            "type": "integer",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Repair Attempts"
+          },
+          "stop_reason": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 4096,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Stop Reason"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "validated_observed",
+          "unknown_claims",
+          "repair_attempts"
+        ],
+        "title": "ClaimValidation"
+      },
+      "ContextResponse": {
+        "properties": {
+          "dataset_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Dataset Id"
+          },
+          "context_hash": {
+            "type": "string",
+            "title": "Context Hash"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "dataset_id",
+          "context_hash"
+        ],
+        "title": "ContextResponse"
+      },
+      "DNSObservation": {
+        "properties": {
+          "query": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 253
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Query"
+          },
+          "qtype": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 65535.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Qtype"
+          },
+          "rcode": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 65535.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rcode"
+          },
+          "rejected": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rejected"
+          },
+          "answers": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string",
+                  "format": "ipvanyaddress"
+                },
+                "type": "array",
+                "maxItems": 64
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Answers"
+          },
+          "non_ip_answers": {
+            "type": "integer",
+            "maximum": 9.223372036854776e+18,
+            "minimum": 0.0,
+            "title": "Non Ip Answers",
+            "default": 0
+          },
+          "omitted_answers": {
+            "type": "integer",
+            "maximum": 9.223372036854776e+18,
+            "minimum": 0.0,
+            "title": "Omitted Answers",
+            "default": 0
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "DNSObservation"
+      },
+      "DatasetContext": {
+        "properties": {
+          "assets": {
+            "items": {
+              "$ref": "#/components/schemas/Asset"
+            },
+            "type": "array",
+            "maxItems": 1000,
+            "title": "Assets"
+          },
+          "sensors": {
+            "items": {
+              "$ref": "#/components/schemas/SensorProfile"
+            },
+            "type": "array",
+            "maxItems": 100,
+            "minItems": 1,
+            "title": "Sensors"
+          },
+          "egress_baselines": {
+            "items": {
+              "$ref": "#/components/schemas/EgressBaseline"
+            },
+            "type": "array",
+            "maxItems": 10,
+            "title": "Egress Baselines"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "sensors"
+        ],
+        "title": "DatasetContext"
+      },
+      "DatasetCreate": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "provenance_type": {
+            "type": "string",
+            "enum": [
+              "synthetic",
+              "real_capture",
+              "replayed",
+              "derived"
+            ],
+            "title": "Provenance Type"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "name",
+          "provenance_type"
+        ],
+        "title": "DatasetCreate"
+      },
+      "DatasetPage": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/DatasetResponse"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "next_cursor": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next Cursor"
+          },
+          "request_id": {
+            "type": "string",
+            "title": "Request Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "items",
+          "next_cursor",
+          "request_id"
+        ],
+        "title": "DatasetPage"
+      },
+      "DatasetResponse": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "provenance_type": {
+            "type": "string",
+            "enum": [
+              "synthetic",
+              "real_capture",
+              "replayed",
+              "derived"
+            ],
+            "title": "Provenance Type"
+          },
+          "dataset_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Dataset Id"
+          },
+          "default_session_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Default Session Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "name",
+          "provenance_type",
+          "dataset_id",
+          "default_session_id"
+        ],
+        "title": "DatasetResponse"
+      },
+      "DnsDatagramObservation": {
+        "properties": {
+          "message_type": {
+            "type": "string",
+            "enum": [
+              "query",
+              "query_context",
+              "response"
+            ],
+            "title": "Message Type"
+          },
+          "transaction_id": {
+            "type": "integer",
+            "maximum": 65535.0,
+            "minimum": 0.0,
+            "title": "Transaction Id"
+          },
+          "question_sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$",
+            "title": "Question Sha256"
+          },
+          "qtype": {
+            "type": "integer",
+            "enum": [
+              1,
+              28
+            ],
+            "title": "Qtype"
+          },
+          "answer_set_sha256": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Answer Set Sha256"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "message_type",
+          "transaction_id",
+          "question_sha256",
+          "qtype"
+        ],
+        "title": "DnsDatagramObservation"
+      },
+      "EgressBaseline": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Id"
+          },
+          "version": {
+            "type": "string",
+            "maxLength": 50,
+            "minLength": 1,
+            "title": "Version"
+          },
+          "asset_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Asset Id"
+          },
+          "sensor_id": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Sensor Id"
+          },
+          "instance_id": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Instance Id"
+          },
+          "observation_domain": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Observation Domain"
+          },
+          "metric": {
+            "type": "string",
+            "const": "connection_start_bytes_out@1",
+            "title": "Metric",
+            "default": "connection_start_bytes_out@1"
+          },
+          "purpose": {
+            "type": "string",
+            "const": "normal_development_reference",
+            "title": "Purpose",
+            "default": "normal_development_reference"
+          },
+          "provenance_type": {
+            "type": "string",
+            "enum": [
+              "synthetic",
+              "real_capture",
+              "derived"
+            ],
+            "title": "Provenance Type"
+          },
+          "source_sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$",
+            "title": "Source Sha256"
+          },
+          "samples": {
+            "items": {
+              "$ref": "#/components/schemas/BaselineWindow"
+            },
+            "type": "array",
+            "maxItems": 120,
+            "title": "Samples"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "version",
+          "asset_id",
+          "sensor_id",
+          "instance_id",
+          "observation_domain",
+          "provenance_type",
+          "source_sha256"
+        ],
+        "title": "EgressBaseline"
+      },
+      "Endpoint": {
+        "properties": {
+          "ip": {
+            "type": "string",
+            "format": "ipvanyaddress",
+            "title": "Ip"
+          },
+          "port": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 65535.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Port"
+          },
+          "asset_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Asset Id"
+          },
+          "resolution_quality": {
+            "type": "string",
+            "enum": [
+              "unknown",
+              "inventory_interval",
+              "ambiguous"
+            ],
+            "title": "Resolution Quality",
+            "default": "unknown"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "ip"
+        ],
+        "title": "Endpoint"
+      },
+      "EventPage": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/NormalizedEvent"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "next_cursor": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next Cursor"
+          },
+          "request_id": {
+            "type": "string",
+            "title": "Request Id"
+          },
+          "packet_evidence_scope": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Packet Evidence Scope"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "items",
+          "next_cursor",
+          "request_id"
+        ],
+        "title": "EventPage"
+      },
+      "EventPathEdge": {
+        "properties": {
+          "edge_id": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$",
+            "title": "Edge Id"
+          },
+          "from_event_id": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$",
+            "title": "From Event Id"
+          },
+          "to_event_id": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$",
+            "title": "To Event Id"
+          },
+          "entity_edge_ids": {
+            "items": {
+              "type": "string",
+              "maxLength": 4096,
+              "minLength": 1
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Entity Edge Ids"
+          },
+          "relation": {
+            "type": "string",
+            "enum": [
+              "associated_process",
+              "spawned",
+              "corresponds_to"
+            ],
+            "title": "Relation"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "observed",
+              "inferred"
+            ],
+            "title": "Kind"
+          },
+          "evidence_refs": {
+            "items": {
+              "$ref": "#/components/schemas/EvidenceRef"
+            },
+            "type": "array",
+            "maxItems": 2,
+            "minItems": 2,
+            "title": "Evidence Refs"
+          },
+          "score": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Score"
+          },
+          "components": {
+            "$ref": "#/components/schemas/PathScore"
+          },
+          "explanation": {
+            "type": "string",
+            "maxLength": 4096,
+            "minLength": 1,
+            "title": "Explanation"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "edge_id",
+          "from_event_id",
+          "to_event_id",
+          "entity_edge_ids",
+          "relation",
+          "kind",
+          "evidence_refs",
+          "score",
+          "components",
+          "explanation"
+        ],
+        "title": "EventPathEdge"
+      },
+      "EvidenceFragment": {
+        "properties": {
+          "object_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Object Id"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$",
+            "title": "Sha256"
+          },
+          "lines": {
+            "items": {
+              "$ref": "#/components/schemas/EvidenceLine"
+            },
+            "type": "array",
+            "title": "Lines"
+          },
+          "pcap_record": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PcapEvidenceRecord"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "object_id",
+          "sha256",
+          "lines"
+        ],
+        "title": "EvidenceFragment"
+      },
+      "EvidenceLine": {
+        "properties": {
+          "line": {
+            "type": "integer",
+            "title": "Line"
+          },
+          "text": {
+            "type": "string",
+            "title": "Text"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "line",
+          "text"
+        ],
+        "title": "EvidenceLine"
+      },
+      "EvidenceRef": {
+        "properties": {
+          "event_id": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$",
+            "title": "Event Id"
+          },
+          "fragments": {
+            "items": {
+              "$ref": "#/components/schemas/SourceLocator"
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Fragments"
+          },
+          "fields_used": {
+            "items": {
+              "type": "string",
+              "maxLength": 4096,
+              "minLength": 1
+            },
+            "type": "array",
+            "title": "Fields Used"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "event_id",
+          "fragments"
+        ],
+        "title": "EvidenceRef"
+      },
+      "EvidenceResponse": {
+        "properties": {
+          "event_id": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$",
+            "title": "Event Id"
+          },
+          "verified": {
+            "type": "boolean",
+            "title": "Verified"
+          },
+          "redacted": {
+            "type": "boolean",
+            "title": "Redacted"
+          },
+          "fragments": {
+            "items": {
+              "$ref": "#/components/schemas/EvidenceFragment"
+            },
+            "type": "array",
+            "title": "Fragments"
+          },
+          "next_cursor": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next Cursor"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "event_id",
+          "verified",
+          "redacted",
+          "fragments"
+        ],
+        "title": "EvidenceResponse"
+      },
+      "FactPredicate": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "enum": [
+              "connection_seen",
+              "auth_outcome",
+              "process_parent",
+              "rule_triggered",
+              "path_candidate",
+              "periodicity_observed"
+            ],
+            "title": "Name"
+          },
+          "values": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "boolean"
+                }
+              ]
+            },
+            "type": "object",
+            "title": "Values"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "name",
+          "values"
+        ],
+        "title": "FactPredicate"
+      },
+      "FloodObservation": {
+        "properties": {
+          "behavior": {
+            "type": "string",
+            "enum": [
+              "HTTP_Flood",
+              "SYN_Flood",
+              "TCP_Flood",
+              "UDP_Flood"
+            ],
+            "title": "Behavior"
+          },
+          "observed_source_ip_count": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Observed Source Ip Count"
+          },
+          "campaign_scope": {
+            "type": "string",
+            "const": "unknown",
+            "title": "Campaign Scope"
+          },
+          "support": {
+            "type": "string",
+            "enum": [
+              "flood_candidate",
+              "request_burst_only"
+            ],
+            "title": "Support"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "behavior",
+          "observed_source_ip_count",
+          "campaign_scope",
+          "support"
+        ],
+        "title": "FloodObservation"
+      },
+      "GraphEdge": {
+        "properties": {
+          "edge_id": {
+            "type": "string",
+            "maxLength": 4096,
+            "minLength": 1,
+            "title": "Edge Id"
+          },
+          "snapshot_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Snapshot Id"
+          },
+          "source": {
+            "type": "string",
+            "maxLength": 4096,
+            "minLength": 1,
+            "title": "Source"
+          },
+          "target": {
+            "type": "string",
+            "maxLength": 4096,
+            "minLength": 1,
+            "title": "Target"
+          },
+          "relation": {
+            "type": "string",
+            "enum": [
+              "spawned",
+              "authenticated",
+              "opened",
+              "communicated_with",
+              "associated_process",
+              "corresponds_to",
+              "suggests",
+              "precedes"
+            ],
+            "title": "Relation"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "observed",
+              "inferred",
+              "derived"
+            ],
+            "title": "Kind"
+          },
+          "evidence_refs": {
+            "items": {
+              "$ref": "#/components/schemas/EvidenceRef"
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Evidence Refs"
+          },
+          "method": {
+            "type": "string",
+            "maxLength": 4096,
+            "minLength": 1,
+            "title": "Method"
+          },
+          "method_version": {
+            "type": "string",
+            "maxLength": 4096,
+            "minLength": 1,
+            "title": "Method Version"
+          },
+          "score": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Score"
+          },
+          "contradicting_refs": {
+            "items": {
+              "$ref": "#/components/schemas/EvidenceRef"
+            },
+            "type": "array",
+            "title": "Contradicting Refs"
+          },
+          "explanation": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 4096,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Explanation"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "edge_id",
+          "snapshot_id",
+          "source",
+          "target",
+          "relation",
+          "kind",
+          "evidence_refs",
+          "method",
+          "method_version",
+          "score"
+        ],
+        "title": "GraphEdge"
+      },
+      "GraphNode": {
+        "properties": {
+          "entity_id": {
+            "type": "string",
+            "title": "Entity Id"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "Endpoint",
+              "Host",
+              "Process",
+              "User",
+              "Session",
+              "Connection",
+              "Event"
+            ],
+            "title": "Type"
+          },
+          "label": {
+            "type": "string",
+            "title": "Label"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "entity_id",
+          "type",
+          "label"
+        ],
+        "title": "GraphNode"
+      },
+      "GraphResponse": {
+        "properties": {
+          "nodes": {
+            "items": {
+              "$ref": "#/components/schemas/GraphNode"
+            },
+            "type": "array",
+            "title": "Nodes"
+          },
+          "edges": {
+            "items": {
+              "$ref": "#/components/schemas/GraphEdge"
+            },
+            "type": "array",
+            "title": "Edges"
+          },
+          "truncated": {
+            "type": "boolean",
+            "title": "Truncated"
+          },
+          "next_cursor": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next Cursor"
+          },
+          "total_nodes": {
+            "type": "integer",
+            "title": "Total Nodes",
+            "default": 0
+          },
+          "total_edges": {
+            "type": "integer",
+            "title": "Total Edges",
+            "default": 0
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "nodes",
+          "edges",
+          "truncated"
+        ],
+        "title": "GraphResponse"
+      },
+      "HTTPClientShape": {
+        "properties": {
+          "version": {
+            "type": "string",
+            "const": "http-client-shape@1",
+            "title": "Version",
+            "default": "http-client-shape@1"
+          },
+          "user_agent_class": {
+            "type": "string",
+            "enum": [
+              "browser_compatible",
+              "other",
+              "unknown"
+            ],
+            "title": "User Agent Class"
+          },
+          "query_status": {
+            "type": "string",
+            "enum": [
+              "parsed",
+              "unavailable"
+            ],
+            "title": "Query Status"
+          },
+          "query_field_count": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 64.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Query Field Count"
+          },
+          "opaque_hex_count": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 64.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Opaque Hex Count"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "user_agent_class",
+          "query_status"
+        ],
+        "title": "HTTPClientShape"
+      },
+      "HTTPObservation": {
+        "properties": {
+          "transaction_depth": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 9.223372036854776e+18,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Transaction Depth"
+          },
+          "method": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Z-]{1,32}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Method"
+          },
+          "host": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 253
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Host"
+          },
+          "uri_suffix": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  ".exe",
+                  ".dll",
+                  ".msi",
+                  ".scr",
+                  ".com",
+                  ".elf"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Uri Suffix"
+          },
+          "status_code": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 599.0,
+                "minimum": 100.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Status Code"
+          },
+          "request_body_len": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 9.223372036854776e+18,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Request Body Len"
+          },
+          "response_body_len": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 9.223372036854776e+18,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Response Body Len"
+          },
+          "response_mime_types": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string",
+                  "maxLength": 100,
+                  "pattern": "^[a-z0-9!#$&^_.+-]+/[a-z0-9!#$&^_.+-]+$"
+                },
+                "type": "array",
+                "maxItems": 16
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Response Mime Types"
+          },
+          "client_shape": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/HTTPClientShape"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "query_shape": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/HTTPQueryShape"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "query_encoding": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/HTTPQueryEncoding"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "response_shape": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/HTTPResponseShape"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "HTTPObservation"
+      },
+      "HTTPQueryEncoding": {
+        "properties": {
+          "version": {
+            "type": "string",
+            "const": "http-query-encoding@1",
+            "title": "Version",
+            "default": "http-query-encoding@1"
+          },
+          "valid_escapes": {
+            "type": "integer",
+            "maximum": 16384.0,
+            "minimum": 0.0,
+            "title": "Valid Escapes"
+          },
+          "escaped_non_ascii": {
+            "type": "integer",
+            "maximum": 16384.0,
+            "minimum": 0.0,
+            "title": "Escaped Non Ascii"
+          },
+          "escaped_controls": {
+            "type": "integer",
+            "maximum": 16384.0,
+            "minimum": 0.0,
+            "title": "Escaped Controls"
+          },
+          "invalid_percent": {
+            "type": "integer",
+            "maximum": 16384.0,
+            "minimum": 0.0,
+            "title": "Invalid Percent"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "valid_escapes",
+          "escaped_non_ascii",
+          "escaped_controls",
+          "invalid_percent"
+        ],
+        "title": "HTTPQueryEncoding"
+      },
+      "HTTPQueryShape": {
+        "properties": {
+          "version": {
+            "type": "string",
+            "const": "http-query-shape@1",
+            "title": "Version",
+            "default": "http-query-shape@1"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "observed",
+              "unavailable"
+            ],
+            "title": "Status"
+          },
+          "raw_bytes": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 65536.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Raw Bytes"
+          },
+          "raw_non_utf8": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Raw Non Utf8"
+          },
+          "raw_control_count": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 65536.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Raw Control Count"
+          },
+          "has_literal_kv": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Has Literal Kv"
+          },
+          "percent_encoding": {
+            "type": "string",
+            "enum": [
+              "valid",
+              "invalid",
+              "unknown"
+            ],
+            "title": "Percent Encoding",
+            "default": "unknown"
+          },
+          "decoded_non_utf8": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Decoded Non Utf8"
+          },
+          "decoded_control_count": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 65536.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Decoded Control Count"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "status"
+        ],
+        "title": "HTTPQueryShape"
+      },
+      "HTTPResponseShape": {
+        "properties": {
+          "version": {
+            "type": "string",
+            "const": "http-response-shape@1",
+            "title": "Version",
+            "default": "http-response-shape@1"
+          },
+          "framing": {
+            "type": "string",
+            "const": "complete",
+            "title": "Framing"
+          },
+          "body_bytes": {
+            "type": "integer",
+            "maximum": 9.223372036854776e+18,
+            "minimum": 0.0,
+            "title": "Body Bytes"
+          },
+          "body_format": {
+            "type": "string",
+            "enum": [
+              "empty",
+              "gif",
+              "jpeg",
+              "png",
+              "ico",
+              "gzip",
+              "utf8_text",
+              "other"
+            ],
+            "title": "Body Format"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "framing",
+          "body_bytes",
+          "body_format"
+        ],
+        "title": "HTTPResponseShape"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "HostIdentity": {
+        "properties": {
+          "asset_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Asset Id"
+          },
+          "boot_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 4096,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Boot Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "asset_id"
+        ],
+        "title": "HostIdentity"
+      },
+      "HttpSegmentObservation": {
+        "properties": {
+          "sequence": {
+            "type": "integer",
+            "maximum": 4294967295.0,
+            "minimum": 0.0,
+            "title": "Sequence"
+          },
+          "request_start": {
+            "type": "boolean",
+            "title": "Request Start"
+          },
+          "text_prefix": {
+            "type": "boolean",
+            "title": "Text Prefix"
+          },
+          "header_transitions": {
+            "prefixItems": [
+              {
+                "type": "integer",
+                "enum": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+                ]
+              },
+              {
+                "type": "integer",
+                "enum": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+                ]
+              },
+              {
+                "type": "integer",
+                "enum": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+                ]
+              },
+              {
+                "type": "integer",
+                "enum": [
+                  0,
+                  1,
+                  2,
+                  3,
+                  4
+                ]
+              }
+            ],
+            "type": "array",
+            "maxItems": 4,
+            "minItems": 4,
+            "title": "Header Transitions"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "sequence",
+          "request_start",
+          "text_prefix",
+          "header_transitions"
+        ],
+        "title": "HttpSegmentObservation"
+      },
+      "ImportResponse": {
+        "properties": {
+          "batch_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Batch Id"
+          },
+          "job_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Job Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "batch_id",
+          "job_id"
+        ],
+        "title": "ImportResponse"
+      },
+      "ImportStatus": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "dataset_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Dataset Id"
+          },
+          "session_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Session Id"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "queued",
+              "running",
+              "succeeded",
+              "partial",
+              "failed",
+              "cancelled"
+            ],
+            "title": "Status"
+          },
+          "accepted": {
+            "type": "integer",
+            "title": "Accepted"
+          },
+          "duplicate": {
+            "type": "integer",
+            "title": "Duplicate"
+          },
+          "quarantined": {
+            "type": "integer",
+            "title": "Quarantined"
+          },
+          "error_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error Code"
+          },
+          "raw_records": {
+            "type": "integer",
+            "title": "Raw Records",
+            "default": 0
+          },
+          "aggregated_records": {
+            "type": "integer",
+            "title": "Aggregated Records",
+            "default": 0
+          },
+          "skipped": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Skipped"
+          },
+          "packet_issue_counts": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "integer"
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Packet Issue Counts"
+          },
+          "packet_quality_counts": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "integer"
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Packet Quality Counts"
+          },
+          "capture_failure": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CaptureFailure"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "dataset_id",
+          "session_id",
+          "status",
+          "accepted",
+          "duplicate",
+          "quarantined",
+          "error_code"
+        ],
+        "title": "ImportStatus"
+      },
+      "IncidentPage": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/IncidentSummary"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "next_cursor": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next Cursor"
+          },
+          "request_id": {
+            "type": "string",
+            "title": "Request Id"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Warnings"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "items",
+          "next_cursor",
+          "request_id"
+        ],
+        "title": "IncidentPage"
+      },
+      "IncidentSummary": {
+        "properties": {
+          "workspace_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Workspace Id"
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "dataset_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Dataset Id"
+          },
+          "session_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Session Id"
+          },
+          "finding_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Finding Id"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "attack_subtype": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Attack Subtype"
+          },
+          "flood_observation": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/FloodObservation"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "start_time": {
+            "type": "string",
+            "title": "Start Time"
+          },
+          "end_time": {
+            "type": "string",
+            "title": "End Time"
+          },
+          "created_at": {
+            "type": "string",
+            "title": "Created At"
+          },
+          "finding_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Finding Ids"
+          },
+          "aggregation_reasons": {
+            "items": {
+              "$ref": "#/components/schemas/AggregationReason"
+            },
+            "type": "array",
+            "title": "Aggregation Reasons"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "workspace_id",
+          "id",
+          "dataset_id",
+          "session_id",
+          "finding_id",
+          "title",
+          "start_time",
+          "end_time",
+          "created_at"
+        ],
+        "title": "IncidentSummary"
+      },
+      "InvestigationAssessment": {
+        "properties": {
+          "known_evidence_ids": {
+            "items": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "type": "array",
+            "maxItems": 250,
+            "title": "Known Evidence Ids"
+          },
+          "hypotheses": {
+            "items": {
+              "$ref": "#/components/schemas/InvestigationHypothesis"
+            },
+            "type": "array",
+            "maxItems": 20,
+            "title": "Hypotheses"
+          },
+          "gaps": {
+            "items": {
+              "$ref": "#/components/schemas/InvestigationGap"
+            },
+            "type": "array",
+            "maxItems": 100,
+            "title": "Gaps"
+          },
+          "truncated": {
+            "type": "boolean",
+            "title": "Truncated",
+            "default": false
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "known_evidence_ids",
+          "hypotheses",
+          "gaps"
+        ],
+        "title": "InvestigationAssessment"
+      },
+      "InvestigationChange": {
+        "properties": {
+          "action_seq": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Action Seq"
+          },
+          "hypothesis_id": {
+            "type": "string",
+            "maxLength": 4096,
+            "minLength": 1,
+            "title": "Hypothesis Id"
+          },
+          "before_status": {
+            "type": "string",
+            "enum": [
+              "open",
+              "supported",
+              "weakened"
+            ],
+            "title": "Before Status"
+          },
+          "after_status": {
+            "type": "string",
+            "enum": [
+              "open",
+              "supported",
+              "weakened"
+            ],
+            "title": "After Status"
+          },
+          "reason": {
+            "type": "string",
+            "maxLength": 4096,
+            "minLength": 1,
+            "title": "Reason"
+          },
+          "evidence_refs": {
+            "items": {
+              "$ref": "#/components/schemas/EvidenceRef"
+            },
+            "type": "array",
+            "maxItems": 20,
+            "title": "Evidence Refs"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "action_seq",
+          "hypothesis_id",
+          "before_status",
+          "after_status",
+          "reason",
+          "evidence_refs"
+        ],
+        "title": "InvestigationChange"
+      },
+      "InvestigationComparison": {
+        "properties": {
+          "method_version": {
+            "type": "string",
+            "maxLength": 4096,
+            "minLength": 1,
+            "title": "Method Version",
+            "default": "bounded_assessment@1.0.0"
+          },
+          "config_hash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$",
+            "title": "Config Hash"
+          },
+          "before": {
+            "$ref": "#/components/schemas/InvestigationAssessment"
+          },
+          "after": {
+            "$ref": "#/components/schemas/InvestigationAssessment"
+          },
+          "changes": {
+            "items": {
+              "$ref": "#/components/schemas/InvestigationChange"
+            },
+            "type": "array",
+            "maxItems": 40,
+            "title": "Changes"
+          },
+          "stop_reason": {
+            "type": "string",
+            "maxLength": 4096,
+            "minLength": 1,
+            "title": "Stop Reason"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "config_hash",
+          "before",
+          "after",
+          "stop_reason"
+        ],
+        "title": "InvestigationComparison"
+      },
+      "InvestigationCreate": {
+        "properties": {
+          "mode": {
+            "type": "string",
+            "enum": [
+              "auto",
+              "live",
+              "deterministic"
+            ],
+            "title": "Mode",
+            "default": "auto"
+          },
+          "budget": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AgentBudget"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "InvestigationCreate"
+      },
+      "InvestigationGap": {
+        "properties": {
+          "gap_id": {
+            "type": "string",
+            "maxLength": 4096,
+            "minLength": 1,
+            "title": "Gap Id"
+          },
+          "hypothesis_id": {
+            "type": "string",
+            "maxLength": 4096,
+            "minLength": 1,
+            "title": "Hypothesis Id"
+          },
+          "code": {
+            "type": "string",
+            "enum": [
+              "session_process",
+              "destination_authentication",
+              "normal_process_context",
+              "process_socket_binding",
+              "normal_baseline",
+              "transferred_content",
+              "authorized_operations"
+            ],
+            "title": "Code"
+          },
+          "asset_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Asset Id"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "open",
+              "resolved",
+              "unavailable"
+            ],
+            "title": "Status"
+          },
+          "actionable": {
+            "type": "boolean",
+            "title": "Actionable"
+          },
+          "explanation": {
+            "type": "string",
+            "maxLength": 4096,
+            "minLength": 1,
+            "title": "Explanation"
+          },
+          "evidence_refs": {
+            "items": {
+              "$ref": "#/components/schemas/EvidenceRef"
+            },
+            "type": "array",
+            "maxItems": 20,
+            "title": "Evidence Refs"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "gap_id",
+          "hypothesis_id",
+          "code",
+          "status",
+          "actionable",
+          "explanation"
+        ],
+        "title": "InvestigationGap"
+      },
+      "InvestigationHypothesis": {
+        "properties": {
+          "hypothesis_id": {
+            "type": "string",
+            "maxLength": 4096,
+            "minLength": 1,
+            "title": "Hypothesis Id"
+          },
+          "finding_id": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$",
+            "title": "Finding Id"
+          },
+          "rule_id": {
+            "type": "string",
+            "maxLength": 4096,
+            "minLength": 1,
+            "title": "Rule Id"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "session_process_link",
+              "remote_authentication",
+              "unexplained_periodicity",
+              "unexplained_outbound"
+            ],
+            "title": "Kind"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "open",
+              "supported",
+              "weakened"
+            ],
+            "title": "Status"
+          },
+          "statement": {
+            "type": "string",
+            "maxLength": 4096,
+            "minLength": 1,
+            "title": "Statement"
+          },
+          "observation": {
+            "type": "string",
+            "maxLength": 4096,
+            "minLength": 1,
+            "title": "Observation"
+          },
+          "supporting_refs": {
+            "items": {
+              "$ref": "#/components/schemas/EvidenceRef"
+            },
+            "type": "array",
+            "maxItems": 20,
+            "title": "Supporting Refs"
+          },
+          "contradicting_refs": {
+            "items": {
+              "$ref": "#/components/schemas/EvidenceRef"
+            },
+            "type": "array",
+            "maxItems": 20,
+            "title": "Contradicting Refs"
+          },
+          "counterevidence_kind": {
+            "type": "string",
+            "enum": [
+              "none",
+              "context_only"
+            ],
+            "title": "Counterevidence Kind",
+            "default": "none"
+          },
+          "limitations": {
+            "items": {
+              "type": "string",
+              "maxLength": 4096,
+              "minLength": 1
+            },
+            "type": "array",
+            "maxItems": 10,
+            "title": "Limitations"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "hypothesis_id",
+          "finding_id",
+          "rule_id",
+          "kind",
+          "status",
+          "statement",
+          "observation"
+        ],
+        "title": "InvestigationHypothesis"
+      },
+      "InvestigationScope": {
+        "properties": {
+          "workspace_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Workspace Id"
+          },
+          "dataset_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Dataset Id"
+          },
+          "session_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Session Id"
+          },
+          "snapshot_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Snapshot Id"
+          },
+          "start": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Start"
+          },
+          "end": {
+            "type": "string",
+            "format": "date-time",
+            "title": "End"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "workspace_id",
+          "dataset_id",
+          "session_id",
+          "snapshot_id",
+          "start",
+          "end"
+        ],
+        "title": "InvestigationScope"
+      },
+      "Network": {
+        "properties": {
+          "transport": {
+            "type": "string",
+            "enum": [
+              "tcp",
+              "udp",
+              "icmp",
+              "icmpv6",
+              "other"
+            ],
+            "title": "Transport"
+          },
+          "uid": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 4096,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Uid"
+          },
+          "flow_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 4096,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Flow Id"
+          },
+          "community_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 4096,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Community Id"
+          },
+          "duration_ms": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Duration Ms"
+          },
+          "bytes_out": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Bytes Out"
+          },
+          "bytes_in": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Bytes In"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "transport"
+        ],
+        "title": "Network"
+      },
+      "NormalizedEvent": {
+        "properties": {
+          "schema_version": {
+            "type": "string",
+            "enum": [
+              "1.0",
+              "1.1",
+              "1.2",
+              "1.3",
+              "1.4",
+              "1.5",
+              "1.6",
+              "1.7",
+              "1.8",
+              "1.9"
+            ],
+            "title": "Schema Version"
+          },
+          "event_id": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$",
+            "title": "Event Id"
+          },
+          "workspace_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Workspace Id"
+          },
+          "dataset_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Dataset Id"
+          },
+          "event_type": {
+            "type": "string",
+            "enum": [
+              "network.connection",
+              "network.dns",
+              "network.http",
+              "network.packet",
+              "host.process",
+              "auth.login",
+              "security.alert",
+              "file.write"
+            ],
+            "title": "Event Type"
+          },
+          "event_time": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Event Time"
+          },
+          "ingested_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Ingested At"
+          },
+          "time_quality": {
+            "$ref": "#/components/schemas/TimeQuality"
+          },
+          "sensor": {
+            "$ref": "#/components/schemas/Sensor"
+          },
+          "source_locators": {
+            "items": {
+              "$ref": "#/components/schemas/SourceLocator"
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Source Locators"
+          },
+          "parser_version": {
+            "type": "string",
+            "maxLength": 4096,
+            "minLength": 1,
+            "title": "Parser Version"
+          },
+          "asset_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Asset Id"
+          },
+          "host": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/HostIdentity"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "src": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Endpoint"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "dst": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Endpoint"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "network": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Network"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "http": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/HTTPObservation"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "packet": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PacketObservation"
+              },
+              {
+                "$ref": "#/components/schemas/ArpRequestObservation"
+              },
+              {
+                "$ref": "#/components/schemas/ArpReplyObservation"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Packet"
+          },
+          "dns": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DNSObservation"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "process": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Process"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "user": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "auth": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Auth"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "alert": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Alert"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "quality_flags": {
+            "items": {
+              "type": "string",
+              "maxLength": 4096,
+              "minLength": 1
+            },
+            "type": "array",
+            "title": "Quality Flags"
+          },
+          "extensions": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Extensions"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "schema_version",
+          "event_id",
+          "workspace_id",
+          "dataset_id",
+          "event_type",
+          "event_time",
+          "ingested_at",
+          "time_quality",
+          "sensor",
+          "source_locators",
+          "parser_version"
+        ],
+        "title": "NormalizedEvent"
+      },
+      "OsProbeObservation": {
+        "properties": {
+          "role": {
+            "type": "string",
+            "enum": [
+              "udp_request",
+              "icmp_quote",
+              "tcp_request",
+              "tcp_response"
+            ],
+            "title": "Role"
+          },
+          "correlation_sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$",
+            "title": "Correlation Sha256"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "role",
+          "correlation_sha256"
+        ],
+        "title": "OsProbeObservation"
+      },
+      "PacketObservation": {
+        "properties": {
+          "protocol_number": {
+            "type": "integer",
+            "maximum": 255.0,
+            "minimum": 0.0,
+            "title": "Protocol Number"
+          },
+          "captured_length": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Captured Length"
+          },
+          "wire_length": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Wire Length"
+          },
+          "capture_precision": {
+            "type": "string",
+            "const": "microsecond",
+            "title": "Capture Precision",
+            "default": "microsecond"
+          },
+          "ip_id": {
+            "type": "integer",
+            "maximum": 65535.0,
+            "minimum": 0.0,
+            "title": "Ip Id"
+          },
+          "fragment_offset_bytes": {
+            "type": "integer",
+            "multipleOf": 8.0,
+            "maximum": 65528.0,
+            "minimum": 0.0,
+            "title": "Fragment Offset Bytes"
+          },
+          "more_fragments": {
+            "type": "boolean",
+            "title": "More Fragments"
+          },
+          "tcp_flags": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 511.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tcp Flags"
+          },
+          "tcp_payload_bytes_captured": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tcp Payload Bytes Captured"
+          },
+          "icmp_type": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 255.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Icmp Type"
+          },
+          "icmp_code": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 255.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Icmp Code"
+          },
+          "icmp_echo_header_complete": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Icmp Echo Header Complete"
+          },
+          "gre_encapsulation": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "ip",
+                  "ethernet"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Gre Encapsulation"
+          },
+          "http_segment": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/HttpSegmentObservation"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "dns_message": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DnsDatagramObservation"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "os_probe": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/OsProbeObservation"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "protocol_number",
+          "captured_length",
+          "wire_length",
+          "ip_id",
+          "fragment_offset_bytes",
+          "more_fragments"
+        ],
+        "title": "PacketObservation"
+      },
+      "PathAnalysis": {
+        "properties": {
+          "scope": {
+            "$ref": "#/components/schemas/InvestigationScope"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "candidates",
+              "insufficient_evidence"
+            ],
+            "title": "Status"
+          },
+          "origins": {
+            "items": {
+              "$ref": "#/components/schemas/CandidateOrigin"
+            },
+            "type": "array",
+            "title": "Origins"
+          },
+          "paths": {
+            "items": {
+              "$ref": "#/components/schemas/PathCandidate"
+            },
+            "type": "array",
+            "title": "Paths"
+          },
+          "alternatives": {
+            "items": {
+              "$ref": "#/components/schemas/PathCandidate"
+            },
+            "type": "array",
+            "title": "Alternatives"
+          },
+          "links": {
+            "items": {
+              "$ref": "#/components/schemas/EventPathEdge"
+            },
+            "type": "array",
+            "title": "Links"
+          },
+          "breakpoints": {
+            "items": {
+              "$ref": "#/components/schemas/PathBreakpoint"
+            },
+            "type": "array",
+            "title": "Breakpoints"
+          },
+          "truncated": {
+            "type": "boolean",
+            "title": "Truncated"
+          },
+          "searched_paths": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Searched Paths"
+          },
+          "method_version": {
+            "type": "string",
+            "maxLength": 4096,
+            "minLength": 1,
+            "title": "Method Version",
+            "default": "event_paths@1.0.0"
+          },
+          "limitations": {
+            "items": {
+              "type": "string",
+              "maxLength": 4096,
+              "minLength": 1
+            },
+            "type": "array",
+            "title": "Limitations"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "scope",
+          "status",
+          "origins",
+          "paths",
+          "alternatives",
+          "links",
+          "breakpoints",
+          "truncated",
+          "searched_paths",
+          "limitations"
+        ],
+        "title": "PathAnalysis"
+      },
+      "PathBreakpoint": {
+        "properties": {
+          "from_event_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "From Event Id"
+          },
+          "to_event_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "To Event Id"
+          },
+          "reason": {
+            "type": "string",
+            "maxLength": 4096,
+            "minLength": 1,
+            "title": "Reason"
+          },
+          "evidence_refs": {
+            "items": {
+              "$ref": "#/components/schemas/EvidenceRef"
+            },
+            "type": "array",
+            "title": "Evidence Refs"
+          },
+          "explanation": {
+            "type": "string",
+            "maxLength": 4096,
+            "minLength": 1,
+            "title": "Explanation"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "reason",
+          "explanation"
+        ],
+        "title": "PathBreakpoint"
+      },
+      "PathCandidate": {
+        "properties": {
+          "path_id": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$",
+            "title": "Path Id"
+          },
+          "event_ids": {
+            "items": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "type": "array",
+            "maxItems": 7,
+            "minItems": 2,
+            "title": "Event Ids"
+          },
+          "edge_ids": {
+            "items": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "type": "array",
+            "maxItems": 6,
+            "minItems": 1,
+            "title": "Edge Ids"
+          },
+          "score": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Score"
+          },
+          "support_level": {
+            "type": "string",
+            "enum": [
+              "high",
+              "medium",
+              "low"
+            ],
+            "title": "Support Level"
+          },
+          "observed_steps": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Observed Steps"
+          },
+          "inferred_steps": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Inferred Steps"
+          },
+          "missing_steps": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Missing Steps"
+          },
+          "coverage": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Coverage"
+          },
+          "difference_event_ids": {
+            "items": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "type": "array",
+            "title": "Difference Event Ids"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "path_id",
+          "event_ids",
+          "edge_ids",
+          "score",
+          "support_level",
+          "observed_steps",
+          "inferred_steps",
+          "missing_steps",
+          "coverage"
+        ],
+        "title": "PathCandidate"
+      },
+      "PathScore": {
+        "properties": {
+          "identity": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Identity"
+          },
+          "time": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Time"
+          },
+          "relation_support": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Relation Support"
+          },
+          "independent_corroboration": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Independent Corroboration",
+            "default": 0
+          },
+          "penalties": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Penalties",
+            "default": 0
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "identity",
+          "time",
+          "relation_support"
+        ],
+        "title": "PathScore"
+      },
+      "PcapEvidenceRecord": {
+        "properties": {
+          "record_number": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Record Number"
+          },
+          "byte_range": {
+            "$ref": "#/components/schemas/PcapRecordRange"
+          },
+          "capture_time": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Capture Time"
+          },
+          "packet": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PacketObservation"
+              },
+              {
+                "$ref": "#/components/schemas/ArpRequestObservation"
+              },
+              {
+                "$ref": "#/components/schemas/ArpReplyObservation"
+              }
+            ],
+            "title": "Packet"
+          },
+          "capture_truncated": {
+            "type": "boolean",
+            "title": "Capture Truncated"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "record_number",
+          "byte_range",
+          "capture_time",
+          "packet",
+          "capture_truncated"
+        ],
+        "title": "PcapEvidenceRecord"
+      },
+      "PcapRecordRange": {
+        "properties": {
+          "byte_start": {
+            "type": "integer",
+            "minimum": 24.0,
+            "title": "Byte Start"
+          },
+          "byte_end": {
+            "type": "integer",
+            "maximum": 33554432.0,
+            "title": "Byte End"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "byte_start",
+          "byte_end"
+        ],
+        "title": "PcapRecordRange"
+      },
+      "Process": {
+        "properties": {
+          "pid": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Pid"
+          },
+          "action": {
+            "type": "string",
+            "enum": [
+              "create",
+              "exec",
+              "observe"
+            ],
+            "title": "Action"
+          },
+          "entity_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 4096,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Entity Id"
+          },
+          "parent_entity_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 4096,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parent Entity Id"
+          },
+          "boot_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 4096,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Boot Id"
+          },
+          "start_time": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Start Time"
+          },
+          "start_ticks": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Start Ticks"
+          },
+          "identity_basis": {
+            "type": "string",
+            "enum": [
+              "pid_only",
+              "lifecycle_record",
+              "verified_proc",
+              "process_guid"
+            ],
+            "title": "Identity Basis"
+          },
+          "executable": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 4096,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Executable"
+          },
+          "command_redacted": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 4096,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Command Redacted"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "pid",
+          "action",
+          "identity_basis"
+        ],
+        "title": "Process"
+      },
+      "ReplayCreate": {
+        "properties": {
+          "source_session_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Source Session Id"
+          },
+          "rate_eps": {
+            "type": "integer",
+            "maximum": 1000.0,
+            "minimum": 1.0,
+            "title": "Rate Eps",
+            "default": 50
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "source_session_id"
+        ],
+        "title": "ReplayCreate"
+      },
+      "ReplayStatus": {
+        "properties": {
+          "job_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Job Id"
+          },
+          "dataset_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Dataset Id"
+          },
+          "session_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Session Id"
+          },
+          "source_session_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Source Session Id"
+          },
+          "input_mode": {
+            "type": "string",
+            "const": "replay",
+            "title": "Input Mode",
+            "default": "replay"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "queued",
+              "running",
+              "completed",
+              "partial",
+              "failed",
+              "cancelled"
+            ],
+            "title": "State"
+          },
+          "source_high_water": {
+            "type": "integer",
+            "title": "Source High Water"
+          },
+          "total_events": {
+            "type": "integer",
+            "title": "Total Events"
+          },
+          "published_events": {
+            "type": "integer",
+            "title": "Published Events"
+          },
+          "rate_eps": {
+            "type": "integer",
+            "title": "Rate Eps"
+          },
+          "detection_status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "complete",
+              "partial"
+            ],
+            "title": "Detection Status"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Warnings"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "job_id",
+          "dataset_id",
+          "session_id",
+          "source_session_id",
+          "state",
+          "source_high_water",
+          "total_events",
+          "published_events",
+          "rate_eps",
+          "detection_status"
+        ],
+        "title": "ReplayStatus"
+      },
+      "Report": {
+        "properties": {
+          "report_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Report Id"
+          },
+          "run_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Run Id"
+          },
+          "snapshot_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Snapshot Id"
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "live",
+              "cached",
+              "deterministic_fallback"
+            ],
+            "title": "Mode"
+          },
+          "generated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Generated At"
+          },
+          "summary": {
+            "type": "string",
+            "maxLength": 4096,
+            "minLength": 1,
+            "title": "Summary"
+          },
+          "claims": {
+            "items": {
+              "$ref": "#/components/schemas/Claim"
+            },
+            "type": "array",
+            "title": "Claims"
+          },
+          "timeline": {
+            "items": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "type": "array",
+            "title": "Timeline"
+          },
+          "candidate_origins": {
+            "items": {
+              "type": "string",
+              "maxLength": 4096,
+              "minLength": 1
+            },
+            "type": "array",
+            "title": "Candidate Origins"
+          },
+          "paths": {
+            "items": {
+              "type": "string",
+              "maxLength": 4096,
+              "minLength": 1
+            },
+            "type": "array",
+            "title": "Paths"
+          },
+          "path_analysis": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PathAnalysis"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "investigation_analysis": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/InvestigationComparison"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "claim_validation": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ClaimValidation"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "behavior_assessments": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/BehaviorAssessment"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Behavior Assessments"
+          },
+          "affected_assets": {
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "type": "array",
+            "title": "Affected Assets"
+          },
+          "hypotheses": {
+            "items": {
+              "type": "string",
+              "maxLength": 4096,
+              "minLength": 1
+            },
+            "type": "array",
+            "title": "Hypotheses"
+          },
+          "alternatives": {
+            "items": {
+              "type": "string",
+              "maxLength": 4096,
+              "minLength": 1
+            },
+            "type": "array",
+            "title": "Alternatives"
+          },
+          "gaps": {
+            "items": {
+              "type": "string",
+              "maxLength": 4096,
+              "minLength": 1
+            },
+            "type": "array",
+            "title": "Gaps"
+          },
+          "recommendations": {
+            "items": {
+              "type": "string",
+              "maxLength": 4096,
+              "minLength": 1
+            },
+            "type": "array",
+            "title": "Recommendations"
+          },
+          "provenance": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Provenance"
+          },
+          "validation": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "passed",
+              "partial",
+              "rejected"
+            ],
+            "title": "Validation",
+            "default": "pending"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "report_id",
+          "run_id",
+          "snapshot_id",
+          "mode",
+          "generated_at",
+          "summary",
+          "claims",
+          "provenance"
+        ],
+        "title": "Report"
+      },
+      "ReportPage": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ReportSummary"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "next_cursor": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next Cursor"
+          },
+          "request_id": {
+            "type": "string",
+            "title": "Request Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "items",
+          "next_cursor",
+          "request_id"
+        ],
+        "title": "ReportPage"
+      },
+      "ReportSummary": {
+        "properties": {
+          "report_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Report Id"
+          },
+          "run_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Run Id"
+          },
+          "snapshot_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Snapshot Id"
+          },
+          "generated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Generated At"
+          },
+          "mode": {
+            "type": "string",
+            "title": "Mode"
+          },
+          "validation": {
+            "type": "string",
+            "title": "Validation"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "report_id",
+          "run_id",
+          "snapshot_id",
+          "generated_at",
+          "mode",
+          "validation"
+        ],
+        "title": "ReportSummary"
+      },
+      "ReviewCreate": {
+        "properties": {
+          "claim_id": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Claim Id"
+          },
+          "decision": {
+            "type": "string",
+            "enum": [
+              "accepted",
+              "rejected",
+              "needs_more_evidence"
+            ],
+            "title": "Decision"
+          },
+          "comment": {
+            "type": "string",
+            "maxLength": 2000,
+            "minLength": 1,
+            "pattern": "\\S",
+            "title": "Comment"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "claim_id",
+          "decision",
+          "comment"
+        ],
+        "title": "ReviewCreate"
+      },
+      "ReviewPage": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ReviewRecord"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "next_cursor": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next Cursor"
+          },
+          "request_id": {
+            "type": "string",
+            "title": "Request Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "items",
+          "next_cursor",
+          "request_id"
+        ],
+        "title": "ReviewPage"
+      },
+      "ReviewRecord": {
+        "properties": {
+          "claim_id": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Claim Id"
+          },
+          "decision": {
+            "type": "string",
+            "enum": [
+              "accepted",
+              "rejected",
+              "needs_more_evidence"
+            ],
+            "title": "Decision"
+          },
+          "comment": {
+            "type": "string",
+            "maxLength": 2000,
+            "minLength": 1,
+            "pattern": "\\S",
+            "title": "Comment"
+          },
+          "review_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Review Id"
+          },
+          "report_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Report Id"
+          },
+          "actor_id": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$",
+            "title": "Actor Id"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "claim_id",
+          "decision",
+          "comment",
+          "review_id",
+          "report_id",
+          "actor_id",
+          "created_at"
+        ],
+        "title": "ReviewRecord"
+      },
+      "RunResponse": {
+        "properties": {
+          "run_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Run Id"
+          },
+          "snapshot_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Snapshot Id"
+          },
+          "job_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Job Id"
+          },
+          "state": {
+            "type": "string",
+            "title": "State"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "run_id",
+          "snapshot_id",
+          "job_id",
+          "state"
+        ],
+        "title": "RunResponse"
+      },
+      "RunStatus": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "incident_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Incident Id"
+          },
+          "snapshot_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Snapshot Id"
+          },
+          "job_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Job Id"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "queued",
+              "running",
+              "completed",
+              "failed",
+              "cancelled",
+              "partial"
+            ],
+            "title": "State"
+          },
+          "report_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Report Id"
+          },
+          "phase": {
+            "type": "string",
+            "title": "Phase",
+            "default": "legacy"
+          },
+          "state_version": {
+            "type": "integer",
+            "title": "State Version",
+            "default": 0
+          },
+          "budget_used": {
+            "$ref": "#/components/schemas/BudgetUsed"
+          },
+          "budget": {
+            "$ref": "#/components/schemas/AgentBudget"
+          },
+          "requested_mode": {
+            "type": "string",
+            "title": "Requested Mode",
+            "default": "auto"
+          },
+          "retrieved_count": {
+            "type": "integer",
+            "title": "Retrieved Count",
+            "default": 0
+          },
+          "cache_hits": {
+            "type": "integer",
+            "title": "Cache Hits",
+            "default": 0
+          },
+          "stop_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Stop Reason"
+          },
+          "query_stop_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Query Stop Reason"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "incident_id",
+          "snapshot_id",
+          "job_id",
+          "state",
+          "report_id"
+        ],
+        "title": "RunStatus"
+      },
+      "RuntimeConfiguration": {
+        "properties": {
+          "model_provider": {
+            "type": "string",
+            "enum": [
+              "disabled",
+              "compatible"
+            ],
+            "title": "Model Provider"
+          },
+          "model_test_stub": {
+            "type": "boolean",
+            "title": "Model Test Stub"
+          },
+          "model_config_hash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$",
+            "title": "Model Config Hash"
+          },
+          "currency": {
+            "type": "string",
+            "const": "USD",
+            "title": "Currency",
+            "default": "USD"
+          },
+          "agent_max_cost_microusd": {
+            "type": "integer",
+            "title": "Agent Max Cost Microusd"
+          },
+          "pricing_configured": {
+            "type": "boolean",
+            "title": "Pricing Configured"
+          },
+          "price_version": {
+            "type": "string",
+            "title": "Price Version"
+          },
+          "report_export_max_lines": {
+            "type": "integer",
+            "title": "Report Export Max Lines"
+          },
+          "report_export_max_bytes": {
+            "type": "integer",
+            "title": "Report Export Max Bytes"
+          },
+          "read_requests_per_minute": {
+            "type": "integer",
+            "title": "Read Requests Per Minute"
+          },
+          "write_requests_per_minute": {
+            "type": "integer",
+            "title": "Write Requests Per Minute"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "model_provider",
+          "model_test_stub",
+          "model_config_hash",
+          "agent_max_cost_microusd",
+          "pricing_configured",
+          "price_version",
+          "report_export_max_lines",
+          "report_export_max_bytes",
+          "read_requests_per_minute",
+          "write_requests_per_minute"
+        ],
+        "title": "RuntimeConfiguration"
+      },
+      "Sensor": {
+        "properties": {
+          "sensor_id": {
+            "type": "string",
+            "maxLength": 4096,
+            "minLength": 1,
+            "title": "Sensor Id"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "pcap",
+              "zeek",
+              "suricata",
+              "linux_auth",
+              "linux_audit",
+              "sysmon"
+            ],
+            "title": "Type"
+          },
+          "instance_id": {
+            "type": "string",
+            "maxLength": 4096,
+            "minLength": 1,
+            "title": "Instance Id"
+          },
+          "observation_domain": {
+            "type": "string",
+            "maxLength": 4096,
+            "minLength": 1,
+            "title": "Observation Domain"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "sensor_id",
+          "type",
+          "instance_id",
+          "observation_domain"
+        ],
+        "title": "Sensor"
+      },
+      "SensorProfile": {
+        "properties": {
+          "sensor_id": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Sensor Id"
+          },
+          "source_type": {
+            "type": "string",
+            "enum": [
+              "pcap",
+              "zeek",
+              "suricata",
+              "linux_auth",
+              "linux_audit"
+            ],
+            "title": "Source Type"
+          },
+          "asset_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Asset Id"
+          },
+          "instance_id": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Instance Id"
+          },
+          "observation_domain": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Observation Domain"
+          },
+          "realm_type": {
+            "type": "string",
+            "enum": [
+              "local",
+              "domain"
+            ],
+            "title": "Realm Type",
+            "default": "local"
+          },
+          "realm": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Realm",
+            "default": "local"
+          },
+          "offset_ms": {
+            "type": "integer",
+            "maximum": 3600000.0,
+            "minimum": -3600000.0,
+            "title": "Offset Ms",
+            "default": 0
+          },
+          "uncertainty_ms": {
+            "type": "integer",
+            "maximum": 60000.0,
+            "minimum": 0.0,
+            "title": "Uncertainty Ms",
+            "default": 1000
+          },
+          "clock_basis": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Clock Basis"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "sensor_id",
+          "source_type",
+          "instance_id",
+          "observation_domain",
+          "clock_basis"
+        ],
+        "title": "SensorProfile"
+      },
+      "SourceLocator": {
+        "properties": {
+          "object_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Object Id"
+          },
+          "record_start": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Record Start"
+          },
+          "record_end": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Record End"
+          },
+          "raw_sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$",
+            "title": "Raw Sha256"
+          },
+          "pcap": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PcapRecordRange"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "object_id",
+          "record_start",
+          "record_end",
+          "raw_sha256"
+        ],
+        "title": "SourceLocator"
+      },
+      "TimeQuality": {
+        "properties": {
+          "original": {
+            "type": "string",
+            "maxLength": 4096,
+            "minLength": 1,
+            "title": "Original"
+          },
+          "timezone": {
+            "type": "string",
+            "maxLength": 4096,
+            "minLength": 1,
+            "title": "Timezone"
+          },
+          "offset_ms": {
+            "type": "integer",
+            "title": "Offset Ms"
+          },
+          "uncertainty_ms": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Uncertainty Ms"
+          },
+          "basis": {
+            "type": "string",
+            "maxLength": 4096,
+            "minLength": 1,
+            "title": "Basis"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "original",
+          "timezone",
+          "offset_ms",
+          "uncertainty_ms",
+          "basis"
+        ],
+        "title": "TimeQuality"
+      },
+      "User": {
+        "properties": {
+          "entity_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 4096,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Entity Id"
+          },
+          "name_redacted": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 4096,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name Redacted"
+          },
+          "realm": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 4096,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Realm"
+          },
+          "session_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 4096,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Session Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "User"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}

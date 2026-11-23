@@ -1,0 +1,5 @@
+{
+  "id": "R01", "version": "1.0.0", "window_seconds": 60, "slide_seconds": 10,
+  "port_threshold": 20, "host_threshold": 10,
+  "internal_cidrs": ["10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16"]
+}

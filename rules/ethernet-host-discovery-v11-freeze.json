@@ -1,0 +1,10 @@
+{
+  "basis": "ARP request spread is a neutral observation. Known PingSweep and SlowLoris capture regressions show the same behavior. Exact classification requires independent evidence.",
+  "config_hash": "078597de003932448d1b12d6131af51a6b5d7f7e54dfe59e7a7c085d5c246477",
+  "config": {
+    "id": "R26",
+    "version": "1.1.0",
+    "window_seconds": 10,
+    "minimum_destinations": 8
+  }
+}

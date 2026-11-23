@@ -1,0 +1,113 @@
+{
+  "version": "p1-defects@1.0.0",
+  "priority_policy": "P0: integrity/security blocker; P1: required acceptance or release prerequisite; P2: post-freeze enhancement. All open P0/P1 block full release readiness.",
+  "defects": [
+    {
+      "id": "D10-001",
+      "priority": "P1",
+      "state": "open",
+      "cases": [
+        "TC-021"
+      ],
+      "title": "真实LLM及费用配置未验收",
+      "next": "2026-11-16 dev20 新增授权的 1 次 S1 真实调查 completed/live/passed，3 次 DeepSeek 响应、2 次 search_events；去重返回 17 条均为旧种子，非种子新增 0，before/after 均 34。第一轮截断有游标，第二轮未续页；不同工具和非种子补证目标未达成。模型仅新增一条基于旧种子的认证失败有限事实；身份/意图未知。预留 USD0.009471、usage 估算 USD0.002693，账单未知。39 项本地检查通过；恢复 dev17 disabled，37 事件/4 报告，三份旧报告及回放保持。见 p1-retrieval-live-verification.md。此前 dev19 完整真实流程、dev18 partial/fallback、dev20 本地两种工具补证记录均保留，不当作本次补证达标。完整验收继续 open，已授权次数已消耗，不自动追加付费调查。"
+    },
+    {
+      "id": "D10-002",
+      "priority": "P1",
+      "state": "open",
+      "cases": [
+        "TC-037"
+      ],
+      "title": "33次独立资料与双人标签及正式评估缺失",
+      "next": "离线冻结清单核验通过，33 planned、3 prepared、0 reviewed；仍缺实际独立资料、来源谱系和双人标签，正式评估未运行。见p1-user-actions.md；不修改旧eval冻结。"
+    },
+    {
+      "id": "D10-003",
+      "priority": "P1",
+      "state": "open",
+      "cases": [
+        "TC-036"
+      ],
+      "title": "完整恢复的非作者独立验收待完成",
+      "next": "本轮dev17实际PostgreSQL16.16恢复28表/32事件/1报告，原令牌/HMAC/报告保持且新调查完成；包内SQLite恢复28表/24事件/1报告通过。仍缺非作者独立机器执行、证据和签署。"
+    },
+    {
+      "id": "D10-004",
+      "priority": "P1",
+      "state": "resolved",
+      "cases": [
+        "TC-038"
+      ],
+      "title": "回放基准与大数据全量检测未验收",
+      "next": "dev17：100000 条六规则尾部与密集周期样本验证；真实 HTTP 源 succeeded、回放100000/100000 completed/complete，成员集合与原事件摘要一致；10001 条回放UI创建/进度/取消/恢复/会话切换、幂等重试与旧响应隔离通过。Python532、PostgreSQL135通过。资源超限仍明确partial；详见p1-scale-verification.md。",
+      "resolution_scope": "local_engineering"
+    },
+    {
+      "id": "D10-005",
+      "priority": "P1",
+      "state": "open",
+      "cases": [
+        "TC-039"
+      ],
+      "title": "干净环境、Compose与非作者启动未验收",
+      "next": "本轮全新venv离线安装34个锁定wheel，固定dev17候选实际HTTP导入/回放24条、worker消费和重启持久化通过；Compose标签已校正dev17，配置解析通过但引擎不可达，镜像构建/容器启动及干净机器非作者验收仍未完成。"
+    },
+    {
+      "id": "D10-006",
+      "priority": "P1",
+      "state": "open",
+      "cases": [
+        "TC-040"
+      ],
+      "title": "断网现场与8分钟计时彩排未执行",
+      "next": "本轮模型协议故障/预算/引用与恢复回归纳入85项通过；无物理断网、真人两轮8分钟计时/问答/签署。空白人工记录与步骤已提供，不自动代签。"
+    },
+    {
+      "id": "D10-007",
+      "priority": "P1",
+      "state": "resolved",
+      "cases": [
+        "TC-018"
+      ],
+      "title": "500节点/1000边规模边界缺专项证据",
+      "next": "D11专用边界测试通过，保留truncated语义。"
+    },
+    {
+      "id": "D10-008",
+      "priority": "P1",
+      "state": "resolved",
+      "cases": [
+        "TC-029"
+      ],
+      "title": "空数据与无告警缺专项浏览器验收",
+      "next": "D11真实API浏览器空态、无命中与部分覆盖通过。"
+    },
+    {
+      "id": "D10-009",
+      "priority": "P1",
+      "state": "resolved",
+      "cases": [
+        "TC-021"
+      ],
+      "title": "精选知识条目未加载",
+      "next": "固定官方ATT&CK18.1六技术目录与6策略/24 analytics/10 data components已加载，有来源、对象摘要、许可；同run知识引用、范围、损坏/关闭、预算恢复身份通过工程测试及独立代码复核。TC-021真实LLM部分仍由D10-001阻断。",
+      "resolution_scope": "local_engineering"
+    }
+  ],
+  "application_version": "0.1.0.dev20",
+  "database_head": "0006_d9",
+  "updated_at": "2026-11-16T12:27:26.619425+00:00",
+  "p0_release_ready": false,
+  "open_p1": [
+    "D10-001",
+    "D10-002",
+    "D10-003",
+    "D10-005",
+    "D10-006"
+  ],
+  "human_signatures": [],
+  "local_preparation_record": "docs/p1-acceptance-verification.md",
+  "latest_model_workflow_record": "docs/p1-context-verification.md",
+  "latest_local_retrieval_record": "docs/p1-retrieval-verification.md"
+}

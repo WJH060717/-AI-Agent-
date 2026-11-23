@@ -1,0 +1,10 @@
+{
+  "basis": "Existing R01 20-port/60-second threshold and independent packet scope controls",
+  "config_hash": "dcf5d24f3c4846202180f01daa9efb6eb231d4ad345f02a91dcee164f96656a1",
+  "config": {
+    "id": "R24",
+    "version": "1.0.0",
+    "window_seconds": 60,
+    "minimum_ports": 20
+  }
+}

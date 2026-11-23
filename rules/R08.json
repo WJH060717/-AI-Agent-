@@ -1,0 +1,14 @@
+{
+  "id": "R08",
+  "version": "1.0.0",
+  "shape_version": "http-client-shape@1",
+  "methods": [
+    "GET",
+    "POST"
+  ],
+  "min_requests": 3,
+  "min_connections": 3,
+  "min_span_seconds": 30,
+  "window_seconds": 600,
+  "association_seconds": 3600
+}

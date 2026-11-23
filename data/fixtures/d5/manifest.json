@@ -1,0 +1,28 @@
+{
+  "provenance_type": "synthetic",
+  "split": "development",
+  "scope": "Local generation only; no attacks or network traffic generated",
+  "context_sha256": "f2614ecc033af6554e1df9636a6c15d57dc1a6d51113a411f0e91f10e99ba1b7",
+  "objects": [
+    {
+      "path": "network.jsonl",
+      "records": 24,
+      "sha256": "63220e271e1ac569c0f8fa357d5517747384dce18de5695103e85cb8ea22c533"
+    },
+    {
+      "path": "auth.jsonl",
+      "records": 6,
+      "sha256": "8ac09bb00e03d14d916911220643a641ad360f7e9d6ded6f9c558d8619f9ee9c"
+    },
+    {
+      "path": "audit.jsonl",
+      "records": 4,
+      "sha256": "1a18938abc95ce22e4a8c4813551f63f19cd6e217689fccc1afb5614a2ddba2c"
+    },
+    {
+      "path": "audit_without_session.jsonl",
+      "records": 4,
+      "sha256": "074f3ae4d405c2ed2637f0a146936872c44389d38ef2a574c01c0af60a8e4bbf"
+    }
+  ]
+}

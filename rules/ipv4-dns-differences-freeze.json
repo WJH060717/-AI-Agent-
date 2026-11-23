@@ -1,0 +1,8 @@
+{
+  "basis": "Section 13.4.1. Short same-capture UDP transaction window, independently frozen before development validation. Direct-address results only.",
+  "config_hash": "3c3629ee4ad75b4507f4188f61cb132ff5e7c5de136c4b05fea983cb7b4cab8b",
+  "config": {
+    "id":"R29", "version":"1.0.0", "window_seconds":3,
+    "maximum_message_bytes":1232, "maximum_answers":16
+  }
+}

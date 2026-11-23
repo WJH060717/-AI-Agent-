@@ -1,0 +1,51 @@
+{
+  "version": "d9-demo@1.0.0",
+  "scenario_id": "S1",
+  "provenance_type": "synthetic",
+  "independent_evaluation_run": false,
+  "activity_group": "legacy-development-regression",
+  "authorized_scope": "local synthetic fixtures; no network activity",
+  "limitations": [
+    "Derived from D6/D7 development templates; not 33 independent runs.",
+    "Transfer byte counters do not establish file contents, process sockets or attack causation.",
+    "S3 uses S2 without audit; S2 includes monitoring/backup alternative context."
+  ],
+  "objects": [
+    {
+      "path": "alerts.jsonl",
+      "sha256": "73088c92d4881aeb58ce7ef42458d59bb5e9973f640ee945c332e0abcb6f0709"
+    },
+    {
+      "path": "audit.jsonl",
+      "sha256": "03eaf88b7b733b87ed7bd18de0a2e30b885b9613b37d8037eda21d5feddd8dc8"
+    },
+    {
+      "path": "auth_a.jsonl",
+      "sha256": "8ac09bb00e03d14d916911220643a641ad360f7e9d6ded6f9c558d8619f9ee9c"
+    },
+    {
+      "path": "auth_b.jsonl",
+      "sha256": "5b07e5ae554175f0868e62e2391384789c27bdc92a844e1017ca9ccc21cae1b2"
+    },
+    {
+      "path": "context.json",
+      "sha256": "3d26a13f4f27f7e5d5865cf364174345ff5b34ff52c34528940b9eb369e74c2d"
+    },
+    {
+      "path": "network.jsonl",
+      "sha256": "a7018629cb74e71d4642eae15989e4cbe8569e01c45bfef3fe97f8482685d6bd"
+    },
+    {
+      "path": "normal_audit.jsonl",
+      "sha256": "a90f336afad98855d6c4143de90b42a481d385559f2133084aeab283bbb3d712"
+    },
+    {
+      "path": "normal_auth_a.jsonl",
+      "sha256": "7e261138cfdde93fd9f9689b6013edeaf58b50490234d18eec981d34fffa3409"
+    },
+    {
+      "path": "normal_network.jsonl",
+      "sha256": "f7653554ee39d3fdd0d2740346ec913eba8eb8c0c8296df943ceb573252ccf9f"
+    }
+  ]
+}

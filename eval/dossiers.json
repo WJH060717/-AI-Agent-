@@ -1,0 +1,221 @@
+{
+  "version": "1.0.0",
+  "runs": [
+    {
+      "run_id": "dev-s1-01",
+      "truth": null,
+      "reviewers": [],
+      "unresolved_disagreements": []
+    },
+    {
+      "run_id": "dev-s1-02",
+      "truth": null,
+      "reviewers": [],
+      "unresolved_disagreements": []
+    },
+    {
+      "run_id": "dev-s1-03",
+      "truth": null,
+      "reviewers": [],
+      "unresolved_disagreements": []
+    },
+    {
+      "run_id": "dev-s1-04",
+      "truth": null,
+      "reviewers": [],
+      "unresolved_disagreements": []
+    },
+    {
+      "run_id": "dev-s2-01",
+      "truth": null,
+      "reviewers": [],
+      "unresolved_disagreements": []
+    },
+    {
+      "run_id": "dev-s2-02",
+      "truth": null,
+      "reviewers": [],
+      "unresolved_disagreements": []
+    },
+    {
+      "run_id": "dev-s2-03",
+      "truth": null,
+      "reviewers": [],
+      "unresolved_disagreements": []
+    },
+    {
+      "run_id": "dev-s2-04",
+      "truth": null,
+      "reviewers": [],
+      "unresolved_disagreements": []
+    },
+    {
+      "run_id": "dev-s3-01",
+      "truth": null,
+      "reviewers": [],
+      "unresolved_disagreements": []
+    },
+    {
+      "run_id": "dev-s3-02",
+      "truth": null,
+      "reviewers": [],
+      "unresolved_disagreements": []
+    },
+    {
+      "run_id": "dev-s3-03",
+      "truth": null,
+      "reviewers": [],
+      "unresolved_disagreements": []
+    },
+    {
+      "run_id": "dev-s3-04",
+      "truth": null,
+      "reviewers": [],
+      "unresolved_disagreements": []
+    },
+    {
+      "run_id": "val-s1-01",
+      "truth": null,
+      "reviewers": [],
+      "unresolved_disagreements": []
+    },
+    {
+      "run_id": "val-s1-02",
+      "truth": null,
+      "reviewers": [],
+      "unresolved_disagreements": []
+    },
+    {
+      "run_id": "val-s2-01",
+      "truth": null,
+      "reviewers": [],
+      "unresolved_disagreements": []
+    },
+    {
+      "run_id": "val-s2-02",
+      "truth": null,
+      "reviewers": [],
+      "unresolved_disagreements": []
+    },
+    {
+      "run_id": "val-s3-01",
+      "truth": null,
+      "reviewers": [],
+      "unresolved_disagreements": []
+    },
+    {
+      "run_id": "val-s3-02",
+      "truth": null,
+      "reviewers": [],
+      "unresolved_disagreements": []
+    },
+    {
+      "run_id": "test-s1-01",
+      "truth": null,
+      "reviewers": [],
+      "unresolved_disagreements": []
+    },
+    {
+      "run_id": "test-s1-02",
+      "truth": null,
+      "reviewers": [],
+      "unresolved_disagreements": []
+    },
+    {
+      "run_id": "test-s1-03",
+      "truth": null,
+      "reviewers": [],
+      "unresolved_disagreements": []
+    },
+    {
+      "run_id": "test-s1-04",
+      "truth": null,
+      "reviewers": [],
+      "unresolved_disagreements": []
+    },
+    {
+      "run_id": "test-s2-01",
+      "truth": null,
+      "reviewers": [],
+      "unresolved_disagreements": []
+    },
+    {
+      "run_id": "test-s2-02",
+      "truth": null,
+      "reviewers": [],
+      "unresolved_disagreements": []
+    },
+    {
+      "run_id": "test-s2-03",
+      "truth": null,
+      "reviewers": [],
+      "unresolved_disagreements": []
+    },
+    {
+      "run_id": "test-s2-04",
+      "truth": null,
+      "reviewers": [],
+      "unresolved_disagreements": []
+    },
+    {
+      "run_id": "test-s3-01",
+      "truth": null,
+      "reviewers": [],
+      "unresolved_disagreements": []
+    },
+    {
+      "run_id": "test-s3-02",
+      "truth": null,
+      "reviewers": [],
+      "unresolved_disagreements": []
+    },
+    {
+      "run_id": "test-s3-03",
+      "truth": null,
+      "reviewers": [],
+      "unresolved_disagreements": []
+    },
+    {
+      "run_id": "test-s3-04",
+      "truth": null,
+      "reviewers": [],
+      "unresolved_disagreements": []
+    },
+    {
+      "run_id": "demo-s1-01",
+      "truth": null,
+      "reviewers": [],
+      "unresolved_disagreements": []
+    },
+    {
+      "run_id": "demo-s2-01",
+      "truth": null,
+      "reviewers": [],
+      "unresolved_disagreements": []
+    },
+    {
+      "run_id": "demo-s3-01",
+      "truth": null,
+      "reviewers": [],
+      "unresolved_disagreements": []
+    },
+    {
+      "run_id": "legacy-d3",
+      "truth": null,
+      "reviewers": [],
+      "unresolved_disagreements": []
+    },
+    {
+      "run_id": "legacy-d6",
+      "truth": null,
+      "reviewers": [],
+      "unresolved_disagreements": []
+    },
+    {
+      "run_id": "legacy-d7",
+      "truth": null,
+      "reviewers": [],
+      "unresolved_disagreements": []
+    }
+  ]
+}

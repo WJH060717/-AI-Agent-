@@ -1,0 +1,26 @@
+{
+  "id": "R07",
+  "version": "1.0.0",
+  "method": "GET",
+  "statuses": [
+    200,
+    206
+  ],
+  "suffixes": [
+    ".exe",
+    ".dll",
+    ".msi",
+    ".scr",
+    ".com",
+    ".elf"
+  ],
+  "mime_types": [
+    "application/x-dosexec",
+    "application/x-msdownload",
+    "application/vnd.microsoft.portable-executable",
+    "application/x-executable"
+  ],
+  "association_seconds": 3600,
+  "dns_lookback_seconds": 300,
+  "dns_limit": 32
+}

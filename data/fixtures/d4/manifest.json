@@ -1,0 +1,38 @@
+{
+  "provenance_type": "synthetic",
+  "split": "development",
+  "scope": "Local fixture generation only; no attacks or network traffic generated",
+  "context_sha256": "f2614ecc033af6554e1df9636a6c15d57dc1a6d51113a411f0e91f10e99ba1b7",
+  "objects": [
+    {
+      "path": "auth_positive.jsonl",
+      "records": 6,
+      "sha256": "364f2c8c53e764568a1ed4fadc9abf7d3f4b4390d154d8fc36244f0e7661031c"
+    },
+    {
+      "path": "audit.jsonl",
+      "records": 3,
+      "sha256": "afac5735a0c5c8d8dc082922e23d4368d5aeaebfbc6cc23bb2a0659ee112b3c4"
+    },
+    {
+      "path": "network.jsonl",
+      "records": 6,
+      "sha256": "6ba9ada66aaf9286844ffc8356e8dadb735391bf00a650a9cce20e164bcb025c"
+    },
+    {
+      "path": "auth_below_threshold.jsonl",
+      "records": 5,
+      "sha256": "66d0c012c82064b6b738445268854f7e668e8903b334072e61a24b9150ec7a31"
+    },
+    {
+      "path": "auth_other_account.jsonl",
+      "records": 6,
+      "sha256": "79f101e2862013c83c702531d40af4d9fdb2cda7d51c7b19f21480975dcac18e"
+    },
+    {
+      "path": "auth_reverse_time.jsonl",
+      "records": 6,
+      "sha256": "7a144dc377f771ba5b657f170c3bc2ddb457f54447487020fbdd11fd8088aa50"
+    }
+  ]
+}

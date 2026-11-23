@@ -1,0 +1,23 @@
+{
+  "version": "1.0.0",
+  "basis": "Endpoint-only multi-Host triage added after seen CTU development run R08 returned zero. Thresholds unchanged, no service/control identity claim. Not blind evaluation.",
+  "configs": {
+    "R09": {
+      "id": "R09",
+      "version": "1.0.0",
+      "shape_version": "http-client-shape@1",
+      "methods": [
+        "GET",
+        "POST"
+      ],
+      "min_requests": 3,
+      "min_connections": 3,
+      "min_span_seconds": 30,
+      "window_seconds": 600,
+      "association_seconds": 3600,
+      "grouping": "endpoint",
+      "minimum_hosts": 2
+    }
+  },
+  "config_hash": "f6328592f7dd10778ee63f45465c9602939053375fe5bc7d8c63be5736b093b4"
+}

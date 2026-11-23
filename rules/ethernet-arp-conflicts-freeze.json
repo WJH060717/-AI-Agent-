@@ -1,0 +1,5 @@
+{
+  "basis": "Section 13.4.1. Same-capture sender mapping observations with the existing R26 ten-second engineering bound. No authorization or forwarding conclusion.",
+  "config_hash": "fc2679ebc5ce93ba51e5ca7926d712ccaf3bc42a42356b5793433e115154b019",
+  "config": {"id":"R28", "version":"1.0.0", "window_seconds":10}
+}
