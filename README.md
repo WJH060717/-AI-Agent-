@@ -1,5 +1,7 @@
 # 网络遥测与 AI Agent 攻击溯源
 
+[![ci](https://github.com/WJH060717/-AI-Agent-/actions/workflows/ci.yml/badge.svg)](https://github.com/WJH060717/-AI-Agent-/actions/workflows/ci.yml)
+
 面向授权实验环境的防御性调查原型：把网络连接、主机认证/审计、安全告警和离线抓包整理成可回查的证据，生成检测候选、资产/传播路径和带引用、带未知项的调查报告。
 
 **源码版本** `0.1.0.dev44` · **数据库迁移** `0006_d9` · **默认模型** `disabled`

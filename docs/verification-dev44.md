@@ -20,6 +20,7 @@
 - 容量：1,000 / 10,000 / 100,000 条合成检测分别 0.103s / 0.734s / 9.817s，峰值 0.24 / 2.08 / 23.46 MB；见 `docs/capacity-dev44.json`。
 - 演示准备：`python -m scripts.demo_prepare --root <new>` 在临时新目录成功创建 SQLite、上下文、4 个来源导入和一次性令牌；未启用模型。
 - 台账：`python -m scripts.validate_ledger` 返回 `{"valid": true, "runs": {"planned": 33, "prepared": 3}}`。
+- GitHub Actions 首次运行：python 与 web 两个 job 均 **success**（2026-11-26，run [45838665370](https://github.com/WJH060717/-AI-Agent-/actions/runs/45838665370)）。
 - 许可/第三方：`LICENSE`、`LICENSE-STATUS.md`、`THIRD_PARTY_NOTICES.md` 已建立；整体许可仍待权利人确认。
 
 ## 限制与未验证
@@ -29,4 +30,4 @@
 - DNS/ARP/SYN 图投影是有界启发式；不证明 DNS 欺骗成功、ARP 中间人转发或扫描恶意。
 - 前端只做类型/lint/生产构建；未在本轮重跑隔离 Playwright 报告流程，20/100 节点交互需浏览器人工复核。
 - 未在干净非作者机器、物理断网、Docker Compose 或现场 8 分钟彩排验收。
-- CI 工作流已提交但尚未在 GitHub Actions 实际运行；首次运行结果另行记录。
+- CI 已首次运行通过；仍不能替代非作者干净机器、真实材料或现场验收。
