@@ -3,6 +3,7 @@ import type { AgentActionPage, AgentTransitionPage, EventPage, IncidentPage, Run
 import { Paths } from './Paths';
 import { AgentHistory } from './AgentHistory';
 import { EvidenceChanges } from './EvidenceChanges';
+import { PipelineProgressView } from './PipelineProgress';
 import { MissingEvidence } from './MissingEvidence';
 import { ReportPanel } from './ReportPanel';
 import { EvidenceDialog } from './EvidenceDialog';
@@ -251,6 +252,7 @@ export function Investigation({ connection, view, active, onReport, onIncidents,
     </section> : null}
     {run ? <div className="result-tabs" role="group" aria-label="报告内容">{resultTabs.map(value => <button key={value} aria-pressed={tab === value} onClick={() => setTab(value)}>{value}</button>)}</div> : null}
     <div hidden={tab !== '运行记录'}>
+    {status?.pipeline_progress && !report ? <PipelineProgressView progress={status.pipeline_progress}/> : null}
     {run ? <details className="panel"><summary>调查信息</summary><p>请求模式 {status?.requested_mode ?? investigationMode}</p><p>快照 {run.snapshot_id}</p><p>调查 {run.run_id}</p></details> : null}
     {run ? <AgentHistory status={status} actions={agentActions} transitions={agentTransitions} busy={busy}
       refresh={() => void action((signal) => loadAgent(signal))}
@@ -282,7 +284,7 @@ export function Investigation({ connection, view, active, onReport, onIncidents,
       })}>下一页时间线</button> : null}</section> : null}
     {report?.path_analysis && report.validation === 'passed' ? <Paths key={run?.run_id} analysis={report.path_analysis}
       busy={busy} onEvidence={(eventId) => void action((signal) => openEvidence(eventId, signal))}/> : null}
-    {graph ? <section className="panel"><h3>证据关系图</h3><p>{graph.nodes.length}节点 / 已载入 {graph.edges.length} 边（共 {graph.total_edges ?? graph.edges.length}）。实线表示记录关系，虚线表示有约束的关联推断；均不等同攻击因果。</p>
+    {graph ? <section className="panel"><h3>证据关系图</h3><p>此图覆盖完整冻结快照；Agent 已核查的事件范围见补证对比。</p><p>{graph.nodes.length}节点 / 已载入 {graph.edges.length} 边（共 {graph.total_edges ?? graph.edges.length}）。实线表示记录关系，虚线表示有约束的关联推断；均不等同攻击因果。</p>
       {graph.truncated ? <p role="alert">关系图已裁剪，不能视为全部关系。</p> : null}
       <div className="form-row"><label>图节点焦点<select value={focus} onChange={(e) => setFocus(e.target.value)}>
         <option value="">全部节点</option>{graph.nodes.map((node) => <option key={node.entity_id} value={node.entity_id}>{node.type} · {node.label}</option>)}

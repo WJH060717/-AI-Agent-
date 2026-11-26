@@ -1553,6 +1553,26 @@ export type UnknownClaims = number;
 export type RejectedCodes = [] | [string] | [string, string];
 export type RepairAttempts = number;
 export type StopReason1 = string | null;
+export type MethodVersion4 = "snapshot_pipeline@1.0.0";
+/**
+ * @minItems 6
+ * @maxItems 6
+ */
+export type Stages = [PipelineStage, PipelineStage, PipelineStage, PipelineStage, PipelineStage, PipelineStage];
+export type Stage = "collect" | "normalize" | "detect" | "trace" | "intelligence" | "present";
+export type Status5 = "available" | "running" | "completed" | "partial" | "failed" | "cancelled" | "not_run";
+export type Detail = string;
+/**
+ * @maxItems 6
+ */
+export type ActionSeqs =
+  | []
+  | [number]
+  | [number, number]
+  | [number, number, number]
+  | [number, number, number, number]
+  | [number, number, number, number, number]
+  | [number, number, number, number, number, number];
 export type BehaviorAssessments = BehaviorAssessment[] | null;
 export type FindingId1 = string;
 export type Behavior = string;
@@ -1873,7 +1893,7 @@ export type ContextHash = string;
 export type Seq = number;
 export type Kind4 = "model" | "tool";
 export type Name2 = string;
-export type Status5 = string;
+export type Status6 = string;
 export type ArgsHash = string;
 export type ArgsPayload = {
   [k: string]: unknown;
@@ -2294,6 +2314,7 @@ export interface Report {
   path_analysis?: PathAnalysis | null;
   investigation_analysis?: InvestigationComparison | null;
   claim_validation?: ClaimValidation | null;
+  pipeline_progress?: PipelineProgress | null;
   behavior_assessments?: BehaviorAssessments;
   affected_assets?: AffectedAssets;
   hypotheses?: Hypotheses1;
@@ -2442,6 +2463,16 @@ export interface ClaimValidation {
   repair_attempts: RepairAttempts;
   stop_reason?: StopReason1;
 }
+export interface PipelineProgress {
+  method_version?: MethodVersion4;
+  stages: Stages;
+}
+export interface PipelineStage {
+  stage: Stage;
+  status: Status5;
+  detail: Detail;
+  action_seqs?: ActionSeqs;
+}
 export interface BehaviorAssessment {
   finding_id: FindingId1;
   behavior: Behavior;
@@ -2520,6 +2551,7 @@ export interface AggregationReason {
   method: Method3;
 }
 export interface RunStatus {
+  pipeline_progress?: PipelineProgress | null;
   id: Id2;
   incident_id: IncidentId;
   snapshot_id: SnapshotId4;
@@ -2604,7 +2636,7 @@ export interface AgentActionSummary {
   seq: Seq;
   kind: Kind4;
   name: Name2;
-  status: Status5;
+  status: Status6;
   args_hash: ArgsHash;
   args_payload: ArgsPayload;
   result_digest: ResultDigest;

@@ -203,3 +203,8 @@ dev20有界输入补充：模型副本中的retrieved_event_ids与seed_event_ids
 ## 六阶段流程改造 dev42 增量
 
 dev42 / evidence_agent@2.3.0 的规划建议附 gap_id、expected_evidence、selection_reason，仅复制 tool/arguments 进入调用。SearchArgs.types 新增 network.packet，摘要省略 dns_message/os_probe 和原始载荷。包源端点可形成同快照安全检索建议。续页只使用每条查询最新页面的 next_cursor。路径结果缓存增加 K 摘要，K 变化重新计算；预算及两轮单工具规划沿用原约束。
+
+
+## 六阶段执行状态 dev43 契约
+
+dev43 已实现由服务端根据已持久 phase 和工具行动投影六阶段状态。知识未查询保留 not_run，知识失败与部分返回分别保留，运行状态不改变证据及判断级别。

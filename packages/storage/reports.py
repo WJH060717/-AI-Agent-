@@ -356,6 +356,36 @@ def render_html(bundle: dict) -> str:
                 ident = esc(ref["event_id"])
                 parts.append(f'<p><a href="#e-{ident}">{label} {ident}</a></p>')
         parts.append("</article>")
+    progress = report.get("pipeline_progress")
+    parts.append("<h2>六阶段执行状态</h2>")
+    if progress is None:
+        parts.append("<p>历史报告未记录六阶段执行状态。</p>")
+    else:
+        stage_labels = {
+            "collect": "采集",
+            "normalize": "归一化",
+            "detect": "规则检测与标注",
+            "trace": "图构建与溯源",
+            "intelligence": "情报归因",
+            "present": "前端展示",
+        }
+        status_labels = {
+            "available": "输入已备",
+            "running": "执行中",
+            "completed": "本范围已执行",
+            "partial": "部分完成",
+            "failed": "执行失败",
+            "cancelled": "已取消",
+            "not_run": "未执行",
+        }
+        parts.append("<p>仅反映当前冻结快照的执行情况。</p><ol>")
+        for stage in progress["stages"]:
+            parts.append(
+                f"<li>{esc(stage_labels[stage['stage']])} · "
+                f"{esc(status_labels[stage['status']])}<p>{esc(stage['detail'])}</p>"
+                f"<p>知识工具行动 {esc(', '.join(map(str, stage['action_seqs'])))}</p></li>"
+            )
+        parts.append("</ol>")
     comparison = report.get("investigation_analysis")
     if comparison:
         seeds = set(comparison["before"]["known_evidence_ids"])

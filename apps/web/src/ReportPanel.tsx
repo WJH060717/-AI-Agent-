@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import type { Report, ReportPage, ReviewCreate, ReviewPage, ReviewRecord } from '../../../packages/contracts/generated/api';
 import { api, type Connection } from './client';
+import { PipelineProgressView } from './PipelineProgress';
 
 export function ReportPanel({ report, connection, onEvidence, onCached, onHistory }: {
   report: Report; connection: Connection; onEvidence: (id: string) => void;
@@ -51,6 +52,7 @@ export function ReportPanel({ report, connection, onEvidence, onCached, onHistor
     <p>{report.mode === 'cached' ? `历史结果 · 原模式 ${report.provenance.source_mode} · 本次没有调用模型` : report.provenance.model_execution === 'protocol_test_stub' ? '本地协议测试桩（非真实LLM）' : report.mode === 'live' ? '已配置模型的本次调用结果' : '确定性结果 / 模型未完成或未启用'}</p>
     {report.mode === 'cached' && report.provenance.model_execution === 'protocol_test_stub' ? <p>原运行：本地协议测试桩（非真实LLM）</p> : null}
     <p>{report.summary}</p><p>模式：{report.mode} · 校验：{report.validation} · 生成：{report.generated_at}</p>
+    <PipelineProgressView progress={report.pipeline_progress}/>
     <div className="actions"><button className="primary" disabled={busy} onClick={() => void action(signal => download('html', signal))}>导出 HTML</button>
       <button disabled={busy} onClick={() => void action(signal => download('json', signal))}>导出 JSON</button></div>
     <details className="inset"><summary>版本与费用</summary>

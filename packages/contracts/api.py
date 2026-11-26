@@ -14,6 +14,7 @@ from packages.contracts.models import (
     FloodObservation,
     GraphEdge,
     NormalizedEvent,
+    PipelineProgress,
     Report,
 )
 from packages.contracts.replay import ReplayCreate, ReplayStatus
@@ -169,6 +170,9 @@ class IncidentPage(Contract):
 
 
 class RunStatus(Contract):
+    pipeline_progress: PipelineProgress | None = Field(
+        default=None, exclude_if=lambda value: value is None
+    )
     id: UUID
     incident_id: UUID
     snapshot_id: UUID

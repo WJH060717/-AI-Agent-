@@ -275,7 +275,11 @@ P1 源码 Compose 的 API、worker 和 web 镜像标签同步至 dev38。本机�
 
 新增[六阶段改造规约](superpowers/specs/2026-11-25-tracex-agent-pipeline-design.md)，在 PROJECT_SPEC 第 14 节登记 P2 待实现范围。设计将受控 Agent 放在初始证据图之后，定义同快照补证、本地知识解释、程序校验、前后对比和前端披露。以 dev41 行为验收及 dev20 真实补证记录为基线，列出五阶段交付、十二组验收和契约兼容方式。本轮为文档设计交付，运行效果待实施验证。
 
-
 ## 六阶段流程改造 dev42（2026-11-26）
 
 新增 network.packet 的受控查询、带缺口目标的建议、末页续读修复及基于已知集合的路径工具。路径缓存绑定已知集合摘要。网页和 HTML 以 before/after 差集显示实际新增非种子证据。源码与提示版本同步，四模块契约记录兼容影响。固定源码相关回归 175 passed，前端构建与隔离浏览器报告流程通过。阶段范围和未完成项见 [dev42 工程记录](pipeline-dev42-verification.md)。
+
+
+## 六阶段执行状态 dev43（2026-11-26）
+
+按六阶段规约 M4 新增有界 pipeline_progress 契约和服务端投影。原件/finding/图计算的完成标记通过 guard/checkpoint 保存，外部终止保留原阶段，知识调用累计覆盖限制。新报告固化状态，运行接口、网页和导出复用。旧报告缺字段保持历史语义。具体工程证据见[dev43 记录](pipeline-dev43-verification.md)。

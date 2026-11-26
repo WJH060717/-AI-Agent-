@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Telemetry Trace",
-    "version": "0.1.0.dev42"
+    "version": "0.1.0.dev43"
   },
   "paths": {
     "/api/v1/health/live": {
@@ -6200,6 +6200,83 @@
         ],
         "title": "PcapRecordRange"
       },
+      "PipelineProgress": {
+        "properties": {
+          "method_version": {
+            "type": "string",
+            "const": "snapshot_pipeline@1.0.0",
+            "title": "Method Version",
+            "default": "snapshot_pipeline@1.0.0"
+          },
+          "stages": {
+            "items": {
+              "$ref": "#/components/schemas/PipelineStage"
+            },
+            "type": "array",
+            "maxItems": 6,
+            "minItems": 6,
+            "title": "Stages"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "stages"
+        ],
+        "title": "PipelineProgress"
+      },
+      "PipelineStage": {
+        "properties": {
+          "stage": {
+            "type": "string",
+            "enum": [
+              "collect",
+              "normalize",
+              "detect",
+              "trace",
+              "intelligence",
+              "present"
+            ],
+            "title": "Stage"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "available",
+              "running",
+              "completed",
+              "partial",
+              "failed",
+              "cancelled",
+              "not_run"
+            ],
+            "title": "Status"
+          },
+          "detail": {
+            "type": "string",
+            "maxLength": 4096,
+            "minLength": 1,
+            "title": "Detail"
+          },
+          "action_seqs": {
+            "items": {
+              "type": "integer",
+              "minimum": 1.0
+            },
+            "type": "array",
+            "maxItems": 6,
+            "title": "Action Seqs"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "stage",
+          "status",
+          "detail"
+        ],
+        "title": "PipelineStage"
+      },
       "Process": {
         "properties": {
           "pid": {
@@ -6536,6 +6613,16 @@
               }
             ]
           },
+          "pipeline_progress": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PipelineProgress"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "behavior_assessments": {
             "anyOf": [
               {
@@ -6864,6 +6951,16 @@
       },
       "RunStatus": {
         "properties": {
+          "pipeline_progress": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PipelineProgress"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "id": {
             "type": "string",
             "format": "uuid",

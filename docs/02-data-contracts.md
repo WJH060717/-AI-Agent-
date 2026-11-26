@@ -249,3 +249,8 @@ pcap-packet@1.2.0 增加可选 packet.http_segment，仅对完整捕获、未分
 ## 六阶段流程改造 dev42 增量
 
 dev42 复用调查比较与行为报告字段，网页及 HTML 由 before/after 集合差计算新增非种子事件，返回数与新增数分别展示。旧报告缺字段沿用历史缺省。迁移仍为 0006_d9。
+
+
+## 六阶段执行状态 dev43 契约
+
+dev43 已实现增加可选 PipelineProgress，固定六阶段及 available/running/completed/partial/failed/cancelled/not_run 状态。阶段仅表示当前冻结快照执行情况，模型不能写入。历史报告缺字段不回填。

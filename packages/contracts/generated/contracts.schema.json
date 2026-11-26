@@ -2777,6 +2777,83 @@
       "title": "PcapRecordRange",
       "type": "object"
     },
+    "PipelineProgress": {
+      "additionalProperties": false,
+      "properties": {
+        "method_version": {
+          "const": "snapshot_pipeline@1.0.0",
+          "default": "snapshot_pipeline@1.0.0",
+          "title": "Method Version",
+          "type": "string"
+        },
+        "stages": {
+          "items": {
+            "$ref": "#/$defs/PipelineStage"
+          },
+          "maxItems": 6,
+          "minItems": 6,
+          "title": "Stages",
+          "type": "array"
+        }
+      },
+      "required": [
+        "stages"
+      ],
+      "title": "PipelineProgress",
+      "type": "object"
+    },
+    "PipelineStage": {
+      "additionalProperties": false,
+      "properties": {
+        "stage": {
+          "enum": [
+            "collect",
+            "normalize",
+            "detect",
+            "trace",
+            "intelligence",
+            "present"
+          ],
+          "title": "Stage",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "available",
+            "running",
+            "completed",
+            "partial",
+            "failed",
+            "cancelled",
+            "not_run"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "detail": {
+          "maxLength": 4096,
+          "minLength": 1,
+          "title": "Detail",
+          "type": "string"
+        },
+        "action_seqs": {
+          "items": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "maxItems": 6,
+          "title": "Action Seqs",
+          "type": "array"
+        }
+      },
+      "required": [
+        "stage",
+        "status",
+        "detail"
+      ],
+      "title": "PipelineStage",
+      "type": "object"
+    },
     "Process": {
       "additionalProperties": false,
       "properties": {
@@ -3006,6 +3083,17 @@
           "anyOf": [
             {
               "$ref": "#/$defs/ClaimValidation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "pipeline_progress": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/PipelineProgress"
             },
             {
               "type": "null"

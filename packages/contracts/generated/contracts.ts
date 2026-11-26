@@ -1486,6 +1486,26 @@ export type UnknownClaims = number;
 export type RejectedCodes = [] | [string] | [string, string];
 export type RepairAttempts = number;
 export type StopReason1 = string | null;
+export type MethodVersion4 = "snapshot_pipeline@1.0.0";
+/**
+ * @minItems 6
+ * @maxItems 6
+ */
+export type Stages = [PipelineStage, PipelineStage, PipelineStage, PipelineStage, PipelineStage, PipelineStage];
+export type Stage = "collect" | "normalize" | "detect" | "trace" | "intelligence" | "present";
+export type Status4 = "available" | "running" | "completed" | "partial" | "failed" | "cancelled" | "not_run";
+export type Detail = string;
+/**
+ * @maxItems 6
+ */
+export type ActionSeqs =
+  | []
+  | [number]
+  | [number, number]
+  | [number, number, number]
+  | [number, number, number, number]
+  | [number, number, number, number, number]
+  | [number, number, number, number, number, number];
 export type BehaviorAssessments = BehaviorAssessment[] | null;
 export type FindingId1 = string;
 export type Behavior = string;
@@ -1799,6 +1819,7 @@ export interface Report {
   path_analysis?: PathAnalysis | null;
   investigation_analysis?: InvestigationComparison | null;
   claim_validation?: ClaimValidation | null;
+  pipeline_progress?: PipelineProgress | null;
   behavior_assessments?: BehaviorAssessments;
   affected_assets?: AffectedAssets;
   hypotheses?: Hypotheses1;
@@ -1929,6 +1950,16 @@ export interface ClaimValidation {
   rejected_codes?: RejectedCodes;
   repair_attempts: RepairAttempts;
   stop_reason?: StopReason1;
+}
+export interface PipelineProgress {
+  method_version?: MethodVersion4;
+  stages: Stages;
+}
+export interface PipelineStage {
+  stage: Stage;
+  status: Status4;
+  detail: Detail;
+  action_seqs?: ActionSeqs;
 }
 export interface BehaviorAssessment {
   finding_id: FindingId1;

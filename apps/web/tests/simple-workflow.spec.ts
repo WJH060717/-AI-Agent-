@@ -100,6 +100,10 @@ test('report: investigation, evidence, export, review and historical read retain
   await expect(report).toBeVisible({ timeout: 30000 });
   await expect(page.getByRole('button', { name: '阅读报告', exact: true })).toHaveAttribute('aria-current', 'step');
   await expect(report).toContainText('deterministic_fallback');
+  const stages = report.getByRole('region', { name: '六阶段执行状态' });
+  await expect(stages.getByRole('listitem')).toHaveCount(6);
+  await expect(stages).toContainText('情报归因 · 未执行');
+  await expect(stages).toContainText('前端展示 · 本范围已执行');
   await page.getByRole('button', { name: '补证对比', exact: true }).click();
   const comparison = page.getByRole('region', { name: '补证前后对比' });
   await expect(comparison).toContainText('新增非种子证据 0 条');

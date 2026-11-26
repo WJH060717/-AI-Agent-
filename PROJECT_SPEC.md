@@ -468,3 +468,9 @@ R29 1.0.0 仅处理完整、未分片的 IPv4/UDP DNS 报文（单侧端口 53�
 快照外新增材料 MUST 经授权导入与独立新调查使用。规则阈值、图边、来源身份和事实级别受现有契约及有限校验器约束。新增查询类型或报告字段先更新分模块契约与类型，新增数据库结构通过新迁移。当前 0006_d9 和历史候选继续按冻结版本管理。
 
 按 M1 来源覆盖、M2 缺口驱动 Agent、M3 证据路径、M4 前端报告、M5 可选本地 IOC 顺序交付。各阶段须有正反测试和实际运行记录；真实模型验收需新增次数及费用授权。第 13.9 节行为验收及各项 P1 门禁沿用各自证据要求。本节登记不代表阶段已实现或验收通过。
+
+### 14.1 六阶段执行状态（dev43 本地增量）
+
+RunStatus 与新 Report 可包含 pipeline_progress，method_version 为 snapshot_pipeline@1.0.0。阶段顺序固定，状态限定为 available/running/completed/partial/failed/cancelled/not_run，含程序生成的范围说明及知识工具行动序号。completed 仅描述当前快照执行，具体溯源结果仍按第13.9节举证。
+
+前置核验及图/路径计算完成须在 Queue.guard 下经 checkpoint 保存 pipeline_prepared，记录规范事件数量及裁剪。外部终止保留原阶段，取消不能抹去已完成事实；知识查询累计保留失败/缺失/裁剪。新报告随既有事务发布并保存该结构。旧报告缺省不回算，网页与导出显示未记录。实际验证与限制见[dev43 工程记录](docs/pipeline-dev43-verification.md)。

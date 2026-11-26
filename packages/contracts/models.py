@@ -241,7 +241,9 @@ class PacketObservation(Contract):
         ):
             raise ValueError("HTTP segment observation requires complete nonfragmented TCP data")
         if self.dns_message is not None and (
-            self.protocol_number != 17 or self.fragment_offset_bytes or self.more_fragments
+            self.protocol_number != 17
+            or self.fragment_offset_bytes
+            or self.more_fragments
             or self.captured_length != self.wire_length
         ):
             raise ValueError("DNS observation requires complete nonfragmented UDP data")
@@ -249,8 +251,10 @@ class PacketObservation(Contract):
             protocol = {"udp_request": 17, "icmp_quote": 1, "tcp_request": 6, "tcp_response": 6}
             if (
                 self.protocol_number != protocol[self.os_probe.role]
-                or self.fragment_offset_bytes or self.more_fragments
-                or self.captured_length != self.wire_length or self.dns_message is not None
+                or self.fragment_offset_bytes
+                or self.more_fragments
+                or self.captured_length != self.wire_length
+                or self.dns_message is not None
             ):
                 raise ValueError("fingerprint observation requires a complete corresponding packet")
             if self.os_probe.role == "icmp_quote" and (self.icmp_type, self.icmp_code) != (3, 3):
@@ -381,14 +385,14 @@ class NormalizedEvent(Contract):
                 raise ValueError("missing or conflicting PCAP packet payload")
             if dns_message is not None:
                 client, resolver = (
-                    (self.dst, self.src) if dns_message.message_type == "response"
+                    (self.dst, self.src)
+                    if dns_message.message_type == "response"
                     else (self.src, self.dst)
                 )
                 if not client.port or client.port == 53 or resolver.port != 53:
                     raise ValueError("DNS observation direction must match UDP endpoints")
             if (
-                self.packet.protocol_number not in (6, 17)
-                or self.packet.fragment_offset_bytes
+                self.packet.protocol_number not in (6, 17) or self.packet.fragment_offset_bytes
             ) and any(endpoint.port is not None for endpoint in (self.src, self.dst)):
                 raise ValueError("transport ports do not belong to this packet")
         elif self.packet is not None or any(ref.pcap is not None for ref in self.source_locators):
@@ -691,10 +695,38 @@ class BehaviorAssessment(Contract):
 
     @model_validator(mode="after")
     def validate_trace_evidence(self) -> Self:
-        if self.trace_status == "successful" and len({
-            ref.event_id for ref in self.trace_evidence_refs
-        }) < 2:
+        if (
+            self.trace_status == "successful"
+            and len({ref.event_id for ref in self.trace_evidence_refs}) < 2
+        ):
             raise ValueError("successful tracing requires two linked references")
+        return self
+
+
+class PipelineStage(Contract):
+    stage: Literal["collect", "normalize", "detect", "trace", "intelligence", "present"]
+    status: Literal[
+        "available", "running", "completed", "partial", "failed", "cancelled", "not_run"
+    ]
+    detail: Text
+    action_seqs: list[Annotated[StrictInt, Field(ge=1)]] = Field(default_factory=list, max_length=6)
+
+
+class PipelineProgress(Contract):
+    method_version: Literal["snapshot_pipeline@1.0.0"] = "snapshot_pipeline@1.0.0"
+    stages: list[PipelineStage] = Field(min_length=6, max_length=6)
+
+    @model_validator(mode="after")
+    def ordered_stages(self) -> Self:
+        if [s.stage for s in self.stages] != [
+            "collect",
+            "normalize",
+            "detect",
+            "trace",
+            "intelligence",
+            "present",
+        ]:
+            raise ValueError("pipeline stages must appear once in execution order")
         return self
 
 
@@ -712,6 +744,9 @@ class Report(Contract):
     path_analysis: PathAnalysis | None = None
     investigation_analysis: InvestigationComparison | None = None
     claim_validation: ClaimValidation | None = None
+    pipeline_progress: PipelineProgress | None = Field(
+        default=None, exclude_if=lambda value: value is None
+    )
     behavior_assessments: list[BehaviorAssessment] | None = Field(
         default=None, exclude_if=lambda value: value is None
     )

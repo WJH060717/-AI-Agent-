@@ -151,6 +151,7 @@ def external_terminal(conn, workspace: str, run_id: str, phase: str) -> None:
     )
     if row is not None:
         payload = dict(row["payload"])
+        payload.setdefault("pipeline_terminal_phase", row["phase"])
         payload["stop_reason"] = phase.upper()
         checkpoint(conn, workspace, run_id, row["version"], phase, payload, phase.upper())
         conn.execute(

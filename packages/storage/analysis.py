@@ -445,6 +445,24 @@ class AnalysisService:
                     AgentBudget(),
                     self.service.settings,
                 )
+            prepared_state = self.service._get(conn, t.agent_states, actor, run["id"])
+            if "pipeline_prepared" not in prepared_state["payload"]:
+                from packages.agent.state import checkpoint
+
+                payload = dict(prepared_state["payload"])
+                payload["pipeline_prepared"] = {
+                    "graph_truncated": graph["truncated"] or path_analysis.truncated,
+                    "event_count": len(events),
+                }
+                checkpoint(
+                    conn,
+                    actor.workspace_id,
+                    run["id"],
+                    prepared_state["version"],
+                    prepared_state["phase"],
+                    payload,
+                    "PIPELINE_PREPARED",
+                )
         agent = AgentRuntime(self.service, queue, lease).run()
         self._verify(actor, events)
         allowed = set(snapshot["event_ids"])
@@ -491,7 +509,8 @@ class AnalysisService:
                         + str(f["flood_observation"]["observed_source_ip_count"])
                         + "个源IP，DoS/DDoS来源分布未知。"
                     ]
-                    if "flood_observation" in f else []
+                    if "flood_observation" in f
+                    else []
                 )
                 + (
                     f["limitations"]
@@ -601,6 +620,27 @@ class AnalysisService:
                 "模型待复核替代解释：" + text[:1000] for text in agent["draft"]["alternatives"]
             ]
             report.gaps += ["模型提示缺口：" + text[:1000] for text in agent["draft"]["gaps"]]
+        from packages.agent.pipeline import progress_for_run
+
+        with self.db.engine.connect() as conn:
+            actions = list(
+                conn.execute(
+                    select(t.agent_actions)
+                    .where(
+                        t.agent_actions.c.workspace_id == actor.workspace_id,
+                        t.agent_actions.c.run_id == run["id"],
+                    )
+                    .order_by(t.agent_actions.c.seq)
+                ).mappings()
+            )
+        report.pipeline_progress = progress_for_run(
+            len(events),
+            agent["terminal"],
+            agent["terminal"],
+            actions,
+            report_ready=True,
+            graph_truncated=graph["truncated"] or path_analysis.truncated,
+        )
         serialized_graph = {
             "nodes": graph["nodes"],
             "edges": [e.model_dump(mode="json") for e in graph["edges"]],
@@ -668,6 +708,36 @@ class AnalysisService:
                     stop_reason=state["payload"]["stop_reason"],
                     query_stop_reason=state["payload"].get("query_stop_reason"),
                 )
+            # Final views use the saved report, including historical absence.
+            if row["report_id"]:
+                report = self.service._get(conn, t.reports, actor, row["report_id"])["payload"]
+                if report.get("pipeline_progress") is not None:
+                    result["pipeline_progress"] = report["pipeline_progress"]
+            elif state:
+                from packages.agent.pipeline import progress_for_run
+
+                snapshot = self.service._get(conn, t.snapshots, actor, row["snapshot_id"])
+                actions = list(
+                    conn.execute(
+                        select(t.agent_actions)
+                        .where(
+                            t.agent_actions.c.workspace_id == actor.workspace_id,
+                            t.agent_actions.c.run_id == run_id,
+                        )
+                        .order_by(t.agent_actions.c.seq)
+                    ).mappings()
+                )
+                result["pipeline_progress"] = progress_for_run(
+                    len(snapshot["event_ids"]),
+                    state["phase"],
+                    row["state"],
+                    actions,
+                    graph_truncated=state["payload"]
+                    .get("pipeline_prepared", {})
+                    .get("graph_truncated", False),
+                    prepared="pipeline_prepared" in state["payload"],
+                    terminal_phase=state["payload"].get("pipeline_terminal_phase"),
+                ).model_dump(mode="json")
             return result
 
     def tool_call_page(

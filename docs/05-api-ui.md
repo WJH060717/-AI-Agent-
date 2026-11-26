@@ -225,3 +225,8 @@ POST /imports 的 multipart 字段 sensor_id 可省略。显式提交沿用原�
 ## 六阶段流程改造 dev42 增量
 
 dev42 在补证对比显示 before/after 差集数量与新增证据按钮，HTML 导出加入相同新增数量、行动变化与停止原因，JSON 沿用调查比较。没有新增 HTTP 路由，历史报告与角色边界沿用既有行为。
+
+
+## 六阶段执行状态 dev43 契约
+
+dev43 已实现在 RunStatus/Report 增加可选 pipeline_progress，使用相同结构呈现网页和 HTML，旧报告缺省显示未记录。完整快照图与 Agent 已核查集合明确标示。
