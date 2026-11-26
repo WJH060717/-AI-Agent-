@@ -1,0 +1,15 @@
+{
+  "version": "1.0.0",
+  "frozen_on": "2026-11-26",
+  "basis": "development regression only; independent of frozen R01-R06 and R02 success semantics",
+  "config_hash": "48f77be177bd1f9ffa073f24658a97671a0e80ddda194e19141b1268df7e81b0",
+  "config": {
+  "id": "R31",
+  "version": "1.0.0",
+  "window_seconds": 300,
+  "min_single_account_failures": 8,
+  "min_spray_failures": 8,
+  "min_spray_accounts": 5,
+  "success_after_seconds": 120
+}
+}

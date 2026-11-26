@@ -1,0 +1,66 @@
+{
+  "created_at": "2026-11-26T10:52:58.249854+00:00",
+  "synthetic_engineering_only": true,
+  "formal_evaluation": false,
+  "model_enabled": false,
+  "python": "3.12.4",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "limits": {
+    "detection_event_limit": 100000,
+    "detection_finding_limit": 2000,
+    "snapshot_event_limit": 250,
+    "snapshot_scan_limit": 20000,
+    "replay_event_limit": 100000,
+    "model_context_input_tokens": 12000,
+    "agent_tool_calls": 6,
+    "agent_model_calls": 4
+  },
+  "rows": [
+    {
+      "input_events": 1000,
+      "detection_seconds": 0.103,
+      "detection_peak_bytes": 236010,
+      "detection_work": 17216,
+      "finding_count": 8,
+      "rule_ids": [
+        "R01",
+        "R02",
+        "R03",
+        "R04",
+        "R05",
+        "R06"
+      ]
+    },
+    {
+      "input_events": 10000,
+      "detection_seconds": 0.734,
+      "detection_peak_bytes": 2082966,
+      "detection_work": 170216,
+      "finding_count": 8,
+      "rule_ids": [
+        "R01",
+        "R02",
+        "R03",
+        "R04",
+        "R05",
+        "R06"
+      ]
+    },
+    {
+      "input_events": 100000,
+      "detection_seconds": 9.817,
+      "detection_peak_bytes": 23462320,
+      "detection_work": 1700216,
+      "finding_count": 8,
+      "rule_ids": [
+        "R01",
+        "R02",
+        "R03",
+        "R04",
+        "R05",
+        "R06"
+      ]
+    }
+  ],
+  "note": "detection scale and investigation snapshot scale are separate; not 100k end-to-end attribution"
+}

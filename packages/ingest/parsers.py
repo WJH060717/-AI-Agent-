@@ -27,6 +27,10 @@ def parse_record(raw: bytes, line: int, context: ParseContext) -> NormalizedEven
         from packages.ingest.linux import parse_auth
 
         return parse_auth(raw, line, context)
+    if context.source_type == "linux_socket":
+        from packages.ingest.linux import parse_socket
+
+        return parse_socket(raw, line, context)
     record: dict[str, Any] = json.loads(raw.decode("utf-8"))
     if not isinstance(record, dict):
         raise ValueError("record must be a JSON object")

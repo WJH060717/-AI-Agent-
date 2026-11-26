@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "telemetry-trace"
-version = "0.1.0.dev43"
+version = "0.1.0.dev44"
 description = "Evidence-first network investigation competition prototype"
 requires-python = ">=3.12,<3.14"
 dependencies = ["pydantic>=2,<3", "pydantic-settings>=2,<3", "fastapi>=0.115,<1", "uvicorn>=0.30,<1", "sqlalchemy>=2,<3", "alembic>=1,<2", "psycopg[binary]>=3,<4", "python-multipart>=0.0.20,<1"]
@@ -29,3 +29,4 @@ select = ["E", "F", "I", "UP", "B"]
 
 [tool.ruff.lint.flake8-bugbear]
 extend-immutable-calls = ["fastapi.Depends", "fastapi.File", "fastapi.Form"]
+

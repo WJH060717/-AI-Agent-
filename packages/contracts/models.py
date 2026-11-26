@@ -86,7 +86,9 @@ class TimeQuality(Contract):
 
 class Sensor(Contract):
     sensor_id: Text
-    type: Literal["pcap", "zeek", "suricata", "linux_auth", "linux_audit", "sysmon"]
+    type: Literal[
+        "pcap", "zeek", "suricata", "linux_auth", "linux_audit", "linux_socket", "sysmon"
+    ]
     instance_id: Text
     observation_domain: Text
 
@@ -130,6 +132,15 @@ class Process(Contract):
             ):
                 raise ValueError("strong Linux identity requires boot and process birth marker")
         return self
+
+
+class SocketBinding(Contract):
+    """Host-side ownership of an established connection at a bounded observation time."""
+
+    inode: Text
+    role: Literal["client", "server"]
+    state: Literal["established"]
+    connected_at: Timestamp
 
 
 class User(Contract):
@@ -337,6 +348,7 @@ class NormalizedEvent(Contract):
     )
     dns: DNSObservation | None = None
     process: Process | None = None
+    socket: SocketBinding | None = None
     user: User | None = None
     auth: Auth | None = None
     alert: Alert | None = None
@@ -418,6 +430,23 @@ class NormalizedEvent(Contract):
             and (self.dst is not None or self.asset_id is not None),
             "security.alert": self.alert is not None,
         }
+        if self.socket is not None:
+            if (
+                self.event_type != "host.process"
+                or self.process is None
+                or self.src is None
+                or self.dst is None
+                or self.network is None
+                or self.host is None
+                or self.asset_id is None
+            ):
+                raise ValueError("socket binding requires a host.process observation")
+            if self.event_time != self.socket.connected_at:
+                raise ValueError("socket event time must be the connection start")
+            if self.socket.role == "client" and self.src.asset_id not in {None, self.asset_id}:
+                raise ValueError("client socket local endpoint conflicts with host asset")
+            if self.socket.role == "server" and self.dst.asset_id not in {None, self.asset_id}:
+                raise ValueError("server socket local endpoint conflicts with host asset")
         if not required.get(self.event_type, True):
             raise ValueError(f"missing required payload for {self.event_type}")
         if (
@@ -464,6 +493,31 @@ def stable_event_id(
     return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
 
 
+class SnapshotCoverage(Contract):
+    status: Literal["complete", "partial"]
+    omitted_event_count: NonNegative = 0
+    omitted_type_counts: dict[str, NonNegative] = Field(default_factory=dict)
+    limits: dict[str, NonNegative] = Field(default_factory=dict)
+
+
+class SnapshotSelection(Contract):
+    """Immutable record of how a bounded investigation snapshot was chosen."""
+
+    version: Literal["snapshot_selection@1.0.0"] = "snapshot_selection@1.0.0"
+    seed_finding_count: NonNegative
+    seed_event_count: NonNegative
+    selected_event_count: NonNegative
+    candidate_event_count: NonNegative
+    trusted_asset_ids: list[Text] = Field(default_factory=list, max_length=1000)
+    seed_observation_domains: list[Text] = Field(default_factory=list, max_length=100)
+    source_counts: dict[str, NonNegative] = Field(default_factory=dict)
+    type_counts: dict[str, NonNegative] = Field(default_factory=dict)
+    reason_counts: dict[str, NonNegative] = Field(default_factory=dict)
+    event_reasons: dict[str, Text] = Field(default_factory=dict)
+    coverage: SnapshotCoverage
+    limitations: list[Text] = Field(default_factory=list, max_length=10)
+
+
 class InvestigationScope(Contract):
     workspace_id: UUID
     dataset_id: UUID
@@ -471,6 +525,7 @@ class InvestigationScope(Contract):
     snapshot_id: UUID
     start: Timestamp
     end: Timestamp
+    selection: SnapshotSelection | None = None
 
     @model_validator(mode="after")
     def time_window(self) -> Self:
@@ -493,12 +548,19 @@ class GraphEdge(Contract):
         "corresponds_to",
         "suggests",
         "precedes",
+        "resolved_to",
+        "address_claimed_by",
+        "scanned",
     ]
     kind: Literal["observed", "inferred", "derived"]
     evidence_refs: Annotated[list[EvidenceRef], Field(min_length=1)]
     method: Text
     method_version: Text
     score: Annotated[float, Field(ge=0, le=1, allow_inf_nan=False)]
+    observation_domain: Text | None = None
+    valid_from: Timestamp | None = None
+    valid_to: Timestamp | None = None
+    limitations: list[Text] = Field(default_factory=list)
     contradicting_refs: list[EvidenceRef] = Field(default_factory=list)
     explanation: Text | None = None
 
@@ -545,7 +607,7 @@ class EventPathEdge(Contract):
     from_event_id: Digest
     to_event_id: Digest
     entity_edge_ids: list[Text] = Field(min_length=1)
-    relation: Literal["associated_process", "spawned", "corresponds_to"]
+    relation: Literal["associated_process", "spawned", "corresponds_to", "opened"]
     kind: Literal["observed", "inferred"]
     evidence_refs: list[EvidenceRef] = Field(min_length=2, max_length=2)
     score: float = Field(ge=0, le=1)
@@ -596,7 +658,7 @@ class PathAnalysis(Contract):
     breakpoints: list[PathBreakpoint]
     truncated: bool
     searched_paths: int = Field(ge=0)
-    method_version: Text = "event_paths@1.0.0"
+    method_version: Text = "event_paths@1.1.0"
     limitations: list[Text]
 
 
@@ -611,6 +673,9 @@ class InvestigationGap(Contract):
         "normal_baseline",
         "transferred_content",
         "authorized_operations",
+        "scan_authorization",
+        "dns_resolver_context",
+        "arp_lease_context",
     ]
     asset_id: UUID | None = None
     status: Literal["open", "resolved", "unavailable"]
@@ -628,6 +693,9 @@ class InvestigationHypothesis(Contract):
         "remote_authentication",
         "unexplained_periodicity",
         "unexplained_outbound",
+        "scan_activity",
+        "dns_answer_conflict",
+        "arp_mapping_conflict",
     ]
     status: Literal["open", "supported", "weakened"]
     statement: Text

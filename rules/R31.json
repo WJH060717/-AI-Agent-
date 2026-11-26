@@ -1,0 +1,9 @@
+{
+  "id": "R31",
+  "version": "1.0.0",
+  "window_seconds": 300,
+  "min_single_account_failures": 8,
+  "min_spray_failures": 8,
+  "min_spray_accounts": 5,
+  "success_after_seconds": 120
+}

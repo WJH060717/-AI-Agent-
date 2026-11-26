@@ -336,6 +336,7 @@ class DataService:
                 "suricata",
                 "linux_auth",
                 "linux_audit",
+                "linux_socket",
             )
             or (sensor is not None and not 1 <= len(sensor) <= 200)
         ):

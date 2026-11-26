@@ -1,4 +1,5 @@
 from packages.contracts.context import EgressBaseline
+from packages.detection.auth_guess import R31Config, detect_auth_failure_guessing, load_rule
 from packages.detection.fragmentation import (
     FRAGMENT_RULES,
     FragmentRule,
@@ -81,6 +82,7 @@ def detect_all(
     base = (
         detect_scans(events, session_id, configs["R01"])
         + detect_auth_sequence(events, session_id, configs["R02"])
+        + detect_auth_failure_guessing(events, session_id, load_rule())
         + detect_process_anomalies(events, session_id, configs["R03"])
     )
     return (
@@ -180,6 +182,10 @@ def reproduce(events, session_id: str, finding: dict) -> list[dict]:
         return detect_scans(events, session_id, R01Config.model_validate(finding["config"]))
     if finding["rule_id"] == "R02":
         return detect_auth_sequence(events, session_id, R02Config.model_validate(finding["config"]))
+    if finding["rule_id"] == "R31":
+        return detect_auth_failure_guessing(
+            events, session_id, R31Config.model_validate(finding["config"])
+        )
     if finding["rule_id"] == "R03":
         return detect_process_anomalies(
             events, session_id, R03Config.model_validate(finding["config"])

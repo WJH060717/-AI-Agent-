@@ -197,6 +197,235 @@ class AnalysisService:
             raise DomainError("FINDING_EVIDENCE_MISSING_FROM_SNAPSHOT", 409)
         return selected
 
+    @staticmethod
+    def _snapshot_event_assets(event: NormalizedEvent) -> set[str]:
+        """Only inventory-resolved or collector-bound assets are trusted for context."""
+        assets = set()
+        if event.asset_id:
+            assets.add(str(event.asset_id))
+        if event.host:
+            assets.add(str(event.host.asset_id))
+        for endpoint in (event.src, event.dst):
+            if (
+                endpoint
+                and endpoint.asset_id
+                and endpoint.resolution_quality == "inventory_interval"
+            ):
+                assets.add(str(endpoint.asset_id))
+        return assets
+
+    @staticmethod
+    def _snapshot_reason(event: NormalizedEvent) -> str:
+        if event.event_type == "security.alert":
+            return "alert_context"
+        if event.event_type == "auth.login":
+            return "auth_context"
+        if event.event_type == "host.process":
+            return "process_context"
+        if event.event_type == "network.packet":
+            return "packet_context"
+        if event.event_type.startswith("network."):
+            return "network_context"
+        return "file_context"
+
+    def _select_snapshot_events(
+        self, conn, actor: Actor, incident: dict, detail: dict, start: datetime, end: datetime
+    ) -> tuple[list[str], dict]:
+        """Keep every rule seed, then bounded context tied to trusted assets.
+
+        The snapshot is still immutable: tools only see the returned event IDs.
+        Context is never pulled by raw IP equality or by scanning outside the
+        workspace/dataset/session/window.
+        """
+        finding_ids = list(dict.fromkeys(detail.get("finding_ids") or [incident["finding_id"]]))
+        findings = [
+            self.service._get(conn, t.findings, actor, fid)["payload"] for fid in finding_ids
+        ]
+        seed_ids: set[str] = set()
+        for finding in findings:
+            seed_ids.update(finding.get("evidence_ids", []))
+        if not seed_ids:
+            raise DomainError("SNAPSHOT_SEEDS_MISSING", 409)
+        limit = self.service.settings.snapshot_event_limit
+        if len(seed_ids) > limit:
+            raise DomainError(
+                "SNAPSHOT_SEEDS_EXCEED_LIMIT", 422
+            ) from ValueError(f"seeds={len(seed_ids)} limit={limit}")
+
+        seed_rows = conn.execute(
+            select(t.events.c.payload)
+            .join(
+                t.members,
+                and_(
+                    t.members.c.workspace_id == t.events.c.workspace_id,
+                    t.members.c.event_id == t.events.c.event_id,
+                ),
+            )
+            .where(
+                t.events.c.workspace_id == actor.workspace_id,
+                t.events.c.dataset_id == incident["dataset_id"],
+                t.members.c.session_id == incident["session_id"],
+                t.events.c.event_id.in_(seed_ids),
+            )
+        ).scalars()
+        seed_events = [NormalizedEvent.model_validate(row) for row in seed_rows]
+        if {event.event_id for event in seed_events} != seed_ids:
+            raise DomainError("FINDING_EVIDENCE_MISSING_FROM_SNAPSHOT", 409)
+        for event in seed_events:
+            if not start <= event.event_time < end:
+                raise DomainError("FINDING_EVIDENCE_OUTSIDE_INCIDENT_WINDOW", 409)
+
+        seed_assets = set().union(
+            *(self._snapshot_event_assets(event) for event in seed_events)
+        ) if seed_events else set()
+        seed_domains = {event.sensor.observation_domain for event in seed_events}
+        context_row = self.service._optional(conn, t.contexts, actor, incident["dataset_id"])
+        if context_row:
+            from packages.contracts.context import DatasetContext
+
+            dataset_context = DatasetContext.model_validate(context_row["payload"])
+            for asset in dataset_context.assets:
+                if str(asset.asset_id) not in seed_assets:
+                    continue
+                seed_domains.update(address.observation_domain for address in asset.addresses)
+        scan_limit = self.service.settings.snapshot_scan_limit
+        rows = conn.execute(
+            select(t.events.c.payload)
+            .join(
+                t.members,
+                and_(
+                    t.members.c.workspace_id == t.events.c.workspace_id,
+                    t.members.c.event_id == t.events.c.event_id,
+                ),
+            )
+            .where(
+                t.events.c.workspace_id == actor.workspace_id,
+                t.events.c.dataset_id == incident["dataset_id"],
+                t.members.c.session_id == incident["session_id"],
+                t.events.c.event_time >= start.isoformat(timespec="microseconds"),
+                t.events.c.event_time < end.isoformat(timespec="microseconds"),
+            )
+            .order_by(t.events.c.event_time, t.events.c.event_id)
+            .limit(scan_limit + 1)
+        ).scalars()
+        candidates = []
+        try:
+            for row in rows:
+                candidates.append(NormalizedEvent.model_validate(row))
+        finally:
+            rows.close()
+        if len(candidates) > scan_limit:
+            raise DomainError(
+                "SNAPSHOT_SCAN_LIMIT_EXCEEDED", 422
+            ) from ValueError(
+                f"candidates>{scan_limit}; narrow the incident window or raise "
+                "SNAPSHOT_SCAN_LIMIT after capacity review"
+            )
+
+        reasons: dict[str, str] = {}
+        for event in candidates:
+            if event.event_id in seed_ids:
+                reasons[event.event_id] = "seed"
+
+        context: list[tuple[int, float, NormalizedEvent, str]] = []
+        seed_times = [event.event_time for event in seed_events]
+        for event in candidates:
+            if event.event_id in reasons:
+                continue
+            if event.sensor.observation_domain not in seed_domains:
+                continue
+            if event.asset_id and str(event.asset_id) not in seed_assets:
+                continue
+            assets = self._snapshot_event_assets(event)
+            if assets & seed_assets:
+                reason = self._snapshot_reason(event)
+            elif not seed_assets and event.sensor.observation_domain in seed_domains:
+                reason = "domain_context"
+            elif event.event_type == "security.alert" and (
+                event.sensor.observation_domain in seed_domains
+                or not assets
+                or assets & seed_assets
+            ):
+                reason = "alert_context"
+            else:
+                continue
+            distance = min(
+                abs((event.event_time - stamp).total_seconds()) for stamp in seed_times
+            )
+            priority = {
+                "alert_context": 0,
+                "auth_context": 1,
+                "process_context": 2,
+                "network_context": 3,
+                "packet_context": 4,
+                "file_context": 5,
+                "domain_context": 6,
+            }[reason]
+            context.append((priority, distance, event, reason))
+        context.sort(key=lambda item: (item[0], item[1], item[2].event_id))
+        budget = limit - len(seed_ids)
+        selected_context = context[:budget]
+        omitted = context[budget:]
+        for _, _, event, reason in selected_context:
+            reasons[event.event_id] = reason
+
+        selected_ids = list(seed_ids) + [item[2].event_id for item in selected_context]
+        selected_ids = sorted(
+            set(selected_ids),
+            key=lambda eid: next(
+                (
+                    (event.event_time, event.event_id)
+                    for event in [*seed_events, *[item[2] for item in selected_context]]
+                    if event.event_id == eid
+                ),
+                (end, eid),
+            ),
+        )
+        selected_events = {
+            event.event_id: event
+            for event in [*seed_events, *[item[2] for item in selected_context]]
+        }
+        source_counts: dict[str, int] = {}
+        type_counts: dict[str, int] = {}
+        reason_counts: dict[str, int] = {}
+        for eid in selected_ids:
+            event = selected_events[eid]
+            source_counts[event.sensor.type] = source_counts.get(event.sensor.type, 0) + 1
+            type_counts[event.event_type] = type_counts.get(event.event_type, 0) + 1
+            reason = reasons[eid]
+            reason_counts[reason] = reason_counts.get(reason, 0) + 1
+        omitted_type_counts: dict[str, int] = {}
+        for _, _, event, _ in omitted:
+            omitted_type_counts[event.event_type] = omitted_type_counts.get(event.event_type, 0) + 1
+        manifest = {
+            "version": "snapshot_selection@1.0.0",
+            "seed_finding_count": len(findings),
+            "seed_event_count": len(seed_ids),
+            "selected_event_count": len(selected_ids),
+            "candidate_event_count": len(candidates),
+            "trusted_asset_ids": sorted(seed_assets),
+            "seed_observation_domains": sorted(seed_domains),
+            "source_counts": source_counts,
+            "type_counts": type_counts,
+            "reason_counts": reason_counts,
+            "event_reasons": {eid: reasons[eid] for eid in selected_ids},
+            "coverage": {
+                "status": "partial" if omitted else "complete",
+                "omitted_event_count": len(omitted),
+                "omitted_type_counts": omitted_type_counts,
+                "limits": {
+                    "snapshot_event_limit": limit,
+                    "snapshot_scan_limit": scan_limit,
+                },
+            },
+            "limitations": [
+                "上下文仅纳入可信资产映射或同一观测域内的安全告警；原始 IP 相等不构成映射。",
+                "种子全部保留；上下文超限时按告警、认证、进程、网络、抓包优先级和距种子时间取舍。",
+                "partial 表示仍有同窗口上下文未纳入，不能据此声称完整覆盖。",
+            ],
+        }
+        return selected_ids, manifest
+
     def create_run(
         self,
         actor: Actor,
@@ -223,6 +452,7 @@ class AnalysisService:
                 .with_for_update()
             ).first()
             incident = self.service._get(conn, t.incidents, actor, incident_id)
+            detail = self.service._get(conn, t.details, actor, incident_id)["payload"]
             previous = self.service._idem(conn, actor, route, key, request_hash)
             if previous:
                 return previous
@@ -237,42 +467,11 @@ class AnalysisService:
             if end == last:
                 # Scope end is exclusive; retain the final evidence at the 30-minute cap.
                 end += timedelta(microseconds=1)
-            finding_row = self.service._get(conn, t.findings, actor, incident["finding_id"])
-            packet_only = finding_row["payload"]["rule_id"] in PACKET_RULE_IDS
-            witness_ids = set(finding_row["payload"]["evidence_ids"]) if packet_only else set()
-            event_filter = (
-                (t.events.c.event_type == "network.packet") & t.events.c.event_id.in_(witness_ids)
-                if packet_only
-                else t.events.c.event_type != "network.packet"
+            ids, manifest = self._select_snapshot_events(
+                conn, actor, incident, detail, start, end
             )
-            ids = (
-                conn.execute(
-                    select(t.events.c.event_id)
-                    .join(
-                        t.members,
-                        and_(
-                            t.members.c.workspace_id == t.events.c.workspace_id,
-                            t.members.c.event_id == t.events.c.event_id,
-                        ),
-                    )
-                    .where(
-                        t.events.c.workspace_id == actor.workspace_id,
-                        t.events.c.dataset_id == incident["dataset_id"],
-                        t.members.c.session_id == incident["session_id"],
-                        event_filter,
-                        t.events.c.event_time >= start.isoformat(timespec="microseconds"),
-                        t.events.c.event_time < end.isoformat(timespec="microseconds"),
-                    )
-                    .order_by(t.events.c.event_time, t.events.c.event_id)
-                    .limit(self.service.settings.snapshot_event_limit + 1)
-                )
-                .scalars()
-                .all()
-            )
-            if not ids or len(ids) > self.service.settings.snapshot_event_limit:
+            if not ids:
                 raise DomainError("SNAPSHOT_EMPTY_OR_TOO_LARGE", 422)
-            if packet_only and set(ids) != witness_ids:
-                raise DomainError("FINDING_EVIDENCE_MISSING_FROM_SNAPSHOT", 409)
             run_id, snapshot_id, job_id = (str(uuid4()) for _ in range(3))
             scope = InvestigationScope(
                 workspace_id=actor.workspace_id,
@@ -281,6 +480,7 @@ class AnalysisService:
                 snapshot_id=snapshot_id,
                 start=start,
                 end=end,
+                selection=manifest,
             )
             conn.execute(
                 t.snapshots.insert().values(
@@ -695,6 +895,10 @@ class AnalysisService:
                 key: row[key]
                 for key in ("id", "incident_id", "snapshot_id", "job_id", "state", "report_id")
             }
+            snapshot_row = self.service._get(conn, t.snapshots, actor, row["snapshot_id"])
+            selection = snapshot_row["scope"].get("selection")
+            if selection is not None:
+                result["snapshot_manifest"] = selection
             state = self.service._optional(conn, t.agent_states, actor, run_id)
             if state:
                 result.update(

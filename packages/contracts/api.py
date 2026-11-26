@@ -16,6 +16,7 @@ from packages.contracts.models import (
     NormalizedEvent,
     PipelineProgress,
     Report,
+    SnapshotSelection,
 )
 from packages.contracts.replay import ReplayCreate, ReplayStatus
 from packages.contracts.reports import (
@@ -125,7 +126,22 @@ class RunResponse(Contract):
 
 class GraphNode(Contract):
     entity_id: str
-    type: Literal["Endpoint", "Host", "Process", "User", "Session", "Connection", "Event"]
+    type: Literal[
+        "Endpoint",
+        "Host",
+        "Process",
+        "User",
+        "Session",
+        "Connection",
+        "Socket",
+        "DnsTransaction",
+        "DnsAnswer",
+        "ArpAddress",
+        "ArpClaim",
+        "ScanSource",
+        "ScanTarget",
+        "Event",
+    ]
     label: str
 
 
@@ -170,6 +186,9 @@ class IncidentPage(Contract):
 
 
 class RunStatus(Contract):
+    snapshot_manifest: SnapshotSelection | None = Field(
+        default=None, exclude_if=lambda value: value is None
+    )
     pipeline_progress: PipelineProgress | None = Field(
         default=None, exclude_if=lambda value: value is None
     )

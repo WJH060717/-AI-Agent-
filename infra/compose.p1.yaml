@@ -4,7 +4,7 @@ x-app: &app
   build:
     context: ..
     dockerfile: infra/Dockerfile.app
-  image: telemetry-trace:0.1.0.dev43
+  image: telemetry-trace:0.1.0.dev44
   init: true
   read_only: true
   tmpfs: [/tmp]
@@ -61,7 +61,7 @@ services:
     build:
       context: ..
       dockerfile: infra/Dockerfile.web
-    image: telemetry-trace-web:0.1.0.dev43
+    image: telemetry-trace-web:0.1.0.dev44
     user: "101:101"
     read_only: true
     tmpfs: [/tmp]
@@ -86,3 +86,4 @@ volumes:
 secrets:
   db_owner_password:
     file: ${TRACE_OWNER_PASSWORD_FILE:?Set the private owner password file path locally}
+

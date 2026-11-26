@@ -1,15 +1,26 @@
 # 知识边界
 
-精选ATT&CK条目后续在此版本化。每条记录来源URL、实际版本、对象ID和内容哈希；知识引用不能代替本次事件证据。
-# P1 已加载精选知识
+`attack-18.1/` 固定官方 MITRE Enterprise ATT&CK 18.1（不是“最新”），来源、版本、许可、对象摘要和文件哈希均在目录内冻结。知识引用不能代替本次事件证据，也不能证明真实操作者或意图。
 
-`attack-18.1/` 固定官方 MITRE Enterprise ATT&CK 18.1（不是“最新”）。来源提交 `b4eb2b84c02b84bb4cceb71c97ae05cb2f33ab38`，下载时间、原始文件 URL/SHA256 见 source.json；版权许可见 LICENSE.txt。
+## 当前 manifest
 
-catalog.json 包含 R01–R06 对应 T1046、T1110、T1059.004、T1021.004、T1071、T1041。source-objects.json 保留对应 Technique、Detection Strategy、Analytics、Data Component 及 detects 关系原对象；freeze.json 绑定字节摘要。技术与检测映射源于固定官方资料，中文适用观测/正常替代为本项目的谨慎摘要，不能当作现场事实。
+`manifest.json` 是 `knowledge-manifest@1.0.0`，绑定：
 
-运行时只读取 catalog 的白名单字段，精确 ID 去重匹配最多 5 条；无匹配、关闭、完整性错误分别返回显式 warning。未实现任意全文检索或外网获取。knowledge_ref 绑定整个目录内容，报告引用必须来自同 run 已完成工具返回；知识不会加入 event evidence/retrieved/before。修改目录或开关会改变缓存及恢复身份。
+- `catalog.json` 的 SHA-256 与 `knowledge_version`；
+- 现有 R01/R02/R03/R04/R05/R06 的技术映射；
+- 显式 `unmapped_rules`（R07–R31 中尚未可靠映射的规则），不再要求目录恰好六条；
+- 许可、来源和限制说明。
 
-离线检查：`.venv/Scripts/python -c "from packages.knowledge.catalog import verify_sources; print(verify_sources())"`。重建工具 `scripts.build_p1_knowledge` 只接受固定源摘要并写新目录，禁止原地覆盖。正式版本升级应另建版本、更新源依据并回归。
+`packages/knowledge/catalog.py` 只读取白名单字段，最多返回 5 条；未知技术 ID 返回空，不强行映射。manifest、catalog 或 freeze 漂移会使完整性检查失败。
 
-以下为早期规划记录：
+## 运行边界
 
+运行时只读本地目录，不联网、不读取 eval/ground_truth，不把知识条目加入事件证据。`knowledge_refs` 必须来自同一 run 已完成的工具返回；目录/开关影响缓存与恢复身份。知识解释与现场证据分开显示。
+
+## 离线检查
+
+```powershell
+py -3.12 -c "from packages.knowledge.catalog import verify_sources; print(verify_sources())"
+```
+
+重建工具 `scripts.build_p1_knowledge` 只接受固定源摘要并写新目录，禁止原地覆盖。历史 `attack-18.1` 保持不变；升级另建版本并更新 manifest。

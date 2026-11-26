@@ -1,0 +1,29 @@
+{
+  "schema": "knowledge-manifest@1.0.0",
+  "knowledge_version": "attack-18.1-curated@1.0.0",
+  "generated_on": "2026-11-26",
+  "catalog_file": "catalog.json",
+  "catalog_sha256": "99124f9335ac2adce853d1ba02c6cd8417b1cac0afa456adcb131814e40d07dd",
+  "freeze_file": "freeze.json",
+  "license_file": "LICENSE.txt",
+  "source_file": "source.json",
+  "source_objects_file": "source-objects.json",
+  "rule_map": {
+    "R01": ["T1046"],
+    "R02": ["T1110"],
+    "R03": ["T1059.004"],
+    "R04": ["T1021.004"],
+    "R05": ["T1071"],
+    "R06": ["T1041"]
+  },
+  "unmapped_rules": [
+    "R07", "R08", "R09", "R10", "R11", "R12", "R13", "R14", "R15", "R16",
+    "R17", "R18", "R19", "R20", "R21", "R22", "R23", "R24", "R25", "R26",
+    "R27", "R28", "R29", "R30", "R31"
+  ],
+  "limitations": [
+    "Unmapped rules intentionally return no technique rather than forcing a weak mapping.",
+    "ATT&CK metadata is a candidate explanation, not proof of actor identity or intent.",
+    "The catalog license does not license the whole project; see THIRD_PARTY_NOTICES."
+  ]
+}

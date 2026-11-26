@@ -254,3 +254,19 @@ dev42 复用调查比较与行为报告字段，网页及 HTML 由 before/after 
 ## 六阶段执行状态 dev43 契约
 
 dev43 已实现增加可选 PipelineProgress，固定六阶段及 available/running/completed/partial/failed/cancelled/not_run 状态。阶段仅表示当前冻结快照执行情况，模型不能写入。历史报告缺字段不回填。
+
+## dev44 跨源快照、socket 与包级关系
+
+`InvestigationScope.selection` 新增可选 `SnapshotSelection`（`snapshot_selection@1.0.0`）。它记录种子 finding/事件数、可信资产 ID、来源/类型/原因计数、逐事件选取原因、候选数、覆盖状态、超限计数和限制。全部种子必须保留；上下文只在同工作区/数据集/会话/时间窗、可信资产映射及允许观测域内选取。上下文超限时按告警、认证、进程、网络、抓包优先级和距种子时间取舍并标记 `partial`；种子超限或扫描超限返回 422。历史快照无 `selection` 时保持缺省，不回算。
+
+`Sensor.type` 和 `SensorProfile.source_type` 新增 `linux_socket`。该来源的 JSONL 记录使用 `host.process` 事件并携带可选 `socket` 对象：
+
+- `process` 必须包含 PID、boot、出生标记（start_ticks/start_time）和 `identity_basis`；只有 lifecycle_record/verified_proc 且 boot、出生标记齐备时才形成强 `entity_id`。
+- `socket` 包含 `inode`、`role`（client/server）、`state=established` 和 `connected_at`；`event_time` 等于连接起点，原始观测时间保留在 `time_quality.original`。
+- 本地端点为 `src`、远端为 `dst`；`role=client` 时网络连接方向同向，`role=server` 时反向。必须提供 `local_ip/local_port/remote_ip/remote_port` 和 transport。
+- 缺 boot、出生标记或强来源时保留 `identity_weak`，不生成进程-连接边。
+
+`GraphEdge` 新增可选 `observation_domain`、`valid_from/valid_to`、`limitations`，关系新增 `opened`、`resolved_to`、`address_claimed_by`、`scanned`。`EventPathEdge.relation` 新增 `opened`，`GraphNode.type` 新增 `Socket/DnsTransaction/DnsAnswer/ArpAddress/ArpClaim/ScanSource/ScanTarget`。DNS 配对、ARP 冲突和 TCP SYN 端口投影均是有界启发式，不是攻击成功或中间人转发的证明。
+
+`RunStatus.snapshot_manifest` 可选返回同一份 SnapshotSelection。数据库仍为 0006_d9；无新迁移，旧报告/快照不改写。
+

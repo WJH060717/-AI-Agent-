@@ -26,7 +26,7 @@ export type OffsetMs = number;
 export type UncertaintyMs = number;
 export type Basis = string;
 export type SensorId = string;
-export type Type = "pcap" | "zeek" | "suricata" | "linux_auth" | "linux_audit" | "sysmon";
+export type Type = "pcap" | "zeek" | "suricata" | "linux_auth" | "linux_audit" | "linux_socket" | "sysmon";
 export type InstanceId = string;
 export type ObservationDomain = string;
 /**
@@ -190,6 +190,10 @@ export type StartTicks = number | null;
 export type IdentityBasis = "pid_only" | "lifecycle_record" | "verified_proc" | "process_guid";
 export type Executable = string | null;
 export type CommandRedacted = string | null;
+export type Inode = string;
+export type Role1 = "client" | "server";
+export type State = "established";
+export type ConnectedAt = string;
 export type EntityId1 = string | null;
 export type NameRedacted = string | null;
 export type Realm = string | null;
@@ -220,7 +224,10 @@ export type Relation =
   | "associated_process"
   | "corresponds_to"
   | "suggests"
-  | "precedes";
+  | "precedes"
+  | "resolved_to"
+  | "address_claimed_by"
+  | "scanned";
 export type Kind = "observed" | "inferred" | "derived";
 /**
  * @minItems 1
@@ -229,6 +236,10 @@ export type EvidenceRefs = [EvidenceRef, ...EvidenceRef[]];
 export type Method2 = string;
 export type MethodVersion = string;
 export type Score = number;
+export type ObservationDomain1 = string | null;
+export type ValidFrom = string | null;
+export type ValidTo = string | null;
+export type Limitations = string[];
 export type ContradictingRefs = EvidenceRef[];
 export type Explanation = string | null;
 export type ClaimId = string;
@@ -239,7 +250,7 @@ export type Name =
 export type EvidenceRefs1 = EvidenceRef[];
 export type KnowledgeRefs = string[];
 export type SupportLevel = "high" | "medium" | "low" | "unknown";
-export type Limitations = string[];
+export type Limitations1 = string[];
 export type ReportId = string;
 export type RunId = string;
 export type SnapshotId1 = string;
@@ -256,7 +267,37 @@ export type SessionId1 = string;
 export type SnapshotId2 = string;
 export type Start = string;
 export type End = string;
-export type Status1 = "candidates" | "insufficient_evidence";
+export type Version4 = "snapshot_selection@1.0.0";
+export type SeedFindingCount = number;
+export type SeedEventCount = number;
+export type SelectedEventCount = number;
+export type CandidateEventCount = number;
+/**
+ * @maxItems 1000
+ */
+export type TrustedAssetIds = string[];
+/**
+ * @maxItems 100
+ */
+export type SeedObservationDomains = string[];
+export type Status1 = "complete" | "partial";
+export type OmittedEventCount = number;
+/**
+ * @maxItems 10
+ */
+export type Limitations2 =
+  | []
+  | [string]
+  | [string, string]
+  | [string, string, string]
+  | [string, string, string, string]
+  | [string, string, string, string, string]
+  | [string, string, string, string, string, string]
+  | [string, string, string, string, string, string, string]
+  | [string, string, string, string, string, string, string, string]
+  | [string, string, string, string, string, string, string, string, string]
+  | [string, string, string, string, string, string, string, string, string, string];
+export type Status2 = "candidates" | "insufficient_evidence";
 export type OriginId = string;
 export type EventId2 = string;
 export type AssetId3 = string | null;
@@ -307,7 +348,7 @@ export type ToEventId = string;
  * @minItems 1
  */
 export type EntityEdgeIds = [string, ...string[]];
-export type Relation1 = "associated_process" | "spawned" | "corresponds_to";
+export type Relation1 = "associated_process" | "spawned" | "corresponds_to" | "opened";
 export type Kind2 = "observed" | "inferred";
 /**
  * @minItems 2
@@ -331,7 +372,7 @@ export type Breakpoints = PathBreakpoint[];
 export type Truncated = boolean;
 export type SearchedPaths = number;
 export type MethodVersion1 = string;
-export type Limitations1 = string[];
+export type Limitations3 = string[];
 export type MethodVersion2 = string;
 export type ConfigHash = string;
 /**
@@ -583,8 +624,14 @@ export type HypothesisId = string;
 export type FindingId = string;
 export type RuleId1 = string;
 export type Kind3 =
-  "session_process_link" | "remote_authentication" | "unexplained_periodicity" | "unexplained_outbound";
-export type Status2 = "open" | "supported" | "weakened";
+  | "session_process_link"
+  | "remote_authentication"
+  | "unexplained_periodicity"
+  | "unexplained_outbound"
+  | "scan_activity"
+  | "dns_answer_conflict"
+  | "arp_mapping_conflict";
+export type Status3 = "open" | "supported" | "weakened";
 export type Statement1 = string;
 export type Observation = string;
 /**
@@ -1013,7 +1060,7 @@ export type CounterevidenceKind = "none" | "context_only";
 /**
  * @maxItems 10
  */
-export type Limitations2 =
+export type Limitations4 =
   | []
   | [string]
   | [string, string]
@@ -1034,9 +1081,12 @@ export type Code =
   | "process_socket_binding"
   | "normal_baseline"
   | "transferred_content"
-  | "authorized_operations";
+  | "authorized_operations"
+  | "scan_authorization"
+  | "dns_resolver_context"
+  | "arp_lease_context";
 export type AssetId4 = string | null;
-export type Status3 = "open" | "resolved" | "unavailable";
+export type Status4 = "open" | "resolved" | "unavailable";
 export type Actionable = boolean;
 export type Explanation4 = string;
 /**
@@ -1493,7 +1543,7 @@ export type MethodVersion4 = "snapshot_pipeline@1.0.0";
  */
 export type Stages = [PipelineStage, PipelineStage, PipelineStage, PipelineStage, PipelineStage, PipelineStage];
 export type Stage = "collect" | "normalize" | "detect" | "trace" | "intelligence" | "present";
-export type Status4 = "available" | "running" | "completed" | "partial" | "failed" | "cancelled" | "not_run";
+export type Status5 = "available" | "running" | "completed" | "partial" | "failed" | "cancelled" | "not_run";
 export type Detail = string;
 /**
  * @maxItems 6
@@ -1526,7 +1576,7 @@ export type SensorInstances = [string, ...string[]];
  * @minItems 1
  */
 export type EvidenceRefs7 = [EvidenceRef, ...EvidenceRef[]];
-export type Limitations3 = string[];
+export type Limitations5 = string[];
 export type TraceStatus = "successful" | "unsuccessful";
 export type TraceScope = string;
 export type TraceClue = string;
@@ -1587,6 +1637,7 @@ export interface NormalizedEvent {
   packet?: Packet;
   dns?: DNSObservation | null;
   process?: Process | null;
+  socket?: SocketBinding | null;
   user?: User | null;
   auth?: Auth | null;
   alert?: Alert | null;
@@ -1749,6 +1800,15 @@ export interface Process {
   executable?: Executable;
   command_redacted?: CommandRedacted;
 }
+/**
+ * Host-side ownership of an established connection at a bounded observation time.
+ */
+export interface SocketBinding {
+  inode: Inode;
+  role: Role1;
+  state: State;
+  connected_at: ConnectedAt;
+}
 export interface User {
   entity_id?: EntityId1;
   name_redacted?: NameRedacted;
@@ -1785,6 +1845,10 @@ export interface GraphEdge {
   method: Method2;
   method_version: MethodVersion;
   score: Score;
+  observation_domain?: ObservationDomain1;
+  valid_from?: ValidFrom;
+  valid_to?: ValidTo;
+  limitations?: Limitations;
   contradicting_refs?: ContradictingRefs;
   explanation?: Explanation;
 }
@@ -1796,7 +1860,7 @@ export interface Claim {
   evidence_refs?: EvidenceRefs1;
   knowledge_refs?: KnowledgeRefs;
   support_level?: SupportLevel;
-  limitations?: Limitations;
+  limitations?: Limitations1;
 }
 export interface FactPredicate {
   name: Name;
@@ -1831,7 +1895,7 @@ export interface Report {
 }
 export interface PathAnalysis {
   scope: InvestigationScope;
-  status: Status1;
+  status: Status2;
   origins: Origins;
   paths: Paths1;
   alternatives: Alternatives;
@@ -1840,7 +1904,7 @@ export interface PathAnalysis {
   truncated: Truncated;
   searched_paths: SearchedPaths;
   method_version?: MethodVersion1;
-  limitations: Limitations1;
+  limitations: Limitations3;
 }
 export interface InvestigationScope {
   workspace_id: WorkspaceId1;
@@ -1849,6 +1913,49 @@ export interface InvestigationScope {
   snapshot_id: SnapshotId2;
   start: Start;
   end: End;
+  selection?: SnapshotSelection | null;
+}
+/**
+ * Immutable record of how a bounded investigation snapshot was chosen.
+ */
+export interface SnapshotSelection {
+  version?: Version4;
+  seed_finding_count: SeedFindingCount;
+  seed_event_count: SeedEventCount;
+  selected_event_count: SelectedEventCount;
+  candidate_event_count: CandidateEventCount;
+  trusted_asset_ids?: TrustedAssetIds;
+  seed_observation_domains?: SeedObservationDomains;
+  source_counts?: SourceCounts;
+  type_counts?: TypeCounts;
+  reason_counts?: ReasonCounts;
+  event_reasons?: EventReasons;
+  coverage: SnapshotCoverage;
+  limitations?: Limitations2;
+}
+export interface SourceCounts {
+  [k: string]: number;
+}
+export interface TypeCounts {
+  [k: string]: number;
+}
+export interface ReasonCounts {
+  [k: string]: number;
+}
+export interface EventReasons {
+  [k: string]: string;
+}
+export interface SnapshotCoverage {
+  status: Status1;
+  omitted_event_count?: OmittedEventCount;
+  omitted_type_counts?: OmittedTypeCounts;
+  limits?: Limits;
+}
+export interface OmittedTypeCounts {
+  [k: string]: number;
+}
+export interface Limits {
+  [k: string]: number;
 }
 export interface CandidateOrigin {
   origin_id: OriginId;
@@ -1916,20 +2023,20 @@ export interface InvestigationHypothesis {
   finding_id: FindingId;
   rule_id: RuleId1;
   kind: Kind3;
-  status: Status2;
+  status: Status3;
   statement: Statement1;
   observation: Observation;
   supporting_refs?: SupportingRefs;
   contradicting_refs?: ContradictingRefs1;
   counterevidence_kind?: CounterevidenceKind;
-  limitations?: Limitations2;
+  limitations?: Limitations4;
 }
 export interface InvestigationGap {
   gap_id: GapId;
   hypothesis_id: HypothesisId1;
   code: Code;
   asset_id?: AssetId4;
-  status: Status3;
+  status: Status4;
   actionable: Actionable;
   explanation: Explanation4;
   evidence_refs?: EvidenceRefs5;
@@ -1957,7 +2064,7 @@ export interface PipelineProgress {
 }
 export interface PipelineStage {
   stage: Stage;
-  status: Status4;
+  status: Status5;
   detail: Detail;
   action_seqs?: ActionSeqs;
 }
@@ -1972,7 +2079,7 @@ export interface BehaviorAssessment {
   observation_domains: ObservationDomains;
   sensor_instances: SensorInstances;
   evidence_refs: EvidenceRefs7;
-  limitations?: Limitations3;
+  limitations?: Limitations5;
   trace_status: TraceStatus;
   trace_scope: TraceScope;
   trace_clue: TraceClue;

@@ -1,0 +1,41 @@
+{
+  "schema": "experiment-ledger@1.0.0",
+  "app_version": "0.1.0.dev44",
+  "generated_on": "2026-11-26",
+  "source_scope": "public repository fixtures only; private archives are not present",
+  "independent_plan": "data/manifests/dev44-independent-plan.json",
+  "stages": ["planned", "collected", "labeled", "reviewed", "run"],
+  "counts": {
+    "planned": 33,
+    "prepared": 3,
+    "collected": 0,
+    "labeled": 0,
+    "reviewed": 0,
+    "run": 0,
+    "independent_activity_groups": 0
+  },
+  "groups": {
+    "B0": {"status": "not_run", "input": null, "prediction": null, "metrics": null},
+    "B1": {"status": "not_run", "input": null, "prediction": null, "metrics": null},
+    "B2": {"status": "not_run", "input": null, "prediction": null, "metrics": null},
+    "B3": {"status": "not_run", "input": null, "prediction": null, "metrics": null}
+  },
+  "evidence": {
+    "public_detection_capacity": "docs/capacity-dev44.json",
+    "engineering_tests": "docs/verification-dev44.md",
+    "historical_behavior": "docs/ciciot-behavior-verification.md",
+    "historical_dos_v2": "docs/README.md"
+  },
+  "excluded_or_unavailable": [
+    "independent multi-source activity-chain materials with split and labels",
+    "double-reviewed ground truth and adjudication records",
+    "authorized real model runs and invoices",
+    "a clean non-author machine acceptance record"
+  ],
+  "rules": [
+    "planned is not collected; prepared is not labelled or reviewed",
+    "no metric may be computed from an empty prediction set",
+    "completed and validation=passed are not evidence of Agent gain",
+    "historical 191 tests, 2/16 behaviour, and 11/12 DoS v2 are different populations and are not pooled"
+  ]
+}

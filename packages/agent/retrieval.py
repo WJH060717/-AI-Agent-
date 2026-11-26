@@ -68,9 +68,14 @@ def planning_hints(
             "session_process": ["host.process"],
             "normal_process_context": ["host.process"],
             "destination_authentication": ["auth.login"],
+            "scan_authorization": ["host.process", "network.packet"],
+            "dns_resolver_context": ["network.packet"],
+            "arp_lease_context": ["network.packet"],
         }.get(gap["code"])
         if asset in assets and types:
             add("search_events", {"types": types, "asset_id": asset, "limit": 20}, gap)
+        elif gap["code"] in {"dns_resolver_context", "arp_lease_context"} and types:
+            add("search_events", {"types": types, "limit": 20}, gap)
     for event in known:
         if strong_process(event):
             add(

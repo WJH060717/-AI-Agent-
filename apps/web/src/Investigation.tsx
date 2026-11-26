@@ -38,6 +38,9 @@ export function Investigation({ connection, view, active, onReport, onIncidents,
   const [timeline, setTimeline] = useState<EventPage | null>(null);
   const [focus, setFocus] = useState('');
   const [graphFocus, setGraphFocus] = useState('');
+  const [graphLimit, setGraphLimit] = useState(20);
+  const [selectedNode, setSelectedNode] = useState('');
+  const [selectedEdge, setSelectedEdge] = useState<string>('');
   const [investigationMode, setInvestigationMode] = useState<'auto' | 'live' | 'deterministic'>('auto');
   const [toolBudget, setToolBudget] = useState(6);
   const [modelBudget, setModelBudget] = useState(4);
@@ -48,6 +51,7 @@ export function Investigation({ connection, view, active, onReport, onIncidents,
     const controller = new AbortController(); lifecycle.current = controller;
     setIncidents(null); setEventCount(null); setRun(null); setStatus(null); setGraph(null); setReport(null); setEvidence(null); setError(''); setBusy(false);
     setTimeline(null); setFocus(''); setGraphFocus('');
+    setSelectedNode(''); setSelectedEdge(''); setGraphLimit(20);
     setAgentActions(null); setAgentTransitions(null);
     setSavedReports(null);
     return () => controller.abort();
@@ -167,16 +171,19 @@ export function Investigation({ connection, view, active, onReport, onIncidents,
     node.type === 'Endpoint' ? node.entity_id.slice(0, node.entity_id.lastIndexOf(':')) : node.entity_id]) ?? []);
   const nodeLabels = new Map(graph?.nodes.map((node) => [node.entity_id, node.label]) ?? []);
   const displayLabels = new Map(graph?.nodes.map((node) => [displayId.get(node.entity_id)!, node.label]) ?? []);
-  const ids = [...displayLabels.keys()].slice(0, 12);
+  const ids = [...displayLabels.keys()].slice(0, graphLimit);
   const points = new Map(ids.map((id, i) => [id,
-    { x: 300 + 190 * Math.cos(2 * Math.PI * i / ids.length), y: 230 + 150 * Math.sin(2 * Math.PI * i / ids.length) }]));
-  const displayEdges = new Map<string, { source: string; target: string; count: number; relation: string; inferred: boolean }>();
+    { x: 600 + (ids.length > 30 ? 430 : 360) * Math.cos(2 * Math.PI * i / ids.length), y: 390 + (ids.length > 30 ? 300 : 250) * Math.sin(2 * Math.PI * i / ids.length) }]));
+  const displayEdges = new Map<string, { source: string; target: string; count: number; relation: string; inferred: boolean; edgeIds: string[] }>();
   for (const edge of graph?.edges ?? []) {
     const source = displayId.get(edge.source)!, target = displayId.get(edge.target)!;
+    if (!points.has(source) || !points.has(target)) continue;
     const key = `${source}/${target}/${edge.relation}/${edge.kind}`;
     const old = displayEdges.get(key);
-    displayEdges.set(key, { source, target, count: (old?.count ?? 0) + 1, relation: edge.relation, inferred: edge.kind === 'inferred' });
+    displayEdges.set(key, { source, target, count: (old?.count ?? 0) + 1, relation: edge.relation, inferred: edge.kind === 'inferred', edgeIds: [...(old?.edgeIds ?? []), edge.edge_id] });
   }
+  const selectedEdgeValue = graph?.edges.find(edge => edge.edge_id === selectedEdge) ?? null;
+  const selectedNodeEdges = selectedNode ? (graph?.edges ?? []).filter(edge => displayId.get(edge.source) === selectedNode || displayId.get(edge.target) === selectedNode) : [];
   return <>
     <div hidden={view !== 'incidents'}>
     <section className="panel"><div className="section-heading"><h3>待核查异常{incidents ? ` · ${incidents.items.length}${incidents.next_cursor ? '+' : ''}` : ''}</h3>
@@ -284,27 +291,50 @@ export function Investigation({ connection, view, active, onReport, onIncidents,
       })}>下一页时间线</button> : null}</section> : null}
     {report?.path_analysis && report.validation === 'passed' ? <Paths key={run?.run_id} analysis={report.path_analysis}
       busy={busy} onEvidence={(eventId) => void action((signal) => openEvidence(eventId, signal))}/> : null}
-    {graph ? <section className="panel"><h3>证据关系图</h3><p>此图覆盖完整冻结快照；Agent 已核查的事件范围见补证对比。</p><p>{graph.nodes.length}节点 / 已载入 {graph.edges.length} 边（共 {graph.total_edges ?? graph.edges.length}）。实线表示记录关系，虚线表示有约束的关联推断；均不等同攻击因果。</p>
+    {graph ? <section className="panel"><h3>证据关系图</h3><p>此图覆盖完整冻结快照；Agent 已核查的事件范围见补证对比。</p>
+      <p>总量 {graph.total_nodes ?? graph.nodes.length} 节点 / {graph.total_edges ?? graph.edges.length} 边；已载入 {graph.nodes.length} 节点、{graph.edges.length} 边；实际绘制 {ids.length} 节点、{[...displayEdges.values()].reduce((sum, edge) => sum + edge.count, 0)} 条聚合前边。实线表示记录关系，虚线表示有约束的关联推断；均不等同攻击因果。</p>
       {graph.truncated ? <p role="alert">关系图已裁剪，不能视为全部关系。</p> : null}
       <div className="form-row"><label>图节点焦点<select value={focus} onChange={(e) => setFocus(e.target.value)}>
         <option value="">全部节点</option>{graph.nodes.map((node) => <option key={node.entity_id} value={node.entity_id}>{node.type} · {node.label}</option>)}
-      </select></label><button disabled={busy} onClick={() => void action((signal) => loadGraph(signal))}>查询焦点关系</button></div>
-      <p className="muted">端点按IP聚合展示，主机、账号和进程按独立身份展示。布局最多显示12个节点；全部关系可在下方展开。</p>
-      <svg viewBox="0 0 620 480" className="evidence-graph" role="img" aria-label="当前快照证据关系图">
+      </select></label><button disabled={busy} onClick={() => void action((signal) => loadGraph(signal))}>查询焦点关系</button>
+      <label>绘制节点数<select value={graphLimit} onChange={(e) => setGraphLimit(Number(e.target.value))}>
+        <option value={20}>20</option><option value={50}>50</option><option value={100}>100</option>
+      </select></label></div>
+      <p className="muted">端点按IP聚合展示，主机、账号和进程按独立身份展示。点击节点查看相关边，点击边查看判据、支持证据和限制。</p>
+      <svg viewBox="0 0 1200 800" className="evidence-graph" role="img" aria-label="当前快照证据关系图">
         {[...displayEdges.entries()].map(([key, edge]) => {
           const a = points.get(edge.source), b = points.get(edge.target);
-          return a && b ? <g key={key}><line x1={a.x} y1={a.y} x2={b.x} y2={b.y} stroke="#729fac" strokeWidth="2" strokeDasharray={edge.inferred ? '6 4' : undefined}/>
+          const selected = selectedEdgeValue ? edge.edgeIds.includes(selectedEdgeValue.edge_id) : false;
+          return a && b ? <g key={key}><line x1={a.x} y1={a.y} x2={b.x} y2={b.y} stroke={selected ? '#b45309' : '#729fac'} strokeWidth={selected ? '4' : '2'} strokeDasharray={edge.inferred ? '6 4' : undefined} style={{ cursor: 'pointer' }} onClick={() => setSelectedEdge(edge.edgeIds[0])}/>
             <text x={(a.x+b.x)/2} y={(a.y+b.y)/2-14} textAnchor="middle" fontSize="13">{edge.relation} ×{edge.count}</text></g> : null;
         })}
         {ids.map((id) => {
           const p = points.get(id)!, label = displayLabels.get(id)!;
-          return <g key={id}><circle cx={p.x} cy={p.y} r="22" fill="#247b83"><title>{label}</title></circle>
+          return <g key={id} role="button" tabIndex={0} aria-label={`图节点 ${label}`} style={{ cursor: 'pointer' }}
+            onClick={() => { setSelectedNode(id); setFocus(id); }} onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') { setSelectedNode(id); setFocus(id); } }}>
+            <circle cx={p.x} cy={p.y} r="22" fill={selectedNode === id ? '#b45309' : '#247b83'}><title>{label}</title></circle>
             <text x={p.x} y={p.y + 45} textAnchor="middle" fontSize="13">{label}</text></g>;
         })}
       </svg>
+      {selectedEdgeValue ? <div className="inset" role="region" aria-label="图边详情"><h4>边详情 · {selectedEdgeValue.relation}</h4>
+        <p>{nodeLabels.get(selectedEdgeValue.source)} → {nodeLabels.get(selectedEdgeValue.target)} · {selectedEdgeValue.kind} · 支持度 {selectedEdgeValue.score.toFixed(3)}</p>
+        <p>{selectedEdgeValue.explanation} · {selectedEdgeValue.method}@{selectedEdgeValue.method_version}</p>
+        <p>{selectedEdgeValue.observation_domain ? `观测域 ${selectedEdgeValue.observation_domain} · ` : ''}{selectedEdgeValue.valid_from ?? ''} — {selectedEdgeValue.valid_to ?? ''}</p>
+        {selectedEdgeValue.limitations?.length ? <ul>{selectedEdgeValue.limitations.map(item => <li key={item}>{item}</li>)}</ul> : null}
+        <div className="actions">{selectedEdgeValue.evidence_refs.map(ref => <button key={ref.event_id} disabled={busy}
+          onClick={() => void action((signal) => openEvidence(ref.event_id, signal))}>查看证据 {ref.event_id.slice(0, 8)}</button>)}</div>
+        <button onClick={() => setSelectedEdge('')}>关闭边详情</button></div> : null}
+      {selectedNode ? <div className="inset" role="region" aria-label="图节点详情"><h4>节点详情 · {displayLabels.get(selectedNode) ?? nodeLabels.get(selectedNode) ?? selectedNode}</h4>
+        <p>相关边 {selectedNodeEdges.length} 条；以下证据来自已载入关系，不代表完整快照。</p>
+        <ul>{selectedNodeEdges.slice(0, 50).map(edge => <li key={edge.edge_id}>{edge.relation} · {edge.kind}
+          <button disabled={busy} onClick={() => setSelectedEdge(edge.edge_id)}>查看判据</button>
+          {edge.evidence_refs[0] ? <button disabled={busy} onClick={() => void action((signal) => openEvidence(edge.evidence_refs[0].event_id, signal))}>查看证据</button> : null}
+        </li>)}</ul>
+        <button onClick={() => setSelectedNode('')}>关闭节点详情</button></div> : null}
       <details><summary>展开全部边及证据</summary><ul>{graph.edges.map((edge) => <li key={edge.edge_id}>
         {nodeLabels.get(edge.source)} → {nodeLabels.get(edge.target)} · {edge.relation} · {edge.kind}
         <p>{edge.explanation} · {edge.method}@{edge.method_version}</p>
+        <button disabled={busy} onClick={() => setSelectedEdge(edge.edge_id)}>查看边详情</button>
         <button disabled={busy} onClick={() => void action((signal) => openEvidence(edge.evidence_refs[0].event_id, signal))}>查看原始行脱敏投影</button>
       </li>)}</ul></details>
       {graph.next_cursor ? <button disabled={busy} onClick={() => void action((signal) => loadGraph(signal, graph.next_cursor))}>载入下一页关系</button> : null}

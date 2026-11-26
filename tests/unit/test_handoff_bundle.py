@@ -108,7 +108,7 @@ def test_changed_docker_context_is_rejected_before_compose():
     catch {{ if ($_.Exception.Message -like '*different Docker*') {{ exit 0 }}; exit 8 }}
     """
     run = subprocess.run(
-        ["powershell.exe", "-NoProfile", "-Command", script], capture_output=True, timeout=20
+        ["powershell.exe", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", script], capture_output=True, timeout=20
     )
     assert run.returncode == 0
 
@@ -127,7 +127,7 @@ def test_windows_powershell_atomic_state_update(tmp_path):
     script = (f". '{common}'; Write-LocalJson '{state}' @{{version=1}}; "
               f"Write-LocalJson '{state}' @{{version=2}}")
     result = subprocess.run(
-        ["powershell.exe", "-NoProfile", "-Command", script], capture_output=True, timeout=20
+        ["powershell.exe", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", script], capture_output=True, timeout=20
     )
     assert result.returncode == 0
     assert json.loads((tmp_path / "state.json").read_bytes())["version"] == 2
@@ -163,7 +163,7 @@ def test_full_verification_without_optional_hash_cmdlet(tmp_path, tampered):
     # Reproduce a mixed PowerShell host where this optional function is unavailable.
     command = f"function Get-FileHash {{ throw 'unavailable' }}; & '{quoted}'"
     result = subprocess.run(
-        ["powershell.exe", "-NoProfile", "-Command", command], capture_output=True, timeout=30
+        ["powershell.exe", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", command], capture_output=True, timeout=30
     )
     assert (result.returncode == 0) == (not tampered)
 
@@ -188,6 +188,6 @@ def test_docker_content_ids_accept_only_archived_image(kind):
         f"if ((Test-HandoffImageId $image '{ids[kind]}') -ne {expected}) {{ exit 5 }}"
     )
     result = subprocess.run(
-        ["powershell.exe", "-NoProfile", "-Command", command], capture_output=True, timeout=30
+        ["powershell.exe", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", command], capture_output=True, timeout=30
     )
     assert result.returncode == 0

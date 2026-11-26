@@ -35,6 +35,7 @@ class Settings(BaseSettings):
     worker_poll_seconds: float = Field(default=1, ge=0.05, le=30)
     import_chunk_lines: int = Field(default=500, ge=1, le=500)
     snapshot_event_limit: int = Field(default=250, ge=1, le=250)
+    snapshot_scan_limit: int = Field(default=20000, ge=250, le=100000)
     detection_event_limit: int = Field(default=100000, ge=1, le=100000)
     detection_byte_limit: int = Field(default=268435456, ge=1024, le=536870912)
     detection_work_limit: int = Field(default=2000000, ge=1, le=10000000)

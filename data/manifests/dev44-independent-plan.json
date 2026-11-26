@@ -1,0 +1,53 @@
+{
+  "schema": "scenario-plan@1.0.0",
+  "version": "1.0.0",
+  "created_on": "2026-11-26",
+  "status": "planned_materials_missing",
+  "authorized": false,
+  "note": "This is a collection and split plan, not collected data. No private log, label or ground truth is included.",
+  "scenarios": [
+    {
+      "scenario_id": "IND-S1",
+      "name": "multi-source complete chain",
+      "required_sources": ["zeek_or_pcap", "linux_auth", "linux_audit", "linux_socket", "suricata_optional"],
+      "required_bindings": ["asset", "boot_id", "process_birth", "five_tuple", "time_uncertainty"],
+      "positive_expectation": "detection seed and process-to-connection path with evidence refs",
+      "normal_control": "authorized administration or backup activity",
+      "status": "not_collected"
+    },
+    {
+      "scenario_id": "IND-S2",
+      "name": "missing socket control",
+      "required_sources": ["zeek_or_pcap", "linux_auth", "linux_audit"],
+      "positive_expectation": "path retains missing_socket_binding breakpoint and unknown ownership",
+      "normal_control": "same chain with socket evidence added",
+      "status": "not_collected"
+    },
+    {
+      "scenario_id": "IND-S3",
+      "name": "normal business control",
+      "required_sources": ["zeek", "linux_auth", "linux_audit"],
+      "positive_expectation": "no target finding or only documented normal explanation",
+      "normal_control": "not applicable; this is the control",
+      "status": "not_collected"
+    }
+  ],
+  "split_policy": {
+    "unit": "complete_activity_chain",
+    "forbidden": ["random log-line split", "derived fragment across splits", "same activity renamed into another split"],
+    "splits": ["dev", "val", "test"]
+  },
+  "measurement": [
+    "detection false positives/negatives",
+    "edge correctness and origin candidates",
+    "non-seed evidence and supported/weakened changes",
+    "wrong associations",
+    "wall time and cost reservation/usage/invoice"
+  ],
+  "required_before_run": [
+    "written authorization and provenance",
+    "object SHA-256 and capture time range",
+    "two independent label reviewers and adjudication",
+    "fixed model/knowledge/rule versions and budget"
+  ]
+}

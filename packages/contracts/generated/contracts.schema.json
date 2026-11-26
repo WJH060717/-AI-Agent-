@@ -789,7 +789,8 @@
           "enum": [
             "associated_process",
             "spawned",
-            "corresponds_to"
+            "corresponds_to",
+            "opened"
           ],
           "title": "Relation",
           "type": "string"
@@ -950,7 +951,10 @@
             "associated_process",
             "corresponds_to",
             "suggests",
-            "precedes"
+            "precedes",
+            "resolved_to",
+            "address_claimed_by",
+            "scanned"
           ],
           "title": "Relation",
           "type": "string"
@@ -989,6 +993,55 @@
           "minimum": 0,
           "title": "Score",
           "type": "number"
+        },
+        "observation_domain": {
+          "anyOf": [
+            {
+              "maxLength": 4096,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Observation Domain"
+        },
+        "valid_from": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Valid From"
+        },
+        "valid_to": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Valid To"
+        },
+        "limitations": {
+          "items": {
+            "maxLength": 4096,
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Limitations",
+          "type": "array"
         },
         "contradicting_refs": {
           "items": {
@@ -1730,7 +1783,10 @@
             "process_socket_binding",
             "normal_baseline",
             "transferred_content",
-            "authorized_operations"
+            "authorized_operations",
+            "scan_authorization",
+            "dns_resolver_context",
+            "arp_lease_context"
           ],
           "title": "Code",
           "type": "string"
@@ -1812,7 +1868,10 @@
             "session_process_link",
             "remote_authentication",
             "unexplained_periodicity",
-            "unexplained_outbound"
+            "unexplained_outbound",
+            "scan_activity",
+            "dns_answer_conflict",
+            "arp_mapping_conflict"
           ],
           "title": "Kind",
           "type": "string"
@@ -1918,6 +1977,17 @@
           "format": "date-time",
           "title": "End",
           "type": "string"
+        },
+        "selection": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SnapshotSelection"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
         }
       },
       "required": [
@@ -2212,6 +2282,17 @@
           "anyOf": [
             {
               "$ref": "#/$defs/Process"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "socket": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SocketBinding"
             },
             {
               "type": "null"
@@ -2538,7 +2619,7 @@
           "type": "integer"
         },
         "method_version": {
-          "default": "event_paths@1.0.0",
+          "default": "event_paths@1.1.0",
           "maxLength": 4096,
           "minLength": 1,
           "title": "Method Version",
@@ -3208,6 +3289,7 @@
             "suricata",
             "linux_auth",
             "linux_audit",
+            "linux_socket",
             "sysmon"
           ],
           "title": "Type",
@@ -3233,6 +3315,191 @@
         "observation_domain"
       ],
       "title": "Sensor",
+      "type": "object"
+    },
+    "SnapshotCoverage": {
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "enum": [
+            "complete",
+            "partial"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "omitted_event_count": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Omitted Event Count",
+          "type": "integer"
+        },
+        "omitted_type_counts": {
+          "additionalProperties": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "title": "Omitted Type Counts",
+          "type": "object"
+        },
+        "limits": {
+          "additionalProperties": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "title": "Limits",
+          "type": "object"
+        }
+      },
+      "required": [
+        "status"
+      ],
+      "title": "SnapshotCoverage",
+      "type": "object"
+    },
+    "SnapshotSelection": {
+      "additionalProperties": false,
+      "description": "Immutable record of how a bounded investigation snapshot was chosen.",
+      "properties": {
+        "version": {
+          "const": "snapshot_selection@1.0.0",
+          "default": "snapshot_selection@1.0.0",
+          "title": "Version",
+          "type": "string"
+        },
+        "seed_finding_count": {
+          "minimum": 0,
+          "title": "Seed Finding Count",
+          "type": "integer"
+        },
+        "seed_event_count": {
+          "minimum": 0,
+          "title": "Seed Event Count",
+          "type": "integer"
+        },
+        "selected_event_count": {
+          "minimum": 0,
+          "title": "Selected Event Count",
+          "type": "integer"
+        },
+        "candidate_event_count": {
+          "minimum": 0,
+          "title": "Candidate Event Count",
+          "type": "integer"
+        },
+        "trusted_asset_ids": {
+          "items": {
+            "maxLength": 4096,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 1000,
+          "title": "Trusted Asset Ids",
+          "type": "array"
+        },
+        "seed_observation_domains": {
+          "items": {
+            "maxLength": 4096,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 100,
+          "title": "Seed Observation Domains",
+          "type": "array"
+        },
+        "source_counts": {
+          "additionalProperties": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "title": "Source Counts",
+          "type": "object"
+        },
+        "type_counts": {
+          "additionalProperties": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "title": "Type Counts",
+          "type": "object"
+        },
+        "reason_counts": {
+          "additionalProperties": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "title": "Reason Counts",
+          "type": "object"
+        },
+        "event_reasons": {
+          "additionalProperties": {
+            "maxLength": 4096,
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Event Reasons",
+          "type": "object"
+        },
+        "coverage": {
+          "$ref": "#/$defs/SnapshotCoverage"
+        },
+        "limitations": {
+          "items": {
+            "maxLength": 4096,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 10,
+          "title": "Limitations",
+          "type": "array"
+        }
+      },
+      "required": [
+        "seed_finding_count",
+        "seed_event_count",
+        "selected_event_count",
+        "candidate_event_count",
+        "coverage"
+      ],
+      "title": "SnapshotSelection",
+      "type": "object"
+    },
+    "SocketBinding": {
+      "additionalProperties": false,
+      "description": "Host-side ownership of an established connection at a bounded observation time.",
+      "properties": {
+        "inode": {
+          "maxLength": 4096,
+          "minLength": 1,
+          "title": "Inode",
+          "type": "string"
+        },
+        "role": {
+          "enum": [
+            "client",
+            "server"
+          ],
+          "title": "Role",
+          "type": "string"
+        },
+        "state": {
+          "const": "established",
+          "title": "State",
+          "type": "string"
+        },
+        "connected_at": {
+          "format": "date-time",
+          "title": "Connected At",
+          "type": "string"
+        }
+      },
+      "required": [
+        "inode",
+        "role",
+        "state",
+        "connected_at"
+      ],
+      "title": "SocketBinding",
       "type": "object"
     },
     "SourceLocator": {

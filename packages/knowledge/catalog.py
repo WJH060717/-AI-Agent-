@@ -50,7 +50,7 @@ def identity(enabled: bool = True) -> str:
         canonical(
             {
                 n: sha((ROOT / n).read_bytes()) if (ROOT / n).is_file() else "missing"
-                for n in ("catalog.json", "freeze.json")
+                for n in ("manifest.json", "catalog.json", "freeze.json")
             }
         )
     )
@@ -66,10 +66,24 @@ class Catalog:
             document = json.loads(raw)
             self.version = document["knowledge_version"]
             self.digest = sha(raw)
+            manifest_path = root / "manifest.json"
+            self.manifest = (
+                json.loads(manifest_path.read_bytes()) if manifest_path.is_file() else {}
+            )
+            if self.manifest and (
+                self.manifest.get("catalog_sha256") != self.digest
+                or self.manifest.get("knowledge_version") != self.version
+            ):
+                raise ValueError()
             values = [Entry.model_validate(item).model_dump() for item in document["entries"]]
             self.entries = {item["technique_id"]: item for item in values}
-            if len(values) != 6 or len(self.entries) != 6:
+            if not 1 <= len(values) <= 50 or len(self.entries) != len(values):
                 raise ValueError()
+            self.unmapped_rules = sorted(self.manifest.get("unmapped_rules", []))
+            self.rule_map = {
+                rule: [item["technique_id"] for item in values if item["rule_id"] == rule]
+                for rule in sorted({item["rule_id"] for item in values})
+            }
         except (OSError, ValueError, KeyError, TypeError) as exc:
             raise KnowledgeError("KNOWLEDGE_INTEGRITY") from exc
 
@@ -86,6 +100,9 @@ class Catalog:
             if tid in self.entries
         ]
 
+    def for_rule(self, rule_id: str) -> list[dict]:
+        return self.lookup(self.rule_map.get(rule_id, []))
+
 
 def verify_sources(root: Path = ROOT) -> dict[str, int]:
     catalog = Catalog(root)
@@ -93,6 +110,11 @@ def verify_sources(root: Path = ROOT) -> dict[str, int]:
     for name in ("catalog.json", "source-objects.json", "LICENSE.txt", "source.json"):
         if sha((root / name).read_bytes()) != freeze["files"][name]:
             raise KnowledgeError("KNOWLEDGE_SOURCE_INTEGRITY")
+    manifest_path = root / "manifest.json"
+    if manifest_path.is_file():
+        manifest = json.loads(manifest_path.read_bytes())
+        if manifest.get("catalog_sha256") != catalog.digest:
+            raise KnowledgeError("KNOWLEDGE_MANIFEST_INTEGRITY")
     objects = {
         o["id"]: o for o in json.loads((root / "source-objects.json").read_bytes())["objects"]
     }

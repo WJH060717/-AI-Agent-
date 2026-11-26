@@ -42,6 +42,8 @@ def apply_context(event: NormalizedEvent, context) -> NormalizedEvent:
     event.event_time += timedelta(milliseconds=profile.offset_ms)
     if event.process and event.process.start_time:
         event.process.start_time += timedelta(milliseconds=profile.offset_ms)
+    if event.socket:
+        event.socket.connected_at += timedelta(milliseconds=profile.offset_ms)
     event.time_quality.offset_ms = profile.offset_ms
     event.time_quality.uncertainty_ms = profile.uncertainty_ms
     event.time_quality.basis = profile.clock_basis

@@ -5,6 +5,9 @@ from pathlib import Path
 
 from pydantic import Field
 
+from packages.agent.strategies import evaluate as evaluate_strategy
+from packages.agent.strategies import strategy_for
+from packages.agent.strategies import validate as validate_strategy
 from packages.contracts.models import (
     Contract,
     EvidenceRef,
@@ -259,7 +262,46 @@ def assess(
                 limitations=limitations,
             )
         )
-    if len(selected) > config.max_hypotheses:
+    strategy_findings = [
+        f for f in sorted(findings, key=lambda f: f["id"]) if strategy_for(f) is not None
+    ]
+    for f in strategy_findings[: max(0, config.max_hypotheses - len(hypotheses))]:
+        result = evaluate_strategy(f, known, known_ids)
+        if result is None:
+            continue
+        validate_strategy(result, known_ids)
+        hid = "hyp-" + f["id"]
+        seed = [eid for eid in f.get("evidence_ids", []) if eid in known_ids]
+        asset = by_id[seed[0]].asset_id if seed else None
+        for spec in result.gaps:
+            gaps.append(
+                InvestigationGap(
+                    gap_id=hid + ":" + spec["code"],
+                    hypothesis_id=hid,
+                    code=spec["code"],
+                    status=spec["status"],
+                    actionable=spec["actionable"],
+                    explanation=spec["explanation"],
+                    asset_id=asset,
+                    evidence_refs=refs(result.supporting),
+                )
+            )
+        hypotheses.append(
+            InvestigationHypothesis(
+                hypothesis_id=hid,
+                finding_id=f["id"],
+                rule_id=f["rule_id"],
+                kind=result.hypothesis_kind,
+                status=result.status,
+                statement=result.statement,
+                observation=result.observation,
+                supporting_refs=refs(result.supporting),
+                contradicting_refs=refs(result.counter),
+                counterevidence_kind="context_only" if result.counter else "none",
+                limitations=result.limitations,
+            )
+        )
+    if len(selected) + len(strategy_findings) > config.max_hypotheses:
         truncated = True
     return InvestigationAssessment(
         known_evidence_ids=sorted(known_ids), hypotheses=hypotheses, gaps=gaps, truncated=truncated

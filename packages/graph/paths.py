@@ -16,7 +16,7 @@ from packages.contracts.models import (
     PathCandidate,
     PathScore,
 )
-from packages.graph.service import evidence_graph
+from packages.graph.service import evidence_graph, socket_matches_connection
 from packages.ingest.identity import precedes
 
 
@@ -60,7 +60,16 @@ def analyze_paths(
             EvidenceRef(
                 event_id=e.event_id,
                 fragments=e.source_locators,
-                fields_used=["event_time", "time_quality", "host", "user", "process", "src", "dst"],
+                fields_used=[
+                    "event_time",
+                    "time_quality",
+                    "host",
+                    "user",
+                    "process",
+                    "socket",
+                    "src",
+                    "dst",
+                ],
             )
             for e in members
         ]
@@ -174,6 +183,25 @@ def analyze_paths(
                 and parent.process.action == child.process.action == "create"
             ):
                 add(parent, child, "spawned")
+    bound_pairs: set[tuple[str, str]] = set()
+    for socket_event in [e for e in events if e.socket and e.process and e.host]:
+        entity = socket_event.process.entity_id
+        if not entity:
+            continue
+        for process_event in processes:
+            if (
+                process_event.process.entity_id == entity
+                and process_event.host == socket_event.host
+                and process_event.event_id != socket_event.event_id
+            ):
+                add(process_event, socket_event, "opened")
+        for network in events:
+            if not socket_matches_connection(socket_event, network):
+                continue
+            before = len(links)
+            add(socket_event, network, "opened", "inferred")
+            if len(links) > before:
+                bound_pairs.add((entity, network.event_id))
     for network in events:
         if (
             not network.network
@@ -209,6 +237,9 @@ def analyze_paths(
                 and process.event_time < network.event_time
                 and process.sensor.observation_domain == network.sensor.observation_domain
             ):
+                entity = process.process.entity_id
+                if entity and (entity, network.event_id) in bound_pairs:
+                    continue
                 gap(
                     process,
                     network,
@@ -335,6 +366,6 @@ def analyze_paths(
             "候选路径表达记录关系与有约束推断，不证明恶意、完整攻击链或真实操作者身份",
             "分数为启发式支持度，未作为概率校准；无独立通道声明时旁证项为0",
             "coverage只覆盖所选链条内已连接的跳；窗口前活动和未观测跳数未知",
-            "未接进程socket绑定，缺证跳保留断点；beam20/top3/6跳可能裁剪其他解释",
+            "仅在显式主机socket绑定且域、资产、五元组和时间均一致时连接进程与连接；其余保留断点。",
         ],
     )

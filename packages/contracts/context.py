@@ -40,7 +40,7 @@ class Asset(Contract):
 
 class SensorProfile(Contract):
     sensor_id: str = Field(min_length=1, max_length=200)
-    source_type: Literal["pcap", "zeek", "suricata", "linux_auth", "linux_audit"]
+    source_type: Literal["pcap", "zeek", "suricata", "linux_auth", "linux_audit", "linux_socket"]
     asset_id: UUID | None = None
     instance_id: str = Field(min_length=1, max_length=200)
     observation_domain: str = Field(min_length=1, max_length=100)

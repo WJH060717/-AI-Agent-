@@ -57,3 +57,20 @@ def test_official_mapping_objects_match_freeze():
     assert result["strategies"] == 6
     assert result["analytics"] >= 6
     assert result["data_components"] >= 1
+
+
+def test_manifest_drives_mapping_and_allows_explicit_unmapped_rules(tmp_path):
+    from packages.knowledge.catalog import KnowledgeError, ROOT, Catalog
+
+    catalog = Catalog()
+    assert catalog.manifest["schema"] == "knowledge-manifest@1.0.0"
+    assert "R31" in catalog.unmapped_rules
+    assert [item["technique_id"] for item in catalog.for_rule("R01")] == ["T1046"]
+    assert catalog.for_rule("R31") == []
+    for name in ("manifest.json", "catalog.json", "freeze.json"):
+        (tmp_path / name).write_bytes((ROOT / name).read_bytes())
+    manifest = json.loads((tmp_path / "manifest.json").read_text(encoding="utf8"))
+    manifest["catalog_sha256"] = "0" * 64
+    (tmp_path / "manifest.json").write_text(json.dumps(manifest), encoding="utf8")
+    with pytest.raises(KnowledgeError, match="KNOWLEDGE_INTEGRITY"):
+        Catalog(tmp_path)

@@ -259,7 +259,11 @@ class AgentRuntime:
         context = {
             "run_id": self.run_id,
             "incident_id": self.tools.incident_id,
-            "scope": self.tools.scope.model_dump(mode="json"),
+            "scope": {
+                "snapshot_id": str(self.tools.scope.snapshot_id),
+                "start": self.tools.scope.start.isoformat(),
+                "end": self.tools.scope.end.isoformat(),
+            },
             "facts": facts,
             "facts_truncated": len(available) > len(facts),
             "seed_event_ids": self.tools.membership["evidence_ids"][:20],

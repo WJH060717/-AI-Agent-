@@ -9,7 +9,7 @@ export function Paths({ analysis, onEvidence, busy }: {
   const links = new Map(analysis.links.map((link) => [link.edge_id, link]));
   return <section className="panel"><h3>候选入口与证据路径</h3>
     <p>范围：{analysis.scope.start} — {analysis.scope.end}（UTC）。{analysis.status === 'candidates' ? '发现可追证的候选路径' : '证据不足，未生成路径'}。</p>
-    <p>以下关系不证明恶意、完整攻击链或真实操作者；分数是启发式支持度。</p>
+    <p>以下关系不证明恶意、完整攻击链或真实操作者；分数是启发式路径支持度。</p>
     <details><summary>候选入口 · {analysis.origins.length}</summary>
       <ul>{analysis.origins.map((origin) => <li key={origin.origin_id}>
         {origin.classification} · {origin.event_id.slice(0, 12)} · left_censored={String(origin.left_censored)}
@@ -20,7 +20,7 @@ export function Paths({ analysis, onEvidence, busy }: {
     <div className="form-row">{analysis.paths.map((candidate, i) => <button key={candidate.path_id}
       aria-pressed={selected === i} onClick={() => setSelected(i)}>候选路径 {i + 1}</button>)}</div>
     {path ? <article>
-      <p>支持度 {path.support_level} · {path.score.toFixed(3)} · observed {path.observed_steps} / inferred {path.inferred_steps}</p>
+      <p>路径支持度 {path.support_level} · {path.score.toFixed(3)} · observed {path.observed_steps} / inferred {path.inferred_steps}</p>
       <p>链内证据覆盖 {Math.round(path.coverage * 100)}% · 链内缺跳 {path.missing_steps}；未观测的攻击步骤数量未知。</p>
       <ol>{path.edge_ids.map((id) => {
         const link = links.get(id)!;

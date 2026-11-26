@@ -1,5 +1,14 @@
 # 设计与实施变更
 
+## dev44｜跨源快照、socket、策略与包级图
+
+- 调查快照保留 incident 全部 finding 种子，并按可信资产/观测域纳入网络、认证、进程、告警上下文；`SnapshotSelection` 记录来源、类型、原因、覆盖与限制；种子/扫描超限明确 422，上下文超限 partial。
+- 新增 `linux_socket` JSONL 来源与 `host.process.socket`；只有强 boot/出生标记/身份、同域同资产五元组和时间窗才形成 `opened` 边；无记录保留 `missing_socket_binding`。
+- 新增可注册策略扫描/DNS/ARP；新增独立 R31 纯失败认证猜测，保持 R02 冻结语义。
+- 知识目录改为 manifest 驱动并显式列出未映射规则；证据图新增 DNS 事务、ARP 声明冲突和 TCP SYN 端口投影。
+- 前端支持 20/50/100 节点绘制、节点/边详情与证据联动；容量、实验台账、CI、demo 入口、README、许可清单同步。
+- 公开回归 998 passed / 93 skipped，前端 typecheck/lint/build 通过；详细限制见 `verification-dev44.md`。
+
 ## Agent 草稿｜连接和抓包证据
 
 - `connection_seen` 仍要求真实连接记录与字段逐项相符。仅引用抓包且引用、声明字段均有效时，连接状态规范化为未知，保留原件引用。混用记录类型或抓包字段不符时拒绝声明并给出连接证据专用错误码。既有公开报告结构保持。

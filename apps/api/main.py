@@ -63,7 +63,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             if service is not None:
                 service.db.engine.dispose()
 
-    application = FastAPI(title="Telemetry Trace", version="0.1.0.dev43", lifespan=lifespan)
+    application = FastAPI(title="Telemetry Trace", version="0.1.0.dev44", lifespan=lifespan)
     application.add_middleware(BodyLimit, max_bytes=config.max_upload_mb * 1024 * 1024 + 65536)
 
     limiter = RequestLimiter(

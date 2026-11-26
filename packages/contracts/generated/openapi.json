@@ -3664,7 +3664,8 @@
             "enum": [
               "associated_process",
               "spawned",
-              "corresponds_to"
+              "corresponds_to",
+              "opened"
             ],
             "title": "Relation"
           },
@@ -3968,7 +3969,10 @@
               "associated_process",
               "corresponds_to",
               "suggests",
-              "precedes"
+              "precedes",
+              "resolved_to",
+              "address_claimed_by",
+              "scanned"
             ],
             "title": "Relation"
           },
@@ -4006,6 +4010,52 @@
             "maximum": 1.0,
             "minimum": 0.0,
             "title": "Score"
+          },
+          "observation_domain": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 4096,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Observation Domain"
+          },
+          "valid_from": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Valid From"
+          },
+          "valid_to": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Valid To"
+          },
+          "limitations": {
+            "items": {
+              "type": "string",
+              "maxLength": 4096,
+              "minLength": 1
+            },
+            "type": "array",
+            "title": "Limitations"
           },
           "contradicting_refs": {
             "items": {
@@ -4059,6 +4109,13 @@
               "User",
               "Session",
               "Connection",
+              "Socket",
+              "DnsTransaction",
+              "DnsAnswer",
+              "ArpAddress",
+              "ArpClaim",
+              "ScanSource",
+              "ScanTarget",
               "Event"
             ],
             "title": "Type"
@@ -5138,7 +5195,10 @@
               "process_socket_binding",
               "normal_baseline",
               "transferred_content",
-              "authorized_operations"
+              "authorized_operations",
+              "scan_authorization",
+              "dns_resolver_context",
+              "arp_lease_context"
             ],
             "title": "Code"
           },
@@ -5219,7 +5279,10 @@
               "session_process_link",
               "remote_authentication",
               "unexplained_periodicity",
-              "unexplained_outbound"
+              "unexplained_outbound",
+              "scan_activity",
+              "dns_answer_conflict",
+              "arp_mapping_conflict"
             ],
             "title": "Kind"
           },
@@ -5324,6 +5387,16 @@
             "type": "string",
             "format": "date-time",
             "title": "End"
+          },
+          "selection": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SnapshotSelection"
+              },
+              {
+                "type": "null"
+              }
+            ]
           }
         },
         "additionalProperties": false,
@@ -5604,6 +5677,16 @@
             "anyOf": [
               {
                 "$ref": "#/components/schemas/Process"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "socket": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SocketBinding"
               },
               {
                 "type": "null"
@@ -5921,7 +6004,7 @@
             "maxLength": 4096,
             "minLength": 1,
             "title": "Method Version",
-            "default": "event_paths@1.0.0"
+            "default": "event_paths@1.1.0"
           },
           "limitations": {
             "items": {
@@ -6951,6 +7034,16 @@
       },
       "RunStatus": {
         "properties": {
+          "snapshot_manifest": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SnapshotSelection"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "pipeline_progress": {
             "anyOf": [
               {
@@ -7157,6 +7250,7 @@
               "suricata",
               "linux_auth",
               "linux_audit",
+              "linux_socket",
               "sysmon"
             ],
             "title": "Type"
@@ -7199,7 +7293,8 @@
               "zeek",
               "suricata",
               "linux_auth",
-              "linux_audit"
+              "linux_audit",
+              "linux_socket"
             ],
             "title": "Source Type"
           },
@@ -7274,6 +7369,191 @@
           "clock_basis"
         ],
         "title": "SensorProfile"
+      },
+      "SnapshotCoverage": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "complete",
+              "partial"
+            ],
+            "title": "Status"
+          },
+          "omitted_event_count": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Omitted Event Count",
+            "default": 0
+          },
+          "omitted_type_counts": {
+            "additionalProperties": {
+              "type": "integer",
+              "minimum": 0.0
+            },
+            "type": "object",
+            "title": "Omitted Type Counts"
+          },
+          "limits": {
+            "additionalProperties": {
+              "type": "integer",
+              "minimum": 0.0
+            },
+            "type": "object",
+            "title": "Limits"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "status"
+        ],
+        "title": "SnapshotCoverage"
+      },
+      "SnapshotSelection": {
+        "properties": {
+          "version": {
+            "type": "string",
+            "const": "snapshot_selection@1.0.0",
+            "title": "Version",
+            "default": "snapshot_selection@1.0.0"
+          },
+          "seed_finding_count": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Seed Finding Count"
+          },
+          "seed_event_count": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Seed Event Count"
+          },
+          "selected_event_count": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Selected Event Count"
+          },
+          "candidate_event_count": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Candidate Event Count"
+          },
+          "trusted_asset_ids": {
+            "items": {
+              "type": "string",
+              "maxLength": 4096,
+              "minLength": 1
+            },
+            "type": "array",
+            "maxItems": 1000,
+            "title": "Trusted Asset Ids"
+          },
+          "seed_observation_domains": {
+            "items": {
+              "type": "string",
+              "maxLength": 4096,
+              "minLength": 1
+            },
+            "type": "array",
+            "maxItems": 100,
+            "title": "Seed Observation Domains"
+          },
+          "source_counts": {
+            "additionalProperties": {
+              "type": "integer",
+              "minimum": 0.0
+            },
+            "type": "object",
+            "title": "Source Counts"
+          },
+          "type_counts": {
+            "additionalProperties": {
+              "type": "integer",
+              "minimum": 0.0
+            },
+            "type": "object",
+            "title": "Type Counts"
+          },
+          "reason_counts": {
+            "additionalProperties": {
+              "type": "integer",
+              "minimum": 0.0
+            },
+            "type": "object",
+            "title": "Reason Counts"
+          },
+          "event_reasons": {
+            "additionalProperties": {
+              "type": "string",
+              "maxLength": 4096,
+              "minLength": 1
+            },
+            "type": "object",
+            "title": "Event Reasons"
+          },
+          "coverage": {
+            "$ref": "#/components/schemas/SnapshotCoverage"
+          },
+          "limitations": {
+            "items": {
+              "type": "string",
+              "maxLength": 4096,
+              "minLength": 1
+            },
+            "type": "array",
+            "maxItems": 10,
+            "title": "Limitations"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "seed_finding_count",
+          "seed_event_count",
+          "selected_event_count",
+          "candidate_event_count",
+          "coverage"
+        ],
+        "title": "SnapshotSelection",
+        "description": "Immutable record of how a bounded investigation snapshot was chosen."
+      },
+      "SocketBinding": {
+        "properties": {
+          "inode": {
+            "type": "string",
+            "maxLength": 4096,
+            "minLength": 1,
+            "title": "Inode"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "client",
+              "server"
+            ],
+            "title": "Role"
+          },
+          "state": {
+            "type": "string",
+            "const": "established",
+            "title": "State"
+          },
+          "connected_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Connected At"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "inode",
+          "role",
+          "state",
+          "connected_at"
+        ],
+        "title": "SocketBinding",
+        "description": "Host-side ownership of an established connection at a bounded observation time."
       },
       "SourceLocator": {
         "properties": {

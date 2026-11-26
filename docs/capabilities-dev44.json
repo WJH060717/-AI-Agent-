@@ -1,0 +1,106 @@
+{
+  "schema": "capability-index@1.0.0",
+  "app_version": "0.1.0.dev44",
+  "database_head": "0006_d9",
+  "model_default": "disabled",
+  "updated_on": "2026-11-26",
+  "capabilities": [
+    {
+      "id": "CAP-INGEST",
+      "name": "多源导入与原件封存",
+      "status": "implemented_engineering",
+      "sources": ["zeek", "suricata", "linux_auth", "linux_audit", "linux_socket", "pcap_packet"],
+      "implementation": ["packages/ingest", "packages/storage/service.py", "packages/storage/worker.py"],
+      "verification": ["tests/contract/test_fixture.py", "tests/integration/test_import_sensor.py", "tests/contract/test_socket_binding.py"],
+      "limits": ["合成夹具为主", "未做真实采集器时钟/身份可信度验收"]
+    },
+    {
+      "id": "CAP-SNAPSHOT",
+      "name": "跨源调查快照与选取清单",
+      "status": "implemented_engineering",
+      "implementation": ["packages/storage/analysis.py", "packages/contracts/models.py"],
+      "verification": ["tests/integration/test_snapshot_selection.py"],
+      "limits": ["快照上限 250；扫描窗口 20000；超限显式报错或 partial"]
+    },
+    {
+      "id": "CAP-DETECT",
+      "name": "规则检测 R01-R31",
+      "status": "implemented_engineering",
+      "implementation": ["packages/detection", "rules"],
+      "verification": ["tests/contract", "docs/ciciot-behavior-verification.md"],
+      "limits": ["历史行为集 2/16 与 DoS v2 11/12 为不同口径", "无正式独立标签评估"]
+    },
+    {
+      "id": "CAP-SOCKET",
+      "name": "进程-连接 socket 绑定",
+      "status": "implemented_engineering",
+      "implementation": ["packages/ingest/linux.py", "packages/graph/service.py", "packages/graph/paths.py"],
+      "verification": ["tests/contract/test_socket_binding.py"],
+      "limits": ["需显式强进程身份；无记录保留断点；真实 collector 未验收"]
+    },
+    {
+      "id": "CAP-STRATEGY",
+      "name": "可注册逐类调查策略",
+      "status": "implemented_engineering",
+      "implementation": ["packages/agent/strategies.py", "packages/agent/assessment.py", "packages/agent/retrieval.py"],
+      "verification": ["tests/contract/test_agent_strategies.py"],
+      "limits": ["覆盖扫描/DNS/ARP 三类；其他规则仍用原判断"]
+    },
+    {
+      "id": "CAP-GRAPH",
+      "name": "证据图与包级关系投影",
+      "status": "implemented_engineering",
+      "implementation": ["packages/graph/service.py", "packages/graph/paths.py"],
+      "verification": ["tests/contract/test_d5_paths.py", "tests/integration/test_pipeline_paths.py"],
+      "limits": ["DNS/ARP/SYN 投影为启发式，不证明欺骗、中间人或攻击成功"]
+    },
+    {
+      "id": "CAP-KNOWLEDGE",
+      "name": "版本化 ATT&CK 目录",
+      "status": "implemented_engineering",
+      "implementation": ["knowledge/attack-18.1", "packages/knowledge/catalog.py"],
+      "verification": ["tests/unit/test_p1_knowledge.py"],
+      "limits": ["仅本地白名单摘要；未映射规则显式保留；知识不等于现场证据"]
+    },
+    {
+      "id": "CAP-WEB",
+      "name": "调查工作台",
+      "status": "implemented_engineering",
+      "implementation": ["apps/web/src/Investigation.tsx", "apps/web/src/Paths.tsx"],
+      "verification": ["npm run typecheck", "npm run lint", "npm run build"],
+      "limits": ["隔离浏览器流程未在本轮重跑", "20/50/100 节点为客户端绘制上限"]
+    },
+    {
+      "id": "CAP-CAPACITY",
+      "name": "检测容量测量",
+      "status": "measured_synthetic",
+      "implementation": ["scripts/measure_capacity.py"],
+      "verification": ["docs/capacity-dev44.json"],
+      "limits": ["仅检测阶段；不等同端到端十万条溯源"]
+    },
+    {
+      "id": "CAP-CI",
+      "name": "公开测试与 CI",
+      "status": "implemented_engineering",
+      "implementation": ["tests/conftest.py", ".github/workflows/ci.yml"],
+      "verification": ["本机 998 passed / 93 skipped", "前端 typecheck/lint/build 通过"],
+      "limits": ["私有 D13/D14/D15 与真实模型材料缺失时明确 skip；CI 首次远程运行待观察"]
+    },
+    {
+      "id": "CAP-EVAL",
+      "name": "独立 B0-B3 正式实验",
+      "status": "not_run",
+      "implementation": ["eval/current-ledger.json", "eval/runner.py"],
+      "verification": [],
+      "limits": ["无独立授权材料、双人标签、真实模型费用与正式预测"]
+    },
+    {
+      "id": "CAP-LICENSE",
+      "name": "许可与第三方清单",
+      "status": "pending_rights_holder",
+      "implementation": ["LICENSE", "LICENSE-STATUS.md", "THIRD_PARTY_NOTICES.md"],
+      "verification": [],
+      "limits": ["项目整体许可未由权利人确认；MITRE 许可证不覆盖全项目"]
+    }
+  ]
+}

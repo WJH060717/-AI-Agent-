@@ -127,6 +127,93 @@ def parse_auth(raw: bytes, line: int, context) -> NormalizedEvent:
     return apply_context(NormalizedEvent.model_validate(payload), context)
 
 
+def parse_socket(raw: bytes, line: int, context) -> NormalizedEvent:
+    """Parse one explicit host socket snapshot record.
+
+    The collector must bind the socket to a strong process identity (boot plus
+    birth marker) and provide the connection start. A bare PID or an observation
+    after the fact is retained as weak evidence and never becomes a graph edge.
+    """
+    record = json.loads(raw.decode("utf-8"))
+    if not isinstance(record, dict):
+        raise ValueError("socket record must be an object")
+    ref = SourceLocator(
+        object_id=context.object_id, record_start=line, record_end=line, raw_sha256=context.sha256
+    )
+    payload = base(record, [ref], context)
+    observed = payload["event_time"]
+    p = record.get("process")
+    if not isinstance(p, dict):
+        raise ValueError("socket process must be structured")
+    pid = integer(p["pid"])
+    action = "observe"
+    birth = None
+    if p.get("start_ticks") is not None:
+        birth = ["ticks", integer(p["start_ticks"])]
+    elif p.get("start_time") is not None:
+        born = aware(p["start_time"])
+        if born > observed:
+            raise ValueError("process birth cannot be after socket observation")
+        birth = ["time", born.isoformat()]
+    strong = bool(
+        record.get("boot_id")
+        and birth
+        and p.get("identity_basis") in {"lifecycle_record", "verified_proc"}
+    )
+    process = {
+        "pid": pid,
+        "action": action,
+        "boot_id": record.get("boot_id"),
+        "identity_basis": p["identity_basis"] if strong else "pid_only",
+        "executable": re.sub(r"^/home/[^/]+/", "/home/<user>/", p["executable"])
+        if isinstance(p.get("executable"), str)
+        else None,
+    }
+    if strong:
+        process["entity_id"] = process_key(payload["asset_id"], record["boot_id"], pid, birth)
+        process["start_ticks"] = birth[1] if birth[0] == "ticks" else None
+        process["start_time"] = birth[1] if birth[0] == "time" else None
+    else:
+        payload["quality_flags"].append("identity_weak")
+    socket = record.get("socket")
+    if not isinstance(socket, dict):
+        raise ValueError("socket payload must be structured")
+    if socket.get("state") != "established":
+        raise ValueError("only established sockets carry a connection binding")
+    role = socket.get("role")
+    if role not in {"client", "server"}:
+        raise ValueError("socket role must be client or server")
+    transport = socket.get("transport")
+    if transport not in {"tcp", "udp"}:
+        raise ValueError("socket transport must be tcp or udp")
+    connected = aware(socket.get("connected_at"))
+    if connected > observed:
+        raise ValueError("connection start cannot be after socket observation")
+    inode = socket.get("inode")
+    if (
+        isinstance(inode, bool)
+        or not isinstance(inode, (str, int))
+        or not 1 <= len(str(inode)) <= 100
+    ):
+        raise ValueError("socket inode must be a bounded identifier")
+    payload.update(
+        event_type="host.process",
+        process=process,
+        socket={
+            "inode": str(inode),
+            "role": role,
+            "state": "established",
+            "connected_at": connected,
+        },
+        src={"ip": socket["local_ip"], "port": socket["local_port"]},
+        dst={"ip": socket["remote_ip"], "port": socket["remote_port"]},
+        network={"transport": transport},
+    )
+    payload["event_time"] = connected
+    payload["quality_flags"].append("socket_observation")
+    return apply_context(NormalizedEvent.model_validate(payload), context)
+
+
 def audit_descriptor(raw: bytes, context) -> tuple[str, dict]:
     record = json.loads(raw.decode("utf-8"))
     if not isinstance(record, dict) or record.get("record_type") not in {
