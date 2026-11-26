@@ -19,7 +19,8 @@ def retrieval_decision(kind: str, context: dict, page_limit: int | None = None) 
             return {"action": "draft", "reason_summary": "No bounded query suggestion"}
         return {
             "action": "call_tool",
-            **query,
+            "tool": query["tool"],
+            "arguments": query["arguments"],
             "reason_summary": "Inspect suggested bounded evidence",
             "expected_evidence": "Snapshot observations; empty is not absence",
         }

@@ -76,12 +76,12 @@
 
 主要交付：
 
-- [完整候选结果 JSON](../artifacts/ctu13-labels-01/comparison-02/comparison.json)
-- [逐事件匹配、官方行号及行哈希](../artifacts/ctu13-labels-01/comparison-02/evidence-matches.jsonl)
-- [独立复算结果](../artifacts/ctu13-labels-01/independent-verification.json)
-- [8080 数据保全结果](../artifacts/ctu13-labels-01/preservation.json)
-- [相关测试 JUnit](../artifacts/ctu13-labels-01/related-tests.xml)
-- [工件完整性清单](../artifacts/ctu13-labels-01/artifact-manifest.json)
+- 完整候选结果 JSON（本地归档 `../artifacts/ctu13-labels-01/comparison-02/comparison.json`）
+- 逐事件匹配、官方行号及行哈希（本地归档 `../artifacts/ctu13-labels-01/comparison-02/evidence-matches.jsonl`）
+- 独立复算结果（本地归档 `../artifacts/ctu13-labels-01/independent-verification.json`）
+- 8080 数据保全结果（本地归档 `../artifacts/ctu13-labels-01/preservation.json`）
+- 相关测试 JUnit（本地归档 `../artifacts/ctu13-labels-01/related-tests.xml`）
+- 工件完整性清单（本地归档 `../artifacts/ctu13-labels-01/artifact-manifest.json`）
 
 ## 结论边界
 

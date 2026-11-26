@@ -39,7 +39,7 @@
 .venv/Scripts/python -m scripts.d10_gate --freeze release/d10-freeze-01.json --evidence artifacts/d10-check-01 --require-release
 ```
 
-第一条exit0；第二条严格发布门禁实际exit2。检查日志与执行绑定见[checks.json](../artifacts/d10-check-01/checks.json)，结果见[gate.json](../artifacts/d10-check-01/gate.json)及[严格门禁输出](../artifacts/d10-strict-gate-01.json)。已完成的证据可按运行说明只读复验；不要重新使用已有输出目录。
+第一条exit0；第二条严格发布门禁实际exit2。检查日志与执行绑定见checks.json（本地归档 `../artifacts/d10-check-01/checks.json`），结果见gate.json（本地归档 `../artifacts/d10-check-01/gate.json`）及严格门禁输出（本地归档 `../artifacts/d10-strict-gate-01.json`）。已完成的证据可按运行说明只读复验；不要重新使用已有输出目录。
 
 | 检查 | 实际结果 |
 |---|---|
@@ -57,13 +57,13 @@
 
 ## 冻结交付物
 
-- [冻结清单](../release/d10-freeze-01.json)：284个源码、契约、规则/允许输入、页面及文档文件；规范化摘要`203cdb82fb42d1f3c3d7335754da2b2ac6466cc46458111eecf135859c265171`。
-- [本地候选ZIP](../release/d10-candidate-01.zip)：284冻结文件加4个元数据文件，556864字节；逐文件比对及ZIP完整性通过。SHA-256：`154a4cfc8100cf6f339911e43d9b97d3c5fad10ed8c9a52d5b1b0d306b0e550b`。
+- 冻结清单（本地归档 `../release/d10-freeze-01.json`）：284个源码、契约、规则/允许输入、页面及文档文件；规范化摘要`203cdb82fb42d1f3c3d7335754da2b2ac6466cc46458111eecf135859c265171`。
+- 本地候选ZIP（本地归档 `../release/d10-candidate-01.zip`）：284冻结文件加4个元数据文件，556864字节；逐文件比对及ZIP完整性通过。SHA-256：`154a4cfc8100cf6f339911e43d9b97d3c5fad10ed8c9a52d5b1b0d306b0e550b`。
 - [安装说明](d10-runbook.md)、[演示稿](d10-demo.md)、[限制](d10-limitations.md)、[缺陷表](d10-defects.json)。候选不含运行时/依赖包，离线安装依赖需另行准备；本机独立目录验证不等于干净机器验收。
-- [浏览器证据](../artifacts/d10-check-01/browser)包含S1/S2/S3截图、JSON与HTML导出；S3截图已检查，partial、cached和缺socket未知项显示明确，复核测试文本按纯文本呈现。
-- [构建工件摘要](../artifacts/d10-build-manifest.json)绑定最终日志、工件及交付记录。这些本地哈希不构成签名或第三方证明。
+- 浏览器证据（本地归档 `../artifacts/d10-check-01/browser`）包含S1/S2/S3截图、JSON与HTML导出；S3截图已检查，partial、cached和缺socket未知项显示明确，复核测试文本按纯文本呈现。
+- 构建工件摘要（本地归档 `../artifacts/d10-build-manifest.json`）绑定最终日志、工件及交付记录。这些本地哈希不构成签名或第三方证明。
 
-本轮启动的隔离PG已正常停止，日志见[停止记录](../artifacts/d10-pg-stop.log)；测试数据库和历史工件保留。API/worker/协议桩由浏览器脚本关闭。未执行远程提交、发布或联系团队成员；工作目录无Git，不能声称已合入集成分支。
+本轮启动的隔离PG已正常停止，日志见停止记录（本地归档 `../artifacts/d10-pg-stop.log`）；测试数据库和历史工件保留。API/worker/协议桩由浏览器脚本关闭。未执行远程提交、发布或联系团队成员；工作目录无Git，不能声称已合入集成分支。
 
 ## 未验收项
 

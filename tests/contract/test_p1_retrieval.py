@@ -64,7 +64,7 @@ def test_open_gap_search_and_completed_seed_reads_do_not_count_as_new_evidence()
         [login.event_id],
         gaps=[{"code": "session_process", "asset_id": str(login.asset_id)}],
     )
-    assert result["queries"][0] == {
+    assert {k: result["queries"][0][k] for k in ("tool", "arguments")} == {
         "tool": "search_events",
         "arguments": {"types": ["host.process"], "asset_id": str(login.asset_id), "limit": 20},
     }

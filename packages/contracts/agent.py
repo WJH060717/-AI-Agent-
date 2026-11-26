@@ -31,6 +31,7 @@ class SearchArgs(PageArgs):
     types: list[
         Literal[
             "network.connection",
+            "network.packet",
             "auth.login",
             "host.process",
             "security.alert",
@@ -38,7 +39,7 @@ class SearchArgs(PageArgs):
             "network.http",
             "file.write",
         ]
-    ] = Field(default_factory=list, max_length=7)
+    ] = Field(default_factory=list, max_length=8)
     asset_id: UUID | None = None
     start: Timestamp | None = None
     end: Timestamp | None = None

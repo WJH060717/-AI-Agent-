@@ -25,9 +25,9 @@
 
 ## 工件与限制
 
-- [专项测试](../artifacts/p1-retrieval-01/targeted-final.xml)、[源码/测试摘要](../artifacts/p1-retrieval-01/test-input-freeze-01.json)、[本地实测摘要](../artifacts/p1-retrieval-01/local-acceptance.json)。
-- [S1结果](../artifacts/p1-retrieval-01/s1-02/summary.json)与[D7结果](../artifacts/p1-retrieval-01/d7-02/summary.json)，相邻目录保留动作、上下文、报告与脱敏导出。原数据仅位于受控本地测试目录，不写入用户运行库。
+- 专项测试（本地归档 `../artifacts/p1-retrieval-01/targeted-final.xml`）、源码/测试摘要（本地归档 `../artifacts/p1-retrieval-01/test-input-freeze-01.json`）、本地实测摘要（本地归档 `../artifacts/p1-retrieval-01/local-acceptance.json`）。
+- S1结果（本地归档 `../artifacts/p1-retrieval-01/s1-02/summary.json`）与D7结果（本地归档 `../artifacts/p1-retrieval-01/d7-02/summary.json`），相邻目录保留动作、上下文、报告与脱敏导出。原数据仅位于受控本地测试目录，不写入用户运行库。
 - 本地桩按建议作出协议响应，只证明建议、真实查询、审计、恢复与校验闭环，不证明DeepSeek实际会选择这些工具或稳定发现新证据。S1只新增1条已存在于快照的记录，不是采集了新日志。
 - 包括D10-001在内的五项P1仍open；新增真实模型测试需以后单独授权。本轮未验证dev20在用户运行数据库上的部署，也未做浏览器人工验收。
 
-最终独立候选：[p1-retrieval-candidate-01](../release/p1-retrieval-candidate-01.zip)，外部冻结：[p1-retrieval-freeze-01](../release/p1-retrieval-freeze-01.json)。候选完整性不等于正式发布批准。全量日志与JUnit位于artifacts/p1-retrieval-01/full-tests-01.*。
+最终独立候选：p1-retrieval-candidate-01（本地归档 `../release/p1-retrieval-candidate-01.zip`），外部冻结：p1-retrieval-freeze-01（本地归档 `../release/p1-retrieval-freeze-01.json`）。候选完整性不等于正式发布批准。全量日志与JUnit位于artifacts/p1-retrieval-01/full-tests-01.*。

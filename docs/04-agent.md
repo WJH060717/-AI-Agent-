@@ -198,3 +198,8 @@ dev20有界输入补充：模型副本中的retrieved_event_ids与seed_event_ids
 计划的facts仅作查询锚点，可省略sensor/host/user的详细对象并标记fact_identity_details_omitted=true；事件/资产/进程ID、时间及质量冲突标记保留，省略值表示未知，不用于证明身份关系。草稿保留这些详细对象；完整工具输出和证据均保留。这样为有限谓词校验所需的草稿事实留出预算。
 
 计划阶段tool_results.data使用显式占位，避免与facts重复传输；完整结果仍持久化，草稿沿用原有有界投影。工具参数、返回引用、游标、覆盖和警告保留。已节省的计划空间不再重新填充重复结果正文，防止多轮累计预算耗尽。
+
+
+## 六阶段流程改造 dev42 增量
+
+dev42 / evidence_agent@2.3.0 的规划建议附 gap_id、expected_evidence、selection_reason，仅复制 tool/arguments 进入调用。SearchArgs.types 新增 network.packet，摘要省略 dns_message/os_probe 和原始载荷。包源端点可形成同快照安全检索建议。续页只使用每条查询最新页面的 next_cursor。路径结果缓存增加 K 摘要，K 变化重新计算；预算及两轮单工具规划沿用原约束。

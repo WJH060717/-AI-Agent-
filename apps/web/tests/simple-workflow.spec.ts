@@ -100,6 +100,11 @@ test('report: investigation, evidence, export, review and historical read retain
   await expect(report).toBeVisible({ timeout: 30000 });
   await expect(page.getByRole('button', { name: '阅读报告', exact: true })).toHaveAttribute('aria-current', 'step');
   await expect(report).toContainText('deterministic_fallback');
+  await page.getByRole('button', { name: '补证对比', exact: true }).click();
+  const comparison = page.getByRole('region', { name: '补证前后对比' });
+  await expect(comparison).toContainText('新增非种子证据 0 条');
+  await expect(comparison).toContainText('本次工具返回未扩大已知事件集合。');
+  await page.getByRole('button', { name: '结论', exact: true }).click();
   await expect(report.getByText('本次未记录第 13.9 节的行为命中。')).toBeVisible();
   await report.locator('summary').filter({ hasText: /^查看证据/ }).first().click();
   await page.route(/\/evidence\/[^?]+\?snapshot_id=/, async route => {

@@ -385,7 +385,11 @@ class AgentRuntime:
             error = None
         except DomainError as exc:
             normalized, error = {"rejected_arguments": True}, exc.code
-        key = digest(json.dumps(normalized, sort_keys=True).encode())
+        known = set(self.tools.membership["evidence_ids"]) | set(self.payload["retrieved"])
+        cache_identity = (
+            [normalized, sorted(known)] if tool == "get_candidate_paths" else normalized
+        )
+        key = digest(json.dumps(cache_identity, sort_keys=True).encode())
         cached = (
             next(
                 (
@@ -393,7 +397,11 @@ class AgentRuntime:
                     for a in self.actions()
                     if a["kind"] == "tool"
                     and a["name"] == tool
-                    and a["args_hash"] == key
+                    and (
+                        a["result_payload"].get("coverage", {}).get("known_evidence_hash") == key
+                        if tool == "get_candidate_paths" and a["result_payload"]
+                        else a["args_hash"] == key
+                    )
                     and a["status"] == "completed"
                 ),
                 None,
@@ -416,7 +424,11 @@ class AgentRuntime:
         call_id = str(uuid5(UUID(self.run_id), str(seq)))
         try:
             result = self.bounded(
-                lambda: self.tools.call(tool, normalized, call_id),
+                lambda: (
+                    self.tools.call(tool, normalized, call_id, known_ids=known)
+                    if tool == "get_candidate_paths"
+                    else self.tools.call(tool, normalized, call_id)
+                ),
                 min(self.service.settings.tool_timeout_seconds, self.remaining_time()),
             )
         except (DomainError, TimeoutError) as exc:
@@ -424,6 +436,8 @@ class AgentRuntime:
             self.payload["stop_reason"] = code
             self.finish_action(seq, None, "failed", code, reservation=reserved, phase="degraded")
             return
+        if tool == "get_candidate_paths":
+            result.coverage["known_evidence_hash"] = key
         seen = set(self.tools.membership["evidence_ids"]) | set(self.payload["retrieved"])
         new_ids = set(result.evidence_ids) - seen
         self.payload["retrieved"] = sorted(

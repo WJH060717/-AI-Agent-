@@ -44,10 +44,22 @@ def planning_hints(
     used_queries = {_query_key(a["name"], a["args_payload"]) for a in completed}
     queries = []
 
-    def add(tool: str, arguments: dict) -> None:
+    def add(tool: str, arguments: dict, gap: dict | None = None) -> None:
         key = _query_key(tool, arguments)
         if key not in used_queries:
-            queries.append({"tool": tool, "arguments": arguments})
+            queries.append(
+                {
+                    "tool": tool,
+                    "arguments": arguments,
+                    "gap_id": gap.get("gap_id") if gap else None,
+                    "expected_evidence": (
+                        gap.get("code", "snapshot_context") if gap else "snapshot_context"
+                    ),
+                    "selection_reason": "Resolve known gap"
+                    if gap
+                    else "Inspect known entity context",
+                }
+            )
             used_queries.add(key)
 
     for gap in investigation.get("gaps", []):
@@ -58,7 +70,7 @@ def planning_hints(
             "destination_authentication": ["auth.login"],
         }.get(gap["code"])
         if asset in assets and types:
-            add("search_events", {"types": types, "asset_id": asset, "limit": 20})
+            add("search_events", {"types": types, "asset_id": asset, "limit": 20}, gap)
     for event in known:
         if strong_process(event):
             add(
@@ -71,16 +83,35 @@ def planning_hints(
             )
     for asset in assets:
         add("get_asset_timeline", {"asset_id": asset, "limit": 20})
-    queries.sort(key=lambda q: q["tool"] in used_tools)
+    for event in known:
+        if event.event_type == "network.packet" and event.src:
+            add(
+                "search_events",
+                {
+                    "types": ["network.packet"],
+                    "field_filter": [{"field": "src.ip", "op": "eq", "value": str(event.src.ip)}],
+                    "limit": 20,
+                },
+            )
+    queries.sort(key=lambda q: (q["gap_id"] is None, q["tool"] in used_tools))
     distinct = {}
     for query in queries:
         distinct.setdefault(query["tool"], query)
+    # Only the latest page of each exact query can offer a continuation.
+    latest = {}
+    for index, result in enumerate(tool_results):
+        if result["name"] in DISCOVERY_TOOLS:
+            arguments = (
+                TOOL_SCHEMAS[result["name"]]
+                .model_validate(result["arguments"])
+                .model_dump(mode="json", exclude={"cursor", "limit"})
+            )
+            latest[(result["name"], json.dumps(arguments, sort_keys=True))] = index
     continuation = next(
         (
             index
-            for index in reversed(range(len(tool_results)))
-            if tool_results[index]["name"] in DISCOVERY_TOOLS
-            and tool_results[index].get("next_cursor")
+            for index in reversed(list(latest.values()))
+            if tool_results[index].get("next_cursor")
         ),
         None,
     )

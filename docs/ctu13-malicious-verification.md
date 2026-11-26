@@ -79,15 +79,15 @@
 
 ## 工件与复现
 
-- [实际运行结果](../artifacts/ctu13-malicious-check-01/result.json)
-- [检测完成状态](../artifacts/ctu13-malicious-check-01/overview.json)
-- [全部官方选样与未匹配项](../artifacts/ctu13-malicious-01/sample-01/official-selection.json)
-- [可导入的无标签样本](../artifacts/ctu13-malicious-01/sample-01/adapted/conn.jsonl)
-- [固定规则条件诊断](../artifacts/ctu13-malicious-01/rule-scope-diagnosis.json)
-- [独立核验](../artifacts/ctu13-malicious-01/independent-verification.json)
-- [数据保全记录](../artifacts/ctu13-malicious-01/preservation.json)
-- [52 项测试 JUnit](../artifacts/ctu13-malicious-01/related-tests.xml)
-- [完整性清单](../artifacts/ctu13-malicious-01/artifact-manifest.json)
+- 实际运行结果（本地归档 `../artifacts/ctu13-malicious-check-01/result.json`）
+- 检测完成状态（本地归档 `../artifacts/ctu13-malicious-check-01/overview.json`）
+- 全部官方选样与未匹配项（本地归档 `../artifacts/ctu13-malicious-01/sample-01/official-selection.json`）
+- 可导入的无标签样本（本地归档 `../artifacts/ctu13-malicious-01/sample-01/adapted/conn.jsonl`）
+- 固定规则条件诊断（本地归档 `../artifacts/ctu13-malicious-01/rule-scope-diagnosis.json`）
+- 独立核验（本地归档 `../artifacts/ctu13-malicious-01/independent-verification.json`）
+- 数据保全记录（本地归档 `../artifacts/ctu13-malicious-01/preservation.json`）
+- 52 项测试 JUnit（本地归档 `../artifacts/ctu13-malicious-01/related-tests.xml`）
+- 完整性清单（本地归档 `../artifacts/ctu13-malicious-01/artifact-manifest.json`）
 
 新增文件为 `eval/ctu13_malicious_sample.py`、`tests/unit/test_ctu13_malicious_sample.py`、本记录及相应计划/工件。既有适配器与真实应用验证器保持原样。
 

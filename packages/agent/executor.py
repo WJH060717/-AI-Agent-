@@ -97,7 +97,14 @@ class ToolExecutor:
             raise DomainError("INVALID_TECHNIQUE_ID", 422)
         return args
 
-    def call(self, tool: str, arguments: dict, call_id: str | None = None) -> ToolResult:
+    def call(
+        self,
+        tool: str,
+        arguments: dict,
+        call_id: str | None = None,
+        *,
+        known_ids: set[str] | None = None,
+    ) -> ToolResult:
         started = time.monotonic()
         args = self.validate(tool, arguments)
         normalized = args.model_dump(mode="json", exclude={"cursor", "limit"})
@@ -186,9 +193,17 @@ class ToolExecutor:
         elif tool == "get_candidate_paths":
             if str(args.incident_id) != self.incident_id:
                 raise DomainError("INCIDENT_OUT_OF_SCOPE", 404)
-            paths = analyze_paths(self.events, self.scope, set(self.membership["evidence_ids"]))
+            seeds = set(self.membership["evidence_ids"])
+            known = seeds if known_ids is None else known_ids
+            if not seeds.issubset(known) or not known.issubset(self.by_id):
+                raise DomainError("EVIDENCE_OUT_OF_SCOPE", 404)
+            paths = analyze_paths(
+                [e for e in self.events if e.event_id in known],
+                self.scope,
+                seeds,
+            )
             items = [path.model_dump(mode="json") for path in paths.paths[: args.top_k]]
-            warnings = paths.limitations
+            warnings = [*paths.limitations, "AGENT_KNOWN_EVIDENCE_ONLY"]
             if paths.truncated:
                 warnings = [*warnings, "PATH_SEARCH_TRUNCATED"]
         else:

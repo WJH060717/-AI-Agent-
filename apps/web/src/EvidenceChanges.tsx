@@ -8,9 +8,15 @@ export function EvidenceChanges({ analysis, busy, onEvidence }: {
   const before = new Map(analysis.before.hypotheses.map(h => [h.hypothesis_id, h]));
   const remaining = analysis.after.gaps.filter(g => g.status !== 'resolved');
   const changes = analysis.changes ?? [];
+  const seedIds = new Set(analysis.before.known_evidence_ids);
+  const addedIds = analysis.after.known_evidence_ids.filter(id => !seedIds.has(id));
   return <section className="panel" role="region" aria-label="补证前后对比">
     <h3>缺口补证与分析变化</h3>
     <p>种子证据 {analysis.before.known_evidence_ids.length} 条 → 已核查证据 {analysis.after.known_evidence_ids.length} 条</p>
+    <p>新增非种子证据 {addedIds.length} 条 · 有依据的判断变化 {changes.length} 项</p>
+    {addedIds.length ? <details><summary>查看新增证据</summary>
+      {addedIds.map((id, index) => <button key={id} disabled={busy} onClick={() => onEvidence(id)}>新增证据 {index + 1}</button>)}
+    </details> : <p>本次工具返回未扩大已知事件集合。</p>}
     <p>同一冻结快照内比较规则种子与工具检索后的已知证据，后续导入不会改写此记录。</p>
     <p>查询终止：{analysis.stop_reason}</p>
     <p>正常进程仅为替代解释线索，不证明流量归属或没有攻击。</p>

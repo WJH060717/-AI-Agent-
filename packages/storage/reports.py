@@ -340,19 +340,41 @@ def render_html(bundle: dict) -> str:
     for assessment in behavior_assessments or []:
         status = "溯源成功" if assessment["trace_status"] == "successful" else "溯源未成功"
         scope = " / ".join(assessment["observation_domains"] + assessment["sensor_instances"])
-        parts.extend([
-            f"<article><h3>检测到 {esc(assessment['label'])} · {status}</h3>",
-            f"<p>{esc(assessment['rule_id'])} / {esc(assessment['rule_version'])} · "
-            f"{esc(assessment['start_time'])} 至 {esc(assessment['end_time'])} · {esc(scope)}</p>",
-            f"<p>溯源范围 {esc(assessment['trace_scope'])}。"
-            f"{esc(assessment['trace_clue'])} {esc(assessment['trace_reason'])}</p>",
-        ])
+        parts.extend(
+            [
+                f"<article><h3>检测到 {esc(assessment['label'])} · {status}</h3>",
+                f"<p>{esc(assessment['rule_id'])} / {esc(assessment['rule_version'])} · "
+                f"{esc(assessment['start_time'])} 至 {esc(assessment['end_time'])} · "
+                f"{esc(scope)}</p>",
+                f"<p>溯源范围 {esc(assessment['trace_scope'])}。"
+                f"{esc(assessment['trace_clue'])} {esc(assessment['trace_reason'])}</p>",
+            ]
+        )
         parts.extend(f"<p>{esc(text)}</p>" for text in assessment["limitations"])
         for key, label in (("evidence_refs", "检测证据"), ("trace_evidence_refs", "溯源证据")):
             for ref in assessment[key]:
                 ident = esc(ref["event_id"])
                 parts.append(f'<p><a href="#e-{ident}">{label} {ident}</a></p>')
         parts.append("</article>")
+    comparison = report.get("investigation_analysis")
+    if comparison:
+        seeds = set(comparison["before"]["known_evidence_ids"])
+        added = sorted(set(comparison["after"]["known_evidence_ids"]) - seeds)
+        changes = comparison.get("changes", [])
+        parts.append(
+            "<h2>Agent 补证前后</h2>"
+            f"<p>新增非种子证据 {len(added)} 条 · 有依据的判断变化 {len(changes)} 项</p>"
+            f"<p>查询终止 {esc(comparison['stop_reason'])}</p>"
+        )
+        for eid in added:
+            parts.append(f'<p><a href="#e-{esc(eid)}">新增证据 {esc(eid)}</a></p>')
+        for change in changes:
+            parts.append(
+                f"<p>行动 {esc(change['action_seq'])} · {esc(change['before_status'])}"
+                f" → {esc(change['after_status'])} · {esc(change['reason'])}</p>"
+            )
+        if comparison["before"].get("truncated") or comparison["after"].get("truncated"):
+            parts.append("<p>判断范围已截断。</p>")
     for claim in report["claims"]:
         parts.append(f"<article><h3>{esc(claim['kind'])} · {esc(claim['statement'])}</h3>")
         for ref in claim.get("evidence_refs", []):

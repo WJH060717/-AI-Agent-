@@ -71,7 +71,7 @@ def initialize(conn, workspace: str, run_id: str, mode: str, budget: AgentBudget
             "price_version": settings.model_price_version,
         },
         "agent_version": "bounded_agent@2.0.0",
-        "prompt_version": "evidence_agent@2.2.1",
+        "prompt_version": "evidence_agent@2.3.0",
         "started_at": None,
         "planning_rounds": 0,
         "retrieved": [],

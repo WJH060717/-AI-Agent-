@@ -30,7 +30,8 @@ SYSTEM = (
 PLAN = (
     'Return {"action":"call_tool","tool":name,"arguments":{},"reason_summary":text,'
     '"expected_evidence":text} or {"action":"draft","reason_summary":text}. '
-    "retrieval suggests discovery, then useful different tools; it is advisory. "
+    "retrieval queries include advisory gap_id/expected_evidence/selection_reason; "
+    "copy only tool and arguments into the decision. Prefer unresolved gaps over repeated seeds. "
     "Omitted seeds are known; identity details omitted mean unknown. "
     "get_event_evidence audits given IDs, not discovery. "
     "continue_result indexes tool_results: keep arguments, set cursor=next_cursor. "

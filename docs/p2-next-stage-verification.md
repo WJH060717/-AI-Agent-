@@ -2,13 +2,13 @@
 
 本轮按规约第 13.8 节复验 dev40，固定集 **1/17**，严格门禁退出码 **2**。唯一精确通过的是 `Recon-PingSweep`。16 条任务均为开放状态，其中 6 条有固定输入并已复验，1 条记录为采集失败，9 条未找到符合规约的固定原始输入。
 
-[规约](../PROJECT_SPEC.md#138-下一阶段-p2-任务关闭-16-个未通过的精确子类型) · [初版清单复验](../artifacts/p2-next-stage-dev40-01/extension-original.json) · [本轮逐类结果](../artifacts/p2-next-stage-dev40-01/extension.json) · [物理记录及贡献包回读](../artifacts/p2-next-stage-dev40-01/readback.json)
+[规约](../PROJECT_SPEC.md#138-下一阶段-p2-任务关闭-16-个未通过的精确子类型) · 初版清单复验（本地归档 `../artifacts/p2-next-stage-dev40-01/extension-original.json`） · 本轮逐类结果（本地归档 `../artifacts/p2-next-stage-dev40-01/extension.json`） · 物理记录及贡献包回读（本地归档 `../artifacts/p2-next-stage-dev40-01/readback.json`）
 
 ## 逐项未通过的原因
 
 | 任务 | 类型 | 固定状态 | 本轮核验与未通过原因 | 恢复验收的材料或条件 |
 | --- | --- | --- | --- | --- |
-| 01 | `Recon-PortScan` | `unknown` | 原前缀 2,048 包，79 条满足 R24 的初始 SYN 包条件。同一源、同一目标、60 秒范围内，最多覆盖 2 个目的端口，该峰值窗口最多有 36 条合格 SYN。门槛为 20 个端口。221 包同源补充片段最多覆盖 38 个，R24 是唯一精确候选。已校验完整原件摘要及固定前缀 `[0,595808)`、补充包记录 `[739687,767733)` 的字节一致性。 | 原前缀缺少足量不同端口。另取得符合预先登记规则的固定输入，并连同 19 端口及重复端口反例一起验证。历史后缀诊断已经查看过。 |
+| 01 | `Recon-PortScan` | `unknown` | 原前缀 2,048 包，79 条满足 R24 的初始 SYN 包条件。同一源、同一目标、60 秒范围内，最多覆盖 2 个目的端口，该峰值窗口最多有 36 条合格 SYN。门槛为 20 个端口。221 包同源补充片段最多覆盖 38 个，R24 是唯一精确候选。已校验完整原件摘要及固定前缀 `0,595808)`、补充包记录 `[739687,767733)` 的字节一致性。 | 原前缀缺少足量不同端口。另取得符合预先登记规则的固定输入，并连同 19 端口及重复端口反例一起验证。历史后缀诊断已经查看过。 |
 | 02 | `Recon-HostDiscovery` | `unknown` | 原前缀解析到 113 条 ARP 请求。R26 八条贡献为第 2031–2038 包，跨度 122 微秒，足以证明批量 ARP 查询。现存被测对象清单和关联锚点缺探针执行审计。 | 同一二层域内的可信作业审计，能将该批查询绑定到探针、目标集合与观测时间。 |
 | 03 | `Recon-OSScan` | `cross_class` | 原前缀有 TCP 观测，识别到的 R30 指纹 UDP 请求与配对 ICMP 引用均为 0，只有 R24 精确候选。同源补充的四条贡献已逐字节对照完整原件第 2169、2217、5207、5219 包。补充片段有 R30 和 R24，扣留第 5219 包后仅有 R24。 | 预先登记可覆盖指纹交换的固定原件或可信探针审计。若两种行为均有独立支撑，同一固定样本继续计混淆。 |
 | 04 | `VulnerabilityScan` | `cross_class` | 原前缀的 R24 贡献在第 1490–1499 及 1521–1530 包，可回查端口枚举。已归档的文档、服务锚点和扩展传输上下文缺少可绑定到请求或响应的具体检查记录。 | 可回查的检查标识、目标服务及同一次检查的请求或应答，足以与端口枚举和普通健康检查区分。 |
@@ -27,7 +27,7 @@
 
 ## 本轮检查及剩余依赖
 
-- 本轮盘点了项目授权数据目录、相关 CICIoT2023 工件和 CTU-13 第 46 场景资料。特征包每类有 512 条数值记录，包目录内的 4 个原始前缀均属于 DoS 场景。已有侦察审计锚点和 Mirai 家族关联锚点为抓包导出的定位材料，日志侧的独立证据仍待补齐。[特征包说明](../artifacts/ciciot2023-remaining21-01/README.md) · [主机发现审计核对](../artifacts/ciciot2023-recon-host-discovery-real-01/public-audit-review.json) · [服务检查审计核对](../artifacts/ciciot2023-recon-vulnerability-scan-real-01/public-service-audit-review.json) · [GRE 原始采集记录](../artifacts/ciciot2023-mirai-protocol-01/source.json)
-- 初版和 1.1.0 清单均在隔离 SQLite 与关闭模型的本地应用复验，结果均为 1/17、退出码 2。1.1.0 中 7 份有实物的固定抓包（含 PingSweep）均完成物理记录对账及重导、回放一致性检查。另对 6 份补充抓包重算了原始记录边界，按完整原件复核了 OSScan 的四条贡献。PortScan 的补充片段以及历史已查看的后缀诊断保持原角色。本轮未生成新的多源固定集，现有离线入口的多源扩展仍待有合规材料的类别启动。[逐类结果](../artifacts/p2-next-stage-dev40-01/extension.json) · [回读脚本](../artifacts/p2-next-stage-dev40-01/readback.py) · [PortScan 历史后缀检查](../artifacts/ciciot2023-recon-port-scan-fixed-02/whole-suffix-diagnostic.json)
-- 10 份正常抓包执行完成，R28、R29、R30 均为 0 个观测候选。协议覆盖包括 396 条 ARP 请求、195 条 ARP 应答、417 条可配对形式的 DNS 查询、241 条支持的答复及 243 条 TCP 请求和 185 条应答的指纹配对字段。正常抓包的场景标签没有逐包独立真值。109 项 Python 回归通过，涵盖固定评分、包检测、认证、证据和回放。[正常对照](../artifacts/p2-next-stage-dev40-01/extension.json) · [JUnit 回归](../artifacts/p2-next-stage-dev40-01/regression.xml)
-- 独立 DoS/DDoS 固定集 v2 门禁退出码 0，11/12 精确匹配，12/12 对账与回放，0 个跨类候选。SlowLoris 仍为未知，门禁允许此缺口，另按规约第 10 节跟踪。[固定集 v2 结果](../artifacts/p2-next-stage-dev40-01/fixed-v2.json)
+- 本轮盘点了项目授权数据目录、相关 CICIoT2023 工件和 CTU-13 第 46 场景资料。特征包每类有 512 条数值记录，包目录内的 4 个原始前缀均属于 DoS 场景。已有侦察审计锚点和 Mirai 家族关联锚点为抓包导出的定位材料，日志侧的独立证据仍待补齐。[特征包说明（本地归档 `../artifacts/ciciot2023-remaining21-01/README.md`） · 主机发现审计核对（本地归档 `../artifacts/ciciot2023-recon-host-discovery-real-01/public-audit-review.json`） · 服务检查审计核对（本地归档 `../artifacts/ciciot2023-recon-vulnerability-scan-real-01/public-service-audit-review.json`） · GRE 原始采集记录（本地归档 `../artifacts/ciciot2023-mirai-protocol-01/source.json`）
+- 初版和 1.1.0 清单均在隔离 SQLite 与关闭模型的本地应用复验，结果均为 1/17、退出码 2。1.1.0 中 7 份有实物的固定抓包（含 PingSweep）均完成物理记录对账及重导、回放一致性检查。另对 6 份补充抓包重算了原始记录边界，按完整原件复核了 OSScan 的四条贡献。PortScan 的补充片段以及历史已查看的后缀诊断保持原角色。本轮未生成新的多源固定集，现有离线入口的多源扩展仍待有合规材料的类别启动。逐类结果（本地归档 `../artifacts/p2-next-stage-dev40-01/extension.json`） · 回读脚本（本地归档 `../artifacts/p2-next-stage-dev40-01/readback.py`） · PortScan 历史后缀检查（本地归档 `../artifacts/ciciot2023-recon-port-scan-fixed-02/whole-suffix-diagnostic.json`）
+- 10 份正常抓包执行完成，R28、R29、R30 均为 0 个观测候选。协议覆盖包括 396 条 ARP 请求、195 条 ARP 应答、417 条可配对形式的 DNS 查询、241 条支持的答复及 243 条 TCP 请求和 185 条应答的指纹配对字段。正常抓包的场景标签没有逐包独立真值。109 项 Python 回归通过，涵盖固定评分、包检测、认证、证据和回放。正常对照（本地归档 `../artifacts/p2-next-stage-dev40-01/extension.json`） · JUnit 回归（本地归档 `../artifacts/p2-next-stage-dev40-01/regression.xml`）
+- 独立 DoS/DDoS 固定集 v2 门禁退出码 0，11/12 精确匹配，12/12 对账与回放，0 个跨类候选。SlowLoris 仍为未知，门禁允许此缺口，另按规约第 10 节跟踪。固定集 v2 结果（本地归档 `../artifacts/p2-next-stage-dev40-01/fixed-v2.json`）

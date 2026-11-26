@@ -60,6 +60,6 @@
 
 新摄取持续1800.000003秒，90000条；十万事件查询P50 60.538ms、P95 83.091ms，进程树工作集峰值266.15MiB。检测仍partial，回放未测。
 
-[资源曲线](../artifacts/d11-resource-curves.svg)从全部实际采样生成；CPU按相邻采样累计CPU差值/真实秒差计算，100%代表一个逻辑核，首点不伪造CPU值。
+资源曲线（本地归档 `../artifacts/d11-resource-curves.svg`）从全部实际采样生成；CPU按相邻采样累计CPU差值/真实秒差计算，100%代表一个逻辑核，首点不伪造CPU值。
 
-完整记录：[工程门禁](../artifacts/d11-check-03/gate.json)、[命令与文件摘要](../artifacts/d11-check-03/checks.json)、[基准原始记录](../artifacts/d11-benchmark-full-03/samples.jsonl)、[工程预测](../artifacts/d11-check-03/evaluation/predictions.jsonl)、[指标复算](../artifacts/d11-check-03/evaluation/metrics.json)、[汇总文件哈希](../artifacts/d11-build-manifest.json)。
+完整记录：工程门禁（本地归档 `../artifacts/d11-check-03/gate.json`）、命令与文件摘要（本地归档 `../artifacts/d11-check-03/checks.json`）、基准原始记录（本地归档 `../artifacts/d11-benchmark-full-03/samples.jsonl`）、工程预测（本地归档 `../artifacts/d11-check-03/evaluation/predictions.jsonl`）、指标复算（本地归档 `../artifacts/d11-check-03/evaluation/metrics.json`）、汇总文件哈希（本地归档 `../artifacts/d11-build-manifest.json`）。

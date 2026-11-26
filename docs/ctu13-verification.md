@@ -60,7 +60,7 @@ R05 命中仅表示周期连接候选，不等于已确认恶意通信。没有�
 - JSON / HTML 导出完成，导出证据核对通过。
 - 网页实际打开历史报告、证据弹窗、关系与时间线、运行记录并下载 HTML；无页面异常。没有把跳过的测试计入通过。
 
-可查看：[HTML 报告](../artifacts/ctu13-check-04/report-1-export.html)、[JSON 报告](../artifacts/ctu13-check-04/report-1-export.json)、[网页截图](../artifacts/ctu13-check-04/report-browser.png)、[完整测试结果](../artifacts/ctu13-check-04/result.json)、[可复用的 20 条样本](../artifacts/ctu13-source-04/adapted/conn.jsonl)。
+可查看：HTML 报告（本地归档 `../artifacts/ctu13-check-04/report-1-export.html`）、JSON 报告（本地归档 `../artifacts/ctu13-check-04/report-1-export.json`）、网页截图（本地归档 `../artifacts/ctu13-check-04/report-browser.png`）、完整测试结果（本地归档 `../artifacts/ctu13-check-04/result.json`）、可复用的 20 条样本（本地归档 `../artifacts/ctu13-source-04/adapted/conn.jsonl`）。
 
 ## 发现的问题、修复与保留限制
 
@@ -83,7 +83,7 @@ R05 命中仅表示周期连接候选，不等于已确认恶意通信。没有�
 - 新增适配器与子集工具：**22 项单元测试通过**；相关 Python Ruff 和浏览器测试脚本 ESLint 通过。
 - 本轮浏览器最终合计 5 项通过、4 项按实际适用范围跳过。这不是 9 项全部通过。
 
-只读保全证据：[汇总](../artifacts/ctu13-final-01/preservation.json)、[原始文件哈希核对](../artifacts/ctu13-final-01/production-raw-integrity.json)、[JUnit](../artifacts/ctu13-final-01/unit-tests.xml)。
+只读保全证据：汇总（本地归档 `../artifacts/ctu13-final-01/preservation.json`）、原始文件哈希核对（本地归档 `../artifacts/ctu13-final-01/production-raw-integrity.json`）、JUnit（本地归档 `../artifacts/ctu13-final-01/unit-tests.xml`）。
 
 ## 未验证范围
 

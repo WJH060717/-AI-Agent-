@@ -26,12 +26,12 @@
 | 同源及独立对象补充片段 | PortScan 在已见的 221 包同源片段中精确通过。两个 GRE 封装在其补充抓包分别复现 R27，Mirai 家族仍未知。 |
 | 混淆记录 | OSScan 和 VulnerabilityScan 的固定前缀各出现一个 R24 PortScan 子类型候选，均已核验证据并回放。发布结果保留原观察及精确标签缺口。 |
 | DoS/DDoS 固定集 v2 | 11/12 精确匹配，SlowLoris 未知。12/12 完成物理记录对账及重导、回放，0 个跨类候选。按第 12.1 节门禁退出码 0。 |
-| 正常对照覆盖 | 第 13.7 节这次运行的正常抓包数为 0。既有 dev38 R27 的 10 份正常对照另见 [历史记录](../artifacts/ciciot2023-mirai-protocol-01/acceptance.json)。 |
+| 正常对照覆盖 | 第 13.7 节这次运行的正常抓包数为 0。既有 dev38 R27 的 10 份正常对照另见 历史记录（本地归档 `../artifacts/ciciot2023-mirai-protocol-01/acceptance.json`）。 |
 | PostgreSQL 独立本机试验 | PostgreSQL 16.16 新集群、合成数据，空库恢复核对 28 张表、32 个事件、1 份旧报告。旧令牌和 HMAC 保持，恢复后新调查完成，写入排斥及非空目标拒绝通过。非作者验收待办。 |
 | Compose 和页面 | P1 Compose 的应用与网页镜像标签已对齐 dev38，静态配置解析通过。Docker Linux 引擎不可连接。隔离浏览器 9 项、前端生产构建、TypeScript、ESLint、Ruff 通过。 |
 | Python 回归 | 原有全量收集的 1,007 项通过。最终的抓包、验收门禁、备份和 P1 针对性回归 95 项通过。 |
 
-[17 类执行报告](../artifacts/spec-remaining-dev38-01/extension-verified.json) · [固定集 v2](../artifacts/spec-remaining-dev38-01/fixed-v2-verified.json) · [PostgreSQL 恢复](../artifacts/spec-remaining-dev38-01/postgres-recovery/recovery.json) · [浏览器日志](../artifacts/spec-remaining-dev38-01/browser/playwright.log) · [最终回归 JUnit](../artifacts/spec-remaining-dev38-01/acceptance-verified.xml) · [P1 就绪门禁](../artifacts/spec-remaining-dev38-01/p1-readiness-final.json)
+17 类执行报告（本地归档 `../artifacts/spec-remaining-dev38-01/extension-verified.json`） · 固定集 v2（本地归档 `../artifacts/spec-remaining-dev38-01/fixed-v2-verified.json`） · PostgreSQL 恢复（本地归档 `../artifacts/spec-remaining-dev38-01/postgres-recovery/recovery.json`） · 浏览器日志（本地归档 `../artifacts/spec-remaining-dev38-01/browser/playwright.log`） · 最终回归 JUnit（本地归档 `../artifacts/spec-remaining-dev38-01/acceptance-verified.xml`） · P1 就绪门禁（本地归档 `../artifacts/spec-remaining-dev38-01/p1-readiness-final.json`）
 
 本机 P1 就绪门禁退出码 2。真实模型及账单、33 次独立资料及双人复核、非作者恢复、干净机器启动、物理断网和真人彩排仍待验收。正式资料门禁为 33 项计划、3 项已准备、0 项已复核。需要的证据及验收人员见 [五项 P1 验收材料](p1-user-actions.md)。
 
@@ -41,11 +41,11 @@ R28 与 R29 只发布同一采集范围内的 ARP 映射冲突和 DNS 答复差�
 
 10 份已冻结正常抓包完成重导和回放，观察到 396 条 ARP 请求、195 条 ARP 应答、876 条 UDP 端口 53 记录，其中有 417 条支持的 DNS 查询和 241 条支持的答复。R28 和 R29 均为 0 个候选。样本来源的场景标签不代表对每包的独立真值。17 类固定验收仍只有 PingSweep 精确通过，两个欺骗类仍缺固定原始输入和可信对照。旧固定集 v2 保持 11/12 精确、12/12 对账与回放，SlowLoris 未知。Python 回归 541 项、浏览器 9 项及生产构建通过。
 
-[dev39 扩展与正常对照报告](../artifacts/p2-packet-conflicts-dev39-01/extension.json) · [dev39 固定集 v2](../artifacts/p2-packet-conflicts-dev39-01/fixed-v2.json) · [工件摘要](../artifacts/p2-packet-conflicts-dev39-01/verified-inputs.json)
+dev39 扩展与正常对照报告（本地归档 `../artifacts/p2-packet-conflicts-dev39-01/extension.json`） · dev39 固定集 v2（本地归档 `../artifacts/p2-packet-conflicts-dev39-01/fixed-v2.json`） · 工件摘要（本地归档 `../artifacts/p2-packet-conflicts-dev39-01/verified-inputs.json`）
 
 ## dev40 OSScan 补充证据复验
 
-`ciciot-extension-02.json` 在旧固定输入之外登记已见的 OSScan 同源片段和扣留配对应答的对照。包号、字节范围和原件摘要见 [补充片段来源](../artifacts/p2-os-fingerprint-dev40-01/supplement.json)。仍沿用 17 类分母和独立固定集 v2。
+`ciciot-extension-02.json` 在旧固定输入之外登记已见的 OSScan 同源片段和扣留配对应答的对照。包号、字节范围和原件摘要见 补充片段来源（本地归档 `../artifacts/p2-os-fingerprint-dev40-01/supplement.json`）。仍沿用 17 类分母和独立固定集 v2。
 
 ```powershell
 .\.venv\Scripts\python.exe -X utf8 -m eval.ciciot_extension --manifest eval/configs/ciciot-extension-02.json --normal-controls --result artifacts/p2-os-fingerprint-dev40-02/extension.json
@@ -61,7 +61,7 @@ R28 与 R29 只发布同一采集范围内的 ARP 映射冲突和 DNS 答复差�
 | 正常对照 | 10/10 完成核验。R28、R29、R30 均无候选。DNS 和 ARP 的协议覆盖数与 dev39 相同，另有 243 条 TCP 请求和 185 条应答带 R30 配对字段。 |
 | 回归 | 551 项 Python 和 9 项浏览器通过，Ruff、生成契约、前端生产构建通过。旧数据集重导保留 3 条原有 1.6 事件，隔离新数据集取得对应的 1.8 DNS 观测。 |
 
-[逐类与正常对照报告](../artifacts/p2-os-fingerprint-dev40-01/extension.json) · [固定集 v2](../artifacts/p2-os-fingerprint-dev40-01/fixed-v2.json) · [四包原件回查](../artifacts/p2-os-fingerprint-dev40-01/source-readback.json) · [测试与来源摘要](../artifacts/p2-os-fingerprint-dev40-01/verified-inputs.json)
+逐类与正常对照报告（本地归档 `../artifacts/p2-os-fingerprint-dev40-01/extension.json`） · 固定集 v2（本地归档 `../artifacts/p2-os-fingerprint-dev40-01/fixed-v2.json`） · 四包原件回查（本地归档 `../artifacts/p2-os-fingerprint-dev40-01/source-readback.json`） · 测试与来源摘要（本地归档 `../artifacts/p2-os-fingerprint-dev40-01/verified-inputs.json`）
 
 精确验收仍缺固定原始输入及可信旁证，包括用于解析与地址绑定的独立基线、主机发现与具体服务检查的审计、能关联到同段流量的 Mirai 家族证据，以及认证、应用和终端记录。剩余证据缺口逐类记录在报告中。
 
