@@ -83,7 +83,7 @@ export function ReportPanel({ report, connection, onEvidence, onCached, onHistor
           {assessment.trace_evidence_refs?.map((ref, index) => <button key={ref.event_id} disabled={busy} onClick={() => onEvidence(ref.event_id)}>溯源证据 {index + 1}</button>)}
         </details>
       </article>)}
-    {report.claims.map(claim => <article className="claim" key={claim.claim_id}><h4><span className="badge">{{ observed: '事实', inferred: '推断', hypothesized: '假设', unknown: '未知' }[claim.kind] ?? claim.kind}</span>{claim.statement}</h4>
+    {report.claims.map(claim => <article className="claim" key={claim.claim_id}><h4><span className="badge" data-kind={claim.kind}>{{ observed: '事实', inferred: '推断', hypothesized: '假设', unknown: '未知' }[claim.kind] ?? claim.kind}</span>{claim.statement}</h4>
       {claim.limitations?.length ? <details><summary>适用限制</summary><ul>{claim.limitations.map((text, i) => <li key={i}>{text}</li>)}</ul></details> : null}
       {claim.evidence_refs?.length ? <details><summary>查看证据 · {claim.evidence_refs.length}</summary>
         {claim.evidence_refs.map((ref, i) => <button key={ref.event_id} disabled={busy} onClick={() => onEvidence(ref.event_id)}>证据 {i + 1}</button>)}

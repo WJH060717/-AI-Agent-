@@ -185,10 +185,14 @@ export function Investigation({ connection, view, active, onReport, onIncidents,
   const selectedEdgeValue = graph?.edges.find(edge => edge.edge_id === selectedEdge) ?? null;
   const selectedNodeEdges = selectedNode ? (graph?.edges ?? []).filter(edge => displayId.get(edge.source) === selectedNode || displayId.get(edge.target) === selectedNode) : [];
   return <>
-    <div hidden={view !== 'incidents'}>
-    <section className="panel"><div className="section-heading"><h3>待核查异常{incidents ? ` · ${incidents.items.length}${incidents.next_cursor ? '+' : ''}` : ''}</h3>
+    <div className="workspace-entry" hidden={view !== 'incidents'}>
+    <section className="panel"><div className="section-heading"><h3>待核查异常</h3>
       <button disabled={busy || loading} onClick={() => { setListError(''); void action((signal) => loadIncidents(signal)); }}>刷新检测事件</button></div>
       <p className="muted">规则命中不等于攻击，请结合证据核查。</p>
+      {incidents ? <dl className="incident-metrics">
+        <div><dt>会话规范事件</dt><dd>{eventCount?.toLocaleString('zh-CN') ?? '未知'}</dd></div>
+        <div><dt>本页候选</dt><dd>{incidents.items.length} 条{incidents.next_cursor ? ' · 还有下一页' : ''}</dd></div>
+      </dl> : null}
       <details className="inset"><summary>调查设置</summary>
       <div className="form-row"><label>调查模式<select disabled={busy || !!pendingCreate} value={investigationMode}
         onChange={(e) => setInvestigationMode(e.target.value as typeof investigationMode)}>
@@ -244,9 +248,9 @@ export function Investigation({ connection, view, active, onReport, onIncidents,
       </li>)}</ul> : <p>这个候选尚无已发布报告。</p>}
     </section> : null}
     </div>
-    <div hidden={view !== 'report'}>
+    <div className="workspace-entry" hidden={view !== 'report'}>
     {!run ? <section className="panel empty-state"><h3>还未选择调查</h3><p>选择一条异常，开始调查或打开历史报告。</p><button className="primary" onClick={onIncidents}>选择异常</button></section> : null}
-    {run ? <section className="panel run-banner"><div className="section-heading"><h3 role="status">{stateLabels[status?.state ?? run.state] ?? status?.state}</h3><button onClick={onIncidents}>返回异常列表</button></div>
+    {run ? <section className="panel run-banner" data-state={status?.state ?? run.state}><div className="section-heading"><h3 role="status">{stateLabels[status?.state ?? run.state] ?? status?.state}</h3><button onClick={onIncidents}>返回异常列表</button></div>
       {report && report.validation !== 'passed' ? <p role="alert">当前证据不可验证，历史结论仅供参考。</p> : null}
       {status?.state === 'partial' ? <p role="alert">调查未完成，仅保留已核验的结果。</p> : null}
       {status?.stop_reason ? <p role="status">停止原因：{status.stop_reason}</p> : null}
@@ -258,7 +262,7 @@ export function Investigation({ connection, view, active, onReport, onIncidents,
       {!report && status && ['completed', 'partial'].includes(status.state) && !readError ? <p role="status">正在读取报告…</p> : null}
     </section> : null}
     {run ? <div className="result-tabs" role="group" aria-label="报告内容">{resultTabs.map(value => <button key={value} aria-pressed={tab === value} onClick={() => setTab(value)}>{value}</button>)}</div> : null}
-    <div hidden={tab !== '运行记录'}>
+    <div className="report-content" hidden={tab !== '运行记录'}>
     {status?.pipeline_progress && !report ? <PipelineProgressView progress={status.pipeline_progress}/> : null}
     {run ? <details className="panel"><summary>调查信息</summary><p>请求模式 {status?.requested_mode ?? investigationMode}</p><p>快照 {run.snapshot_id}</p><p>调查 {run.run_id}</p></details> : null}
     {run ? <AgentHistory status={status} actions={agentActions} transitions={agentTransitions} busy={busy}
@@ -266,19 +270,19 @@ export function Investigation({ connection, view, active, onReport, onIncidents,
       next={() => void action((signal) => loadAgent(signal, agentActions?.next_cursor))}
       evidence={(id) => void action((signal) => openEvidence(id, signal))}/> : null}
     </div>
-    <div hidden={tab !== '结论'}>
+    <div className="report-content" hidden={tab !== '结论'}>
     {report ? <ReportPanel key={`${connection.token}:${report.report_id}`} report={report} connection={connection}
       onEvidence={id => void action(signal => openEvidence(id, signal))} onCached={setReport}
       onHistory={id => void action(signal => openRun(id, signal))}/> : null}
     {report ? <MissingEvidence report={report} status={status} busy={busy}
       onEvidence={(id) => void action((signal) => openEvidence(id, signal))}/> : null}
     </div>
-    <div hidden={tab !== '补证对比'}>
+    <div className="report-content" hidden={tab !== '补证对比'}>
     {report?.investigation_analysis && report.validation === 'passed' ? <EvidenceChanges analysis={report.investigation_analysis}
       busy={busy} onEvidence={(id) => void action((signal) => openEvidence(id, signal))}/> : null}
     {report && (!report.investigation_analysis || report.validation !== 'passed') ? <p className="notice">{report.validation !== 'passed' ? '证据尚未通过校验，无法展示补证对比。' : '本报告没有补证对比记录。'}</p> : null}
     </div>
-    <div hidden={tab !== '关系与时间线'}>
+    <div className="report-content" hidden={tab !== '关系与时间线'}>
     {timeline ? <section className="panel"><h3>冻结快照时间线</h3><p>本页 {timeline.items.length} 条</p>
       <p>按 UTC 时间、事件 ID 稳定排序，后续导入不会改变此快照。</p>
       <div className="table-wrap"><table><thead><tr><th>UTC 时间</th><th>类型 / 来源</th><th>引用</th></tr></thead>

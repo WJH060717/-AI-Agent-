@@ -15,7 +15,7 @@ export function PipelineProgressView({ progress }: {
   return <section className="panel" aria-label="六阶段执行状态">
     <h3>六阶段执行状态</h3>
     <p>仅反映当前冻结快照的执行情况，检测及溯源结果见对应结论。</p>
-    {progress ? <ol>{progress.stages.map(stage => <li key={stage.stage}>
+    {progress ? <ol className="pipeline-stages" role="list">{progress.stages.map(stage => <li key={stage.stage} data-state={stage.status}>
       <strong>{stageLabels[stage.stage]} · {statusLabels[stage.status]}</strong>
       <p>{stage.detail}</p>
       {stage.action_seqs?.length ? <p>知识工具行动 {stage.action_seqs.join('、')}</p> : null}

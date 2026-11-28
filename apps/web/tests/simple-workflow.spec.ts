@@ -205,6 +205,7 @@ test('behavior report presents detected host discovery with unsuccessful trace',
   await page.getByText('切换或新建数据集', { exact: true }).click();
   await page.getByLabel('新数据集名称').fill('行为检测回归');
   await page.getByRole('button', { name: '创建合成数据集' }).click();
+  await expect(page.getByTestId('active-session')).toContainText('行为检测回归');
   await page.getByLabel('日志文件', { exact: true }).setInputFiles(
     '../../artifacts/ciciot2023-recon-host-discovery-real-01/capture-01.pcap',
   );

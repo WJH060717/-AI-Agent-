@@ -195,7 +195,7 @@ export function Intake({ onScopeChange, onContinue }: {
           <button disabled={busy || !name.trim()}>创建合成数据集</button></form>
       </details></section>
       {dataset ? <>
-        <section className="panel"><div className="section-heading"><h3>导入日志</h3><span className="muted">JSON / JSONL · 每个文件不超过 100 MB</span></div>
+        <section className="panel"><div className="section-heading"><h3>导入日志</h3><span className="muted">JSON / JSONL / PCAP · 每个文件不超过 100 MB</span></div>
           <details className="inset"><summary>资产配置</summary>
             <p className="muted">Linux 日志需先上传管理员提供的配置。首次导入后不可修改。</p>
             <div className="form-row"><label>上下文 JSON<input disabled={busy || importActive} type="file" accept=".json" onChange={e => setContextFile(e.target.files?.[0] ?? null)}/></label>
